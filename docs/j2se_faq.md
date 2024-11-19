@@ -1,5 +1,27 @@
 # FAQ
 
+- [FAQ](#faq)
+  - [1. Synchronized 与 Lock 的区别](#1-synchronized-与-lock-的区别)
+  - [2. CountDownLatch 和 ReentrantLock 的底层原理](#2-countdownlatch-和-reentrantlock-的底层原理)
+  - [3. 什么是 CAS](#3-什么是-cas)
+  - [4. 什么是 AQS](#4-什么是-aqs)
+  - [5. 线程池的参数有哪些](#5-线程池的参数有哪些)
+  - [6. volatile 关键字有什么用](#6-volatile-关键字有什么用)
+  - [7. java 内存泄漏和内存溢出的原因是什么](#7-java-内存泄漏和内存溢出的原因是什么)
+  - [8. Atomic 的原理是什么](#8-atomic-的原理是什么)
+  - [9. HashMap 中解决碰撞的方法有哪些?](#9-hashmap-中解决碰撞的方法有哪些)
+  - [10. IO 多路复用的原理](#10-io-多路复用的原理)
+  - [11. 什么情况下 JVM 会将年轻对象转移到年老代对象池中](#11-什么情况下-jvm-会将年轻对象转移到年老代对象池中)
+  - [12. JVM 中 CMS 和 G1 的区别](#12-jvm-中-cms-和-g1-的区别)
+  - [13. Java 中的类加载和双亲委派模型是什么样的](#13-java-中的类加载和双亲委派模型是什么样的)
+  - [14. 如何解决 ABA 问题](#14-如何解决-aba-问题)
+  - [15. ReadWriteLock 的作用是什么？](#15-readwritelock-的作用是什么)
+  - [16. Java 中垃圾收集算法有哪些?](#16-java-中垃圾收集算法有哪些)
+  - [17. ConcurrentHashMap 的原理是什么?](#17-concurrenthashmap-的原理是什么)
+  - [什么是 Java Agent？](#什么是-java-agent)
+  - [Java Agent 是如何修改修改字节码的?](#java-agent-是如何修改修改字节码的)
+
+
 ## 1. Synchronized 与 Lock 的区别
 
 * Synchronized 是重量级锁, 同步对象时, 对象头中的 mark word 指向对象对应的那个 monitor 的地址, 线程可以占有或者释放 monitor
@@ -16,11 +38,11 @@ CountDownLatch 的底层原理是使用 AQS 的共享模式, 使用一个 volati
 
 1. CAS 原理
 
-CAS（Compare and Swap 是一种原子操作，用于在多线程环境下保证数据的安全性。其核心思想是比较一个变量的当前值与期望值，只有当当前值等于期望值时，才会将变量更新为新值。CAS 需要三个参数：
+CAS (Compare and Swap 是一种原子操作，用于在多线程环境下保证数据的安全性。其核心思想是比较一个变量的当前值与期望值，只有当当前值等于期望值时，才会将变量更新为新值。CAS 需要三个参数：
 
 * V：需要更新的变量的内存地址。
-* E：期望值（Expected Value），即线程认为该变量当前应有的值。
-* N：新值（New Value），即线程想要将变量更新的值。
+* E：期望值 (Expected Value) ，即线程认为该变量当前应有的值。
+* N：新值 (New Value) ，即线程想要将变量更新的值。
 
 如果 V == E，则将 V 更新为 N，否则不更新。CAS 操作是由 CPU 提供的硬件指令完成的，因此具有非常高的效率。
 
@@ -58,9 +80,9 @@ public class CASDemo {
 ## 4. 什么是 AQS
 1. AQS 原理
 
-AQSAbstractQueuedSynchronizer） 是 Java 并发库（java.util.concurrent）中实现同步器的基础框架，它为实现各种锁和同步工具（如 ReentrantLock、Semaphore、CountDownLatch 等）提供了模板化支持。
+AQS(AbstractQueuedSynchronizer)  是 Java 并发库 (java.util.concurrent) 中实现同步器的基础框架，它为实现各种锁和同步工具 (如 ReentrantLock、Semaphore、CountDownLatch 等) 提供了模板化支持。
 
-AQS 采用了 CLH 队列（先进先出队列）来管理线程的等待。AQS 中的同步状态 state 是一个 int 类型的变量，用来表示共享资源的状态。其核心原理是：
+AQS 采用了 CLH 队列 (先进先出队列) 来管理线程的等待。AQS 中的同步状态 state 是一个 int 类型的变量，用来表示共享资源的状态。其核心原理是：
 
 1. CAS 操作更新 state：通过 CAS 操作更新状态来实现锁的获取和释放。
 2. 同步队列：当锁的获取失败时，线程被加入到同步队列中，以便在稍后尝试再次获取锁。
@@ -138,11 +160,11 @@ public class SimpleLock {
 * tryRelease 方法将 state 从 1 更新到 0，实现锁的释放。
 * 该锁为独占锁，且不支持重入。
 
-CLH 是 Craig, Landin, and Hagersten 三位研究者名字的首字母缩写。CLH 队列（CLH Queue）是一种基于 自旋锁 的公平锁机制，最早由三位研究者在论文中提出。它是一种 FIFO（先进先出） 队列锁，旨在让等待锁的线程按照进入队列的顺序依次获得锁，避免资源争用时发生饥饿现象。
+CLH 是 Craig, Landin, and Hagersten 三位研究者名字的首字母缩写。CLH 队列 (CLH Queue) 是一种基于 自旋锁 的公平锁机制，最早由三位研究者在论文中提出。它是一种 FIFO (先进先出)  队列锁，旨在让等待锁的线程按照进入队列的顺序依次获得锁，避免资源争用时发生饥饿现象。
 
 * **CLH 锁的工作原理**
 
-CLH 锁会为每一个线程创建一个节点对象（一般称为 QNode），节点记录了当前线程的状态信息，如是否持有锁、是否正在等待等。CLH 锁通过将每个等待线程加入到一个单向链表中，使得每个线程只需要关注自己前一个节点的状态即可决定是否需要继续等待或获得锁。
+CLH 锁会为每一个线程创建一个节点对象 (一般称为 QNode) ，节点记录了当前线程的状态信息，如是否持有锁、是否正在等待等。CLH 锁通过将每个等待线程加入到一个单向链表中，使得每个线程只需要关注自己前一个节点的状态即可决定是否需要继续等待或获得锁。
 
 * **CLH 锁的特点**
 
@@ -171,7 +193,7 @@ CLH 锁是实现公平、高效的线程调度和锁机制的关键，有助于 
 1. 线程池创建时，会根据参数初始化线程池，创建corePoolSize个线程，等待任务 incoming。
 2. 当有新的任务进来时，线程池会尝试将任务放入workQueue中，如果workQueue没有满，则放入成功，线程池继续等待任务 incoming。
 3. 当workQueue满了，线程池会尝试创建新的线程，如果线程数量没有达到maximumPoolSize，则创建新的线程，否则，线程池会尝试将任务放入handler中，handler会根据拒绝策略决定如何处理。
-4. 当线程池中的线程空闲一段时间（keepAliveTime），且线程数量大于corePoolSize，则线程池会尝试关闭空闲的线程，直到线程数量等于corePoolSize。
+4. 当线程池中的线程空闲一段时间 (keepAliveTime) ，且线程数量大于corePoolSize，则线程池会尝试关闭空闲的线程，直到线程数量等于corePoolSize。
 
 
 ## 6. volatile 关键字有什么用
@@ -231,12 +253,12 @@ public class Singleton {
 
 注意事项
 
-	1.	volatile 并不保证原子性。例如，volatile int count 的自增操作（count++）并不是原子性的，因为自增操作实际上包含了多个步骤。
-	2.	如果需要对变量进行复合操作（例如自增、自减等），应该使用 synchronized 或 Atomic 类来保证线程安全。
+ 1. volatile 并不保证原子性。例如，volatile int count 的自增操作 (count++) 并不是原子性的，因为自增操作实际上包含了多个步骤。
+ 2. 如果需要对变量进行复合操作 (例如自增、自减等) ，应该使用 synchronized 或 Atomic 类来保证线程安全。
 
 适用场景
 
-volatile 适用于状态标志的场景（如控制线程是否停止），以及单次赋值的共享变量（如在双重检查锁定的单例模式中）。
+volatile 适用于状态标志的场景 (如控制线程是否停止) ，以及单次赋值的共享变量 (如在双重检查锁定的单例模式中) 。
 
 ## 7. java 内存泄漏和内存溢出的原因是什么
 
@@ -245,7 +267,7 @@ volatile 适用于状态标志的场景（如控制线程是否停止），以�
 1. 引用泄露：引用对象没有被垃圾回收器回收，导致对象无法被释放。
 2. 线程泄露：线程没有被正确地关闭，导致资源无法被释放。
 3. I/O 或 socket 连接未关闭，导致资源无法被释放。
-4. 堆外内存泄露：使用堆外内存（例如直接内存）时，没有正确地释放。
+4. 堆外内存泄露：使用堆外内存 (例如直接内存) 时，没有正确地释放。
 
 而引用泄漏的原因有:
 1) 缓存不关闭：缓存对象没有被正确地关闭，导致资源无法被释放。
@@ -264,7 +286,7 @@ volatile 适用于状态标志的场景（如控制线程是否停止），以�
 ## 8. Atomic 的原理是什么
 
 Atomic 是 Java 并发包提供的一系列原子操作类，它们提供了原子操作的功能，包括对基本类型和对象的修改。
-这些原子操作类都使用了 自旋锁 + CAS（乐观锁）算法，保证了原子操作的原子性，即在操作过程中不会被其他线程干扰。
+这些原子操作类都使用了 自旋锁 + CAS (乐观锁) 算法，保证了原子操作的原子性，即在操作过程中不会被其他线程干扰。
 
 ## 9. HashMap 中解决碰撞的方法有哪些?
 HashMap 的实现一般采用数组加链表, 解决碰撞的方法有开放定址法,例如双重哈希法、线查探测法等。
@@ -273,7 +295,7 @@ HashMap 的实现一般采用数组加链表, 解决碰撞的方法有开放定�
 
 ## 10. IO 多路复用的原理
 
-IO 多路复用（I/O Multiplexing）是网络编程中一个重要的概念，它允许一个进程同时监听多个 I/O 描述符（如文件、套接字等），当其中某个描述符就绪（可读、可写等）时，操作系统会通知进程，进程可以进行处理。
+IO 多路复用 (I/O Multiplexing) 是网络编程中一个重要的概念，它允许一个进程同时监听多个 I/O 描述符 (如文件、套接字等) ，当其中某个描述符就绪 (可读、可写等) 时，操作系统会通知进程，进程可以进行处理。
 
 三种常用的 IO 多路复用技术有： select, poll, epoll
 
@@ -281,7 +303,7 @@ IO 多路复用（I/O Multiplexing）是网络编程中一个重要的概念，�
 
 ## 11. 什么情况下 JVM 会将年轻对象转移到年老代对象池中
 
-在 Java 中，年轻对象池（Young Generation）和年老对象池（Old Generation）是 JVM 内存管理的重要概念。年轻对象池用于存储新生的对象，年老对象池用于存储老年对象。
+在 Java 中，年轻对象池 (Young Generation) 和年老对象池 (Old Generation) 是 JVM 内存管理的重要概念。年轻对象池用于存储新生的对象，年老对象池用于存储老年对象。
 1. 当年轻对象池中的对象无法满足需求时(15次GC后)，JVM 会将年轻对象转移到年老对象池中。
 2. 大对象会直接进入年老代，而不会进入年轻代。
 3. 动态年龄判断: survivor 区域中一批对象的大小超过了这块区域的一半，这这批对象进入年老代。
@@ -289,10 +311,10 @@ IO 多路复用（I/O Multiplexing）是网络编程中一个重要的概念，�
 
 ## 12. JVM 中 CMS 和 G1 的区别
 
-CMS（Concurrent Mark Sweep）是一种垃圾回收算法，它采用并发回收机制，即在垃圾回收过程中，不暂停应用程序的执行。
+CMS (Concurrent Mark Sweep) 是一种垃圾回收算法，它采用并发回收机制，即在垃圾回收过程中，不暂停应用程序的执行。
 它延用传统连续的新生代和老年代区域, 采用标记清除算法, 容易产生内存碎片, 容易引发 Full GC, 此外全堆扫描, 效率较低
 
-G1（Garbage-First）是一种垃圾回收算法，它采用标记整理, 分代收集机制，即在垃圾回收过程中，将内存划分为多个区域，每个区域对应一个垃圾回收代。不产生内存碎片, 避免全堆扫描, 对 GC 时间可预测可控, 效率较高
+G1 (Garbage-First) 是一种垃圾回收算法，它采用标记整理, 分代收集机制，即在垃圾回收过程中，将内存划分为多个区域，每个区域对应一个垃圾回收代。不产生内存碎片, 避免全堆扫描, 对 GC 时间可预测可控, 效率较高
 
 ## 13. Java 中的类加载和双亲委派模型是什么样的
 
@@ -301,7 +323,7 @@ G1（Garbage-First）是一种垃圾回收算法，它采用标记整理, 分代
  2. 链接：将类中的符号引用转换为直接引用。
  3. 初始化：执行类的静态变量和静态代码块。
 
-双亲委派模型是 Java 类加载机制的一种，它通过一个类加载器链来加载类。每个类加载器都有自己的父类加载器，默认情况下，双亲委派模型会使用 Bootstrap ClassLoader（启动类加载器）作为父类加载器。
+双亲委派模型是 Java 类加载机制的一种，它通过一个类加载器链来加载类。每个类加载器都有自己的父类加载器，默认情况下，双亲委派模型会使用 Bootstrap ClassLoader (启动类加载器) 作为父类加载器。
 当一个类加载器需要加载一个类时，先一层一层向上委托, 先问老板(父类加载器), 老板再去问大老板(Bootstrap ClassLoader), 大老板那边没有, 再一层一层向下委派
 
 这样做的作用是避免类的重复加载和核心类的纯净, 不被随意修改
@@ -310,15 +332,15 @@ G1（Garbage-First）是一种垃圾回收算法，它采用标记整理, 分代
 
 ## 14. 如何解决 ABA 问题
 
-ABA 问题 是在并发编程中使用 CAS（Compare-And-Swap） 操作时遇到的一种常见问题。它发生在一个线程在执行 CAS 操作前检查某个变量的值为 A，在实际执行 CAS 之前变量被其他线程修改为 B，随后又改回 A。此时，原线程在执行 CAS 操作时会误以为变量没有被更改，因而成功地完成 CAS 操作，但实际上变量的值已经经历了更改。
+ABA 问题 是在并发编程中使用 CAS (Compare-And-Swap)  操作时遇到的一种常见问题。它发生在一个线程在执行 CAS 操作前检查某个变量的值为 A，在实际执行 CAS 之前变量被其他线程修改为 B，随后又改回 A。此时，原线程在执行 CAS 操作时会误以为变量没有被更改，因而成功地完成 CAS 操作，但实际上变量的值已经经历了更改。
 
 ABA 问题的产生原因
 
 CAS 操作本质上只判断变量的值是否与预期值相同，不检查变量在期间是否经历了变化。所以，ABA 问题通常出现在以下场景：
 
-	•	一个线程获取了变量的值 A；
-	•	另一个线程将变量改为 B 再改回 A；
-	•	第一个线程执行 CAS 操作并成功，因为值仍然是 A。
+* 一个线程获取了变量的值 A；
+* 另一个线程将变量改为 B 再改回 A；
+* 第一个线程执行 CAS 操作并成功，因为值仍然是 A。
 
 这种情况下，虽然表面上值没变，但实际上变量可能已经被其他线程改变过，导致潜在的逻辑错误。
 
@@ -328,7 +350,7 @@ ABA 问题的解决方案
 
 1. 使用 AtomicStampedReference
 
-Java 的 AtomicStampedReference 提供了一个带版本号（或时间戳）的原子引用操作，通过增加版本号来检测变量是否被修改过。每次变量更新时都会同时更新版本号，避免 ABA 问题。
+Java 的 AtomicStampedReference 提供了一个带版本号 (或时间戳) 的原子引用操作，通过增加版本号来检测变量是否被修改过。每次变量更新时都会同时更新版本号，避免 ABA 问题。
 
 ```java
 import java.util.concurrent.atomic.AtomicStampedReference;
@@ -358,11 +380,11 @@ AtomicMarkableReference 是 AtomicStampedReference 的简化版本，它通过�
 
 3. 通过链表节点增加标记字段
 
-在某些场景（如栈、队列实现中），可以为每个节点增加一个标记字段，通过这个字段检测是否发生变化。例如，在非阻塞栈的实现中，通过增加节点 ID 或时间戳来判断是否经历了变更。
+在某些场景 (如栈、队列实现中) ，可以为每个节点增加一个标记字段，通过这个字段检测是否发生变化。例如，在非阻塞栈的实现中，通过增加节点 ID 或时间戳来判断是否经历了变更。
 
 总结
 
-ABA 问题是由于 CAS 操作的缺陷导致的，在需要保持高精度数据一致性的多线程场景中可能会引发严重问题。通常通过 版本号（如 AtomicStampedReference）或 标记机制 来解决此问题，从而确保线程在进行 CAS 操作时不仅检查值，还能识别是否经历了其他变化。
+ABA 问题是由于 CAS 操作的缺陷导致的，在需要保持高精度数据一致性的多线程场景中可能会引发严重问题。通常通过 版本号 (如 AtomicStampedReference) 或 标记机制 来解决此问题，从而确保线程在进行 CAS 操作时不仅检查值，还能识别是否经历了其他变化。
 
 ## 15. ReadWriteLock 的作用是什么？
 
@@ -370,23 +392,182 @@ ReadWriteLock 是 Java 中的一个接口，它提供了读写锁的功能。在
 
 ## 16. Java 中垃圾收集算法有哪些?
 
-1. Mark-Sweep（标记-清除）算法：
+1. Mark-Sweep (标记-清除) 算法：
   - 优点：简单，易于理解。
   - 缺点：效率低，无法回收对象，需要垃圾回收器周期性执行。
 
-2. Mark-Compact（标记-整理）算法：
+2. Mark-Compact (标记-整理) 算法：
   - 优点：效率较高，可以回收对象，不需要垃圾回收器周期性执行。
   - 缺点：需要额外的内存空间，无法处理对象间的引用关系。
 
-3. Copying（复制）算法：
+3. Copying (复制) 算法：
   - 优点：可以处理对象间的引用关系，效率较高。
   - 缺点：需要额外的内存空间，无法处理对象间的引用关系。
 
 
 ## 17. ConcurrentHashMap 的原理是什么?
 
-ConcurrentHashMap 是 Java 中一个线程安全的哈希表实现，它使用了分段锁（Segment）和 CAS（Compare-And-Swap）等并发原语来保证线程安全。以下是 ConcurrentHashMap 的原理简介：
+ConcurrentHashMap 是 Java 中一个线程安全的哈希表实现，它使用了分段锁 (Segment) 和 CAS (Compare-And-Swap) 等并发原语来保证线程安全。以下是 ConcurrentHashMap 的原理简介：
 
 它将哈希表分成多个 Segment，每个 Segment 都有一个锁。当某个线程需要访问某个 Segment 时，它会先获取该 Segment 的锁，进行双重哈希, 实现并发访问。
 
 Java 8 中引入了 Chain-Hashing，它将 Segment 的链表结构改为红黑树，以减少冲突。当链表过长时，会自动转换为红黑树，以提升查询效率。
+
+
+## 什么是 Java Agent？
+
+Java Agent 是一种工具，通过 Java 的 Instrumentation API，在 JVM 加载类时动态修改字节码，或在运行时获取类的相关信息。
+
+有什么用？
+
+1. 性能监控：比如 APM 工具（如 New Relic、Skywalking）用它采集方法调用时间、内存使用等。
+2. 日志跟踪：在方法执行前后插入日志，跟踪应用的行为。
+3. 安全检查：动态注入代码，用于权限验证或安全规则检查。
+4. 字节码增强：自动给类或方法增加功能，比如代理、事务管理。
+5. 热加载：修改运行中的代码，而无需重启。
+
+简单示例
+
+1. 编写 Agent 类
+```java
+import java.lang.instrument.Instrumentation;
+
+public class MyAgent {
+    public static void premain(String agentArgs, Instrumentation inst) {
+        System.out.println("Java Agent is running...");
+        // 在这里可以对类进行字节码增强
+    }
+}
+```
+2. 配置 MANIFEST.MF
+```
+Premain-Class: MyAgent
+```
+3. 运行应用
+
+将 Agent 打包为 JAR 文件，并用以下命令运行：
+```
+java -javaagent:my-agent.jar -jar your-app.jar
+```
+
+一句话总结
+
+Java Agent 是一种“外挂工具”，可以在运行时悄悄地改写或监控代码，用于性能优化、调试和增强功能，非常强大！
+
+## Java Agent 是如何修改修改字节码的?
+
+Java Agent 修改字节码的核心是通过 Instrumentation API 和 类加载器，在类被 JVM 加载前拦截并修改其字节码。具体步骤如下：
+
+1. Instrumentation API
+
+* Instrumentation 是 Java 提供的一个接口，允许代理程序在类加载或重新定义时修改其字节码。
+* 在 premain 或 agentmain 方法中，你可以通过 Instrumentation 的以下方法操作字节码：
+* addTransformer(ClassFileTransformer transformer)：添加一个字节码转换器。
+* retransformClasses(Class<?>... classes)：重新定义已加载的类（如果 JVM 支持）。
+
+2. ClassFileTransformer 接口
+
+ClassFileTransformer 是一个回调接口，用于定义如何转换类的字节码。
+
+* 关键方法：
+
+```java
+byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer)
+```
+* 参数说明：
+  * className：当前正在加载的类的全限定名（如 com/example/MyClass）。
+  * classfileBuffer：原始的字节码。
+  * 返回值：修改后的字节码（或者返回原始字节码表示不修改）。
+
+1. 修改字节码的流程
+
+Step 1: 编写 Transformer
+
+你可以使用字节码操作库（如 ASM、Javassist、ByteBuddy）来修改 classfileBuffer。以下是一个基于 Javassist 的例子：
+
+```java
+import javassist.*;
+import java.lang.instrument.ClassFileTransformer;
+import java.security.ProtectionDomain;
+
+public class MyTransformer implements ClassFileTransformer {
+    @Override
+    public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
+                            ProtectionDomain protectionDomain, byte[] classfileBuffer) {
+        if (!"com/example/MyClass".equals(className)) {
+            return null; // 不修改其他类
+        }
+        try {
+            ClassPool pool = ClassPool.getDefault();
+            CtClass ctClass = pool.get("com.example.MyClass");
+            
+            // 修改方法
+            CtMethod method = ctClass.getDeclaredMethod("myMethod");
+            method.insertBefore("System.out.println(\"Before method execution\");");
+            method.insertAfter("System.out.println(\"After method execution\");");
+
+            return ctClass.toBytecode(); // 返回修改后的字节码
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return classfileBuffer; // 保持原样
+    }
+}
+```
+
+Step 2: 注册 Transformer
+
+在 Agent 中注册 Transformer：
+
+```java
+import java.lang.instrument.Instrumentation;
+
+public class MyAgent {
+    public static void premain(String agentArgs, Instrumentation inst) {
+        inst.addTransformer(new MyTransformer());
+        System.out.println("Transformer registered!");
+    }
+}
+```
+
+4. 类加载时与重新定义
+
+* 加载时修改：当类首次加载时，ClassFileTransformer 拦截并修改字节码。
+* 重新定义（Retransformation）：对于已经加载的类，你可以调用 retransformClasses 方法触发重新加载，前提是 JVM 开启了 -XX:+EnableDynamicAgent.
+
+5. 使用 ByteBuddy 示例
+
+
+ByteBuddy 提供了更高层次的 API，简化了字节码操作：
+
+```java
+import net.bytebuddy.agent.builder.AgentBuilder;
+import static net.bytebuddy.matcher.ElementMatchers.*;
+
+public class MyAgent {
+    public static void premain(String agentArgs, Instrumentation inst) {
+        new AgentBuilder.Default()
+            .type(named("com.example.MyClass"))
+            .transform((builder, typeDescription, classLoader, module) ->
+                builder.method(named("myMethod"))
+                       .intercept(net.bytebuddy.implementation.MethodDelegation.to(MyInterceptor.class)))
+            .installOn(inst);
+    }
+}
+
+public class MyInterceptor {
+    public static void intercept() {
+        System.out.println("Intercepted!");
+    }
+}
+```
+
+总结
+
+Java Agent 修改字节码的关键流程是：
+
+1. 通过 Instrumentation 添加 ClassFileTransformer。
+2. 在 Transformer 中拦截目标类，修改其字节码。
+3. 使用字节码操作库（如 ASM、Javassist、ByteBuddy）完成字节码增强。
+
+这一过程允许你动态注入功能，而无需修改源码。

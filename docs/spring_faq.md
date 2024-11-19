@@ -1,29 +1,45 @@
 # FAQ
 
+- [FAQ](#faq)
+  - [1. Spring 如何解决循环依赖的问题？](#1-spring-如何解决循环依赖的问题)
+    - [Spring 的三级缓存机制](#spring-的三级缓存机制)
+    - [三级缓存的工作流程](#三级缓存的工作流程)
+  - [2. Spring Boot 的自动装配过程是如何实现的？](#2-spring-boot-的自动装配过程是如何实现的)
+  - [3. Spring 中创建的 Bean 是单例还是多例?](#3-spring-中创建的-bean-是单例还是多例)
+  - [4. Spring IoC 的原理是什么?](#4-spring-ioc-的原理是什么)
+  - [5. Spring Bean 的生命周期是怎样的？](#5-spring-bean-的生命周期是怎样的)
+  - [6. Spring 依赖注入有哪几种方式](#6-spring-依赖注入有哪几种方式)
+  - [7. Spring Bean 的作用域有哪些](#7-spring-bean-的作用域有哪些)
+  - [8. Spring 的 AOP 是如何实现的？](#8-spring-的-aop-是如何实现的)
+  - [9. Spring 如何解决线程安全问题](#9-spring-如何解决线程安全问题)
+
+
 ## 1. Spring 如何解决循环依赖的问题？
 
 三级缓存, 并提前暴露 Bean
 
-在 Spring 中，循环依赖是指两个或多个 bean 相互依赖，形成依赖闭环。例如，BeanA 依赖 BeanB，而 BeanB 又依赖 BeanA。Spring 通过三级缓存机制（三级缓存）来解决这种循环依赖问题。
+在 Spring 中，循环依赖是指两个或多个 bean 相互依赖，形成依赖闭环。例如，BeanA 依赖 BeanB，而 BeanB 又依赖 BeanA。Spring 通过三级缓存机制 (三级缓存) 来解决这种循环依赖问题。
 
-Spring 的三级缓存机制
+### Spring 的三级缓存机制
 
 Spring 使用三级缓存机制来解决循环依赖。三级缓存分为以下三个层次：
 
-1. 一级缓存（singletonObjects）：用于存放完全初始化好的单例 bean。这个缓存中存储的是已经完成初始化的 bean，之后直接从这里获取 bean 实例。
-2. 二级缓存（earlySingletonObjects）：用于存放早期暴露的单例对象，通常是已经实例化但未完成属性注入和初始化的 bean 实例。这一缓存中的 bean 是可以被代理的，以便在循环依赖中注入代理对象。
-3. 三级缓存（singletonFactories）：用于存放可以创建早期 bean 的工厂对象。这个缓存中的对象是 ObjectFactory 类型的 lambda 表达式或方法引用，它们负责生成 bean 实例，并将其暴露给二级缓存。
+1. 一级缓存 (singletonObjects) ：用于存放完全初始化好的单例 bean。这个缓存中存储的是已经完成初始化的 bean，之后直接从这里获取 bean 实例。
 
-三级缓存的工作流程
+2. 二级缓存 (earlySingletonObjects) ：用于存放早期暴露的单例对象，通常是已经实例化但未完成属性注入和初始化的 bean 实例。这一缓存中的 bean 是可以被代理的，以便在循环依赖中注入代理对象。
+
+3. 三级缓存 (singletonFactories) ：用于存放可以创建早期 bean 的工厂对象。这个缓存中的对象是 ObjectFactory 类型的 lambda 表达式或方法引用，它们负责生成 bean 实例，并将其暴露给二级缓存。
+
+### 三级缓存的工作流程
 
 假设 BeanA 和 BeanB 存在循环依赖，Spring 解决该问题的流程如下：
 
-1. 实例化：Spring 在创建 BeanA 时，首先会在 singletonObjects（一级缓存）中查找 BeanA。如果找不到，Spring 会先实例化 BeanA，但不会立即填充它的依赖属性。
-2. 暴露早期对象：Spring 将 BeanA 的 ObjectFactory 放入三级缓存中（singletonFactories）。ObjectFactory 是一个 lambda 表达式或方法引用，用于生成 BeanA 的代理对象。此时，BeanA 尚未完成初始化，但可以提前暴露其引用。
+1. 实例化：Spring 在创建 BeanA 时，首先会在 singletonObjects (一级缓存) 中查找 BeanA。如果找不到，Spring 会先实例化 BeanA，但不会立即填充它的依赖属性。
+2. 暴露早期对象：Spring 将 BeanA 的 ObjectFactory 放入三级缓存中 (singletonFactories) 。ObjectFactory 是一个 lambda 表达式或方法引用，用于生成 BeanA 的代理对象。此时，BeanA 尚未完成初始化，但可以提前暴露其引用。
 3. 创建依赖的 BeanB：在填充 BeanA 的依赖属性时，发现 BeanA 依赖 BeanB。因此，Spring 开始创建 BeanB，并执行同样的步骤，将 BeanB 的 ObjectFactory 暴露到三级缓存中。
-4. 检测循环依赖：在创建 BeanB 时，发现 BeanB 依赖 BeanA。Spring 在二级缓存（earlySingletonObjects）和三级缓存中查找 BeanA。此时，BeanA 的 ObjectFactory 已经在三级缓存中存在，因此 Spring 调用 ObjectFactory 获取 BeanA 的代理对象，并将该代理对象放入二级缓存（earlySingletonObjects）。
-5. 完成依赖注入：BeanB 获取到 BeanA 的早期对象（代理对象），并成功完成初始化。然后，Spring 将 BeanB 从三级缓存转移到一级缓存（singletonObjects）中。
-6. 完成 BeanA 的初始化：回到 BeanA 的初始化，BeanA 的依赖（BeanB）已经完成注入，Spring 继续完成 BeanA 的初始化，并将 BeanA 放入一级缓存中。
+4. 检测循环依赖：在创建 BeanB 时，发现 BeanB 依赖 BeanA。Spring 在二级缓存 (earlySingletonObjects) 和三级缓存中查找 BeanA。此时，BeanA 的 ObjectFactory 已经在三级缓存中存在，因此 Spring 调用 ObjectFactory 获取 BeanA 的代理对象，并将该代理对象放入二级缓存 (earlySingletonObjects) 。
+5. 完成依赖注入：BeanB 获取到 BeanA 的早期对象 (代理对象) ，并成功完成初始化。然后，Spring 将 BeanB 从三级缓存转移到一级缓存 (singletonObjects) 中。
+6. 完成 BeanA 的初始化：回到 BeanA 的初始化，BeanA 的依赖 (BeanB) 已经完成注入，Spring 继续完成 BeanA 的初始化，并将 BeanA 放入一级缓存中。
 
 通过上述流程，Spring 成功解决了 BeanA 和 BeanB 的循环依赖。
 
@@ -50,8 +66,8 @@ spring boot 启动时会通过 @EnableAutoConfiguration 找到 META-INF/spring.f
 
 3. 条件注解 @Conditional
 
-* 自动配置类通常使用 @Conditional 系列注解（如 @ConditionalOnMissingBean、@ConditionalOnClass）来控制配置的生效。
-* 这些条件注解确保在满足特定条件（如类存在、Bean 不存在）时才加载相应的 Bean。
+* 自动配置类通常使用 @Conditional 系列注解 (如 @ConditionalOnMissingBean、@ConditionalOnClass) 来控制配置的生效。
+* 这些条件注解确保在满足特定条件 (如类存在、Bean 不存在) 时才加载相应的 Bean。
 
 4. 自动配置类的加载与执行
 
@@ -60,7 +76,7 @@ spring boot 启动时会通过 @EnableAutoConfiguration 找到 META-INF/spring.f
 
 5. 自定义配置与优先级
 
-* 用户自定义的配置（例如 application.properties）会覆盖默认的自动配置。
+* 用户自定义的配置 (例如 application.properties) 会覆盖默认的自动配置。
 * 自定义 @Configuration 类或 @Bean 方法会优先于自动配置类中的默认 Bean 定义。
 
 6. 总结
@@ -69,15 +85,15 @@ Spring Boot 自动装配依赖于 @EnableAutoConfiguration、spring.factories �
 
 ## 3. Spring 中创建的 Bean 是单例还是多例?
 
-在 Spring 中，Bean 的作用域（scope）可以设置为 "singleton"、"prototype" 或其他。默认情况下，如果没有指定作用域，Spring 将使用单例模式创建 Bean。
+在 Spring 中，Bean 的作用域 (scope) 可以设置为 "singleton"、"prototype" 或其他。默认情况下，如果没有指定作用域，Spring 将使用单例模式创建 Bean。
 
 ## 4. Spring IoC 的原理是什么?
 
-Spring IoC（Inversion of Control，控制反转）的原理基于依赖注入（Dependency Injection, DI），通过配置文件或注解将对象的依赖交由 Spring 容器管理，实现对象之间的松耦合。其核心流程如下：
+Spring IoC (Inversion of Control，控制反转) 的原理基于依赖注入 (Dependency Injection, DI) ，通过配置文件或注解将对象的依赖交由 Spring 容器管理，实现对象之间的松耦合。其核心流程如下：
 
 1. Bean 定义与扫描
 
-* Bean 定义：Spring 使用 XML 文件或注解（如 @Component、@Service、@Controller）定义 Bean。
+* Bean 定义：Spring 使用 XML 文件或注解 (如 @Component、@Service、@Controller) 定义 Bean。
 * 扫描与注册：Spring 扫描应用中的配置类或指定包，将符合条件的类注册为 Bean。
 
 2. BeanFactory 和 ApplicationContext
@@ -92,7 +108,7 @@ Spring IoC（Inversion of Control，控制反转）的原理基于依赖注入�
 * 初始化：调用 @PostConstruct、InitializingBean 等方法，完成 Bean 的初始化。
 * 销毁：在容器关闭时调用 @PreDestroy、DisposableBean 等方法销毁 Bean。
 
-4. 依赖注入（DI）
+4. 依赖注入 (DI) 
 
 * 构造器注入：通过构造函数完成依赖注入，适合不可变依赖。
 * Setter 注入：通过 Setter 方法完成依赖注入，适合可选依赖。
@@ -100,7 +116,7 @@ Spring IoC（Inversion of Control，控制反转）的原理基于依赖注入�
 
 5. 代理与 AOP 支持
 
-* Spring 使用动态代理生成 Bean 的代理对象，支持 AOP 功能（如事务、日志等），进一步增强 Bean 的功能。
+* Spring 使用动态代理生成 Bean 的代理对象，支持 AOP 功能 (如事务、日志等) ，进一步增强 Bean 的功能。
 
 总结
 
@@ -112,28 +128,28 @@ Spring Bean 的生命周期包含实例化、依赖注入、初始化、销毁�
 
 Spring Bean 的生命周期是指从实例化到销毁的整个过程，主要分为以下几个阶段：
 
-1. 实例化（Instantiation）
+1. 实例化 (Instantiation) 
 
 * Spring 容器根据 Bean 定义使用反射机制创建 Bean 实例，但此时还未初始化依赖。
 
-2. 属性注入（Populate Properties）
+2. 属性注入 (Populate Properties) 
 
-* Spring 为 Bean 注入依赖（DI），完成属性值的设置。这可以通过构造器、Setter 方法或直接字段注入实现。
+* Spring 为 Bean 注入依赖 (DI) ，完成属性值的设置。这可以通过构造器、Setter 方法或直接字段注入实现。
 
-3. 初始化（Initialization）
+3. 初始化 (Initialization) 
 
 * BeanNameAware、BeanFactoryAware 等接口：如果 Bean 实现了这些接口，Spring 会调用相应的回调方法，将容器相关信息传递给 Bean。
 * BeanPostProcessor 前置处理：在 Bean 初始化方法前，Spring 会调用 BeanPostProcessor 的 postProcessBeforeInitialization 方法。
 * 初始化方法：
     * 如果实现了 InitializingBean 接口，会调用 afterPropertiesSet 方法。
     * 如果定义了 init-method 或使用了 @PostConstruct 注解，则会执行对应的初始化方法。
-* BeanPostProcessor 后置处理：在 Bean 初始化后，Spring 调用 BeanPostProcessor 的 postProcessAfterInitialization 方法，可能返回增强后的 Bean（如 AOP 代理）。
+* BeanPostProcessor 后置处理：在 Bean 初始化后，Spring 调用 BeanPostProcessor 的 postProcessAfterInitialization 方法，可能返回增强后的 Bean (如 AOP 代理) 。
 
 4. 使用阶段
 
 * Bean 完成初始化后，处于就绪状态，可以在应用中被使用。它在 Spring 容器中存续，直到容器销毁。
 
-5. 销毁（Destruction）
+5. 销毁 (Destruction) 
 
 * 当容器关闭时，Spring 会对单例作用域的 Bean 执行销毁操作。
 * 销毁方法：
@@ -166,7 +182,7 @@ Setter 注入 | 灵活，适合可选依赖 | 依赖完整性不保证 | 可选�
 
 1. Singleton
 
-* 描述：整个 Spring 容器中仅创建一个 Bean 实例（默认作用域）。
+* 描述：整个 Spring 容器中仅创建一个 Bean 实例 (默认作用域) 。
 * 生命周期：容器启动时创建，容器关闭时销毁。
 * 适用场景：无状态的共享组件，例如服务、DAO 等。
 * 声明方式：默认作用域，不需要额外配置，或通过 @Scope("singleton") 注解显式声明。
@@ -210,7 +226,7 @@ Setter 注入 | 灵活，适合可选依赖 | 依赖完整性不保证 | 可选�
 
 作用域 | 描述 | 生命周期 | 使用场景
 --------|-------|---------|--------
-Singleton | 容器中唯一实例（默认） | 容器启动到关闭 | 无状态、共享组件
+Singleton | 容器中唯一实例 (默认)  | 容器启动到关闭 | 无状态、共享组件
 Prototype | 每次请求生成新实例 | 创建后不受容器管理 | 有状态、短生命周期对象
 Request | 每个 HTTP 请求创建新实例 | 请求开始到请求结束 | 基于请求的特定数据
 Session | 每个 HTTP 会话创建新实例 | 会话开始到会话结束 | 会话级别的用户数据
@@ -222,7 +238,7 @@ WebSocket | 每个 WebSocket 会话创建新实例 | 会话开始到会话结束
 
 ## 8. Spring 的 AOP 是如何实现的？
 
-Spring 的 AOP（面向切面编程）通过 动态代理 实现，其核心思想是将横切关注点（如日志记录、事务管理等）与业务逻辑分离，具体有以下几种实现方式：
+Spring 的 AOP (面向切面编程) 通过 动态代理 实现，其核心思想是将横切关注点 (如日志记录、事务管理等) 与业务逻辑分离，具体有以下几种实现方式：
 
 1. JDK 动态代理
 
@@ -232,12 +248,12 @@ Spring 的 AOP（面向切面编程）通过 动态代理 实现，其核心思�
 
 2. CGLIB 动态代理
 
-    * 原理：使用 CGLIB 库（Code Generation Library），生成目标类的子类来创建代理对象。
+    * 原理：使用 CGLIB 库 (Code Generation Library) ，生成目标类的子类来创建代理对象。
     * 特点：适用于没有实现接口的类，CGLIB 通过字节码操作生成一个目标类的子类并拦截方法调用。
     * 限制：如果目标类或方法是 final 的，CGLIB 无法进行代理。
     * 适用场景：代理没有实现接口的 Bean。
 
-3. AspectJ 静态编译（编译时增强）
+3. AspectJ 静态编译 (编译时增强) 
 
     * 原理：AspectJ 是一种功能更强大的 AOP 实现，可以在编译期将切面逻辑直接编织到目标代码中。
     * 特点：AspectJ 通过静态编译方式进行方法拦截，可以对私有方法、静态方法等执行切面增强，不受代理限制。
@@ -245,15 +261,15 @@ Spring 的 AOP（面向切面编程）通过 动态代理 实现，其核心思�
 
 Spring AOP 的实现步骤
 
-1. 定义切面（Aspect）：使用 @Aspect 注解定义切面类，通过 @Before、@After、@Around 等注解声明切入点和增强逻辑。
+1. 定义切面 (Aspect) ：使用 @Aspect 注解定义切面类，通过 @Before、@After、@Around 等注解声明切入点和增强逻辑。
 
-2. 解析切入点表达式：Spring AOP 使用切入点表达式（如 execution(* com.example..*(..))）来确定哪些方法需要增强。
+2. 解析切入点表达式：Spring AOP 使用切入点表达式 (如 execution(* com.example..*(..))) 来确定哪些方法需要增强。
 
 3. 代理对象的创建：
     * Spring 首先判断目标类是否实现接口，若实现接口，则使用 JDK 动态代理；
     * 否则，使用 CGLIB 动态代理 创建子类代理。
 
-4. 方法拦截与执行增强逻辑：代理对象在方法调用前后执行增强逻辑（如前置、后置通知），增强的具体行为由 MethodInterceptor 等接口实现。
+4. 方法拦截与执行增强逻辑：代理对象在方法调用前后执行增强逻辑 (如前置、后置通知) ，增强的具体行为由 MethodInterceptor 等接口实现。
 
 5. 执行目标方法：在增强逻辑前后，最终执行目标方法，方法执行结果可以进一步处理或修改后返回给调用方。
 
@@ -265,16 +281,16 @@ Spring AOP 的实现步骤
 
 总结
 
-Spring AOP 使用 JDK 动态代理 和 CGLIB 动态代理 实现 运行时增强，代理目标方法并应用横切逻辑。如果需要更强的编译时增强（如对静态方法、私有方法增强），则可以使用 AspectJ。Spring 默认通过运行时代理实现 AOP，利用切面来增强 Bean 功能而不改变核心业务逻辑。
+Spring AOP 使用 JDK 动态代理 和 CGLIB 动态代理 实现 运行时增强，代理目标方法并应用横切逻辑。如果需要更强的编译时增强 (如对静态方法、私有方法增强) ，则可以使用 AspectJ。Spring 默认通过运行时代理实现 AOP，利用切面来增强 Bean 功能而不改变核心业务逻辑。
 
-# 9. Spring 如何解决线程安全问题
+## 9. Spring 如何解决线程安全问题
 
 在 Spring 中，线程安全性主要依赖于以下几种方式来保证：
 
 1. 默认的 Singleton Bean 作用域
 
-* 无状态设计：Spring 中大部分 Bean 默认是单例（singleton）的，而单例 Bean 在多线程环境中会共享实例。因此，Spring 建议单例 Bean 保持无状态（不存储实例变量），以避免多线程访问同一实例变量时发生并发问题。
-* 状态局部化：通过局部变量（方法内部变量）代替实例变量，每个线程都有自己的局部变量拷贝，避免线程间数据共享。
+* 无状态设计：Spring 中大部分 Bean 默认是单例 (singleton) 的，而单例 Bean 在多线程环境中会共享实例。因此，Spring 建议单例 Bean 保持无状态 (不存储实例变量) ，以避免多线程访问同一实例变量时发生并发问题。
+* 状态局部化：通过局部变量 (方法内部变量) 代替实例变量，每个线程都有自己的局部变量拷贝，避免线程间数据共享。
 
 2. Prototype 作用域
 
@@ -282,7 +298,7 @@ Spring AOP 使用 JDK 动态代理 和 CGLIB 动态代理 实现 运行时增强
 
 3. 线程安全的依赖组件
 
-* 使用线程安全的类：对于需要线程安全的组件，可以选择使用 Java 提供的线程安全类（如 ConcurrentHashMap、AtomicInteger 等）来管理状态。
+* 使用线程安全的类：对于需要线程安全的组件，可以选择使用 Java 提供的线程安全类 (如 ConcurrentHashMap、AtomicInteger 等) 来管理状态。
 * 线程安全库：如果业务中确实需要在 Singleton Bean 中存储共享状态，可以使用 Java 的并发库，如 java.util.concurrent 包中的类。
 
 4. 使用 @Async 异步任务执行
@@ -297,7 +313,7 @@ Spring AOP 使用 JDK 动态代理 和 CGLIB 动态代理 实现 运行时增强
 
 6. 线程安全的第三方工具
 
-* 注入线程安全的 Bean：对于涉及数据库操作、缓存等需要线程安全的资源，Spring 推荐注入线程安全的第三方库（如 DataSource、RedisTemplate）来避免数据竞争。
+* 注入线程安全的 Bean：对于涉及数据库操作、缓存等需要线程安全的资源，Spring 推荐注入线程安全的第三方库 (如 DataSource、RedisTemplate) 来避免数据竞争。
 
 7. 事务管理
 

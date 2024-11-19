@@ -8,13 +8,13 @@ public class App {
 
         Options options = new Options();
 
-        Option input = new Option("i", "input", true, "input file path");
-        input.setRequired(true);
-        options.addOption(input);
+        Option question = new Option("q", "question", true, "question file path");
+        question.setRequired(true);
+        options.addOption(question);
 
-        Option output = new Option("o", "output", true, "output file");
-        output.setRequired(true);
-        options.addOption(output);
+        Option parameters = new Option("p", "parameters", true, "parameters file");
+        parameters.setRequired(true);
+        options.addOption(parameters);
 
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
@@ -29,11 +29,11 @@ public class App {
             System.exit(1);
         }
 
-        String inputFilePath = cmd.getOptionValue("input");
-        String outputFilePath = cmd.getOptionValue("output");
+        String question_value = cmd.getOptionValue("question");
+        String parameters_value = cmd.getOptionValue("parameters");
 
-        System.out.println(inputFilePath);
-        System.out.println(outputFilePath);
+        System.out.println(question_value);
+        System.out.println(parameters_value);
 
     }
 
