@@ -9,10 +9,10 @@
 
 
 ## doc
-* [J2SE FAQ](docs/j2se_faq.md)
-* [Spring FAQ](docs/spring_faq.md)
-* [Quarkus FAQ](docs/quarkus_faq.md)
-* [MySQL FAQ](docs/msyql_faq.md)
+* [J2SE FAQ](doc/j2se_faq.md)
+* [Spring FAQ](doc/spring_faq.md)
+* [Quarkus FAQ](doc/quarkus_faq.md)
+* [MySQL FAQ](doc/msyql_faq.md)
 
 ### articles
 * [JVM 参数怎么调](https://www.jianshu.com/p/20fb5ccffd9f)
@@ -70,5 +70,5 @@
 * [2023 CWE Top 25](https://www.jianshu.com/p/2f08fec5a6d1)
 
 ## kata
-* [java what's it](examples/jwhat/)
-* [reminder service](examples/reminder/)
+* [java what's it](example/jwhat/)
+* [reminder service](example/reminder/)
