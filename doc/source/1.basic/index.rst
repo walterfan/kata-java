@@ -11,6 +11,9 @@
    mybatis_faq
    mysql_faq
    quarkus_faq
+   spring_boot
+   spring_framework
+   spring_mvc
    spring_faq
    spring_boot_faq
    thread_pool_mdd

@@ -28,7 +28,7 @@ Java 王者归来
    :caption: Contents:
 
    1.basic/index
-   2.framework/index
+   2.library/index
    3.devops/index
    4.architecture/index
    5.method/index
