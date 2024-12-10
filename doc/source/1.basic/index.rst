@@ -12,6 +12,7 @@
    mysql_faq
    quarkus_faq
    spring_boot
+   spring-boot-starter-test
    spring_framework
    spring_mvc
    spring_faq
