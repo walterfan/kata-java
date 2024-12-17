@@ -14,12 +14,14 @@
 * [twenty four points game](kata/twenty-four-points)
 
 ## doc
+
+### FAQ
 * [J2SE FAQ](doc/j2se_faq.md)
 * [Spring FAQ](doc/spring_faq.md)
 * [Quarkus FAQ](doc/quarkus_faq.md)
 * [MySQL FAQ](doc/msyql_faq.md)
 
-### articles
+### Articles
 * [JVM 参数怎么调](https://www.jianshu.com/p/20fb5ccffd9f)
 * [内存溢出不可怕，手足无措才尴尬](https://www.jianshu.com/p/12d00ca68cda)
 * [线程池的监控与优化](https://www.jianshu.com/p/6b71221792fb)
