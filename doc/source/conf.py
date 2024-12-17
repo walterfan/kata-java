@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Java 王者归来'
+project = 'Java 江湖生存手册'
 copyright = '2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License'
 author = 'Walter Fan'
 

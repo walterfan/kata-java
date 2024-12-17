@@ -1,5 +1,5 @@
 #################################
-4. 敏捷架构 Architecture
+4. Architecture
 #################################
 
 
@@ -15,5 +15,6 @@
    clean_code
    good_code
 
+   micro_service_design
    micro-profile-config
    micro-profile-fault-tolerance

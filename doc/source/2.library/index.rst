@@ -1,5 +1,5 @@
 ###################################
-2. 持续交付 Continus Delivery
+2. Tool and Library
 ###################################
 
 
@@ -8,5 +8,6 @@
    :caption: Contents:
 
    overview
+   gradle
    spring_ai
    nacos

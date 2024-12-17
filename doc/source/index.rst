@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Java 王者归来
+Java 江湖生存手册
 =======================================
 
 
@@ -13,7 +13,7 @@ Java 王者归来
 
 
 ============= =============
-**Abstract**  Java 王者归来
+**Abstract**  Java 江湖生存手册
 **Authors**   Walter Fan
 **Category**  learning note
 **Status**    WIP

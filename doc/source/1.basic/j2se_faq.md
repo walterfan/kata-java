@@ -392,7 +392,7 @@ ConcurrentHashMap 是 Java 中一个线程安全的哈希表实现, 它使用了
 Java 8 中引入了 Chain-Hashing, 它将 Segment 的链表结构改为红黑树, 以减少冲突. 当链表过长时, 会自动转换为红黑树, 以提升查询效率. 
 
 
-## 什么是 Java Agent？
+## 18. 什么是 Java Agent？
 
 Java Agent 是一种工具, 通过 Java 的 Instrumentation API, 在 JVM 加载类时动态修改字节码, 或在运行时获取类的相关信息. 
 
@@ -432,7 +432,7 @@ java -javaagent:my-agent.jar -jar your-app.jar
 
 Java Agent 是一种“外挂工具”, 可以在运行时悄悄地改写或监控代码, 用于性能优化、调试和增强功能, 非常强大！
 
-## Java Agent 是如何修改修改字节码的?
+## 19. Java Agent 是如何修改修改字节码的?
 
 Java Agent 修改字节码的核心是通过 Instrumentation API 和 类加载器, 在类被 JVM 加载前拦截并修改其字节码. 具体步骤如下: 
 

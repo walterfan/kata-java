@@ -1,12 +1,17 @@
-# beautiful_java
+# kata_of_java
 
-- [beautiful\_java](#beautiful_java)
+- [kata\_of\_java](#kata_of_java)
+  - [kata](#kata)
   - [doc](#doc)
     - [articles](#articles)
     - [模式](#模式)
     - [安全](#安全)
-  - [kata](#kata)
 
+## kata
+* [basic feature demo](kata/basic-feature-demo)
+* [bloom filter demo](kata/bloomfilter-demo)
+* [micrometer-demo](kata/micrometer-demo/)
+* [twenty four points game](kata/twenty-four-points)
 
 ## doc
 * [J2SE FAQ](doc/j2se_faq.md)
@@ -69,6 +74,3 @@
 * [OWASP Top Ten 十大安全问题](https://www.jianshu.com/p/c5c3fd08732a)
 * [2023 CWE Top 25](https://www.jianshu.com/p/2f08fec5a6d1)
 
-## kata
-* [java what's it](example/jwhat/)
-* [reminder service](example/reminder/)
