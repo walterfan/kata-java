@@ -8,10 +8,10 @@
     - [安全](#安全)
 
 ## kata
-* [basic feature demo](kata/basic-feature-demo)
-* [bloom filter demo](kata/bloomfilter-demo)
-* [micrometer-demo](kata/micrometer-demo/)
-* [twenty four points game](kata/twenty-four-points)
+1. [basic feature demo](kata/basic-feature-demo)
+1. [bloom filter demo](kata/bloomfilter-demo)
+1. [micrometer-demo](kata/micrometer-demo/)
+1. [twenty four points game](kata/twenty-four-points)
 
 ## doc
 
