@@ -1,4 +1,4 @@
-package com.fanyamin.bjava;
+package com.fanyamin.kata;
 import org.apache.commons.cli.*;
 
 public class App {

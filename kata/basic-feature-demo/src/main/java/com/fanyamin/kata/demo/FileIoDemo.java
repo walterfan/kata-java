@@ -1,4 +1,4 @@
-package com.fanyamin.bjava.demo;
+package com.fanyamin.kata.demo;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import java.io.File;

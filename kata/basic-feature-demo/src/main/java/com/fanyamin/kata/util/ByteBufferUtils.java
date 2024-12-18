@@ -1,4 +1,4 @@
-package com.fanyamin.bjava.util;
+package com.fanyamin.kata.util;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;

@@ -10,6 +10,8 @@
    overview
    graph_model
    rpc_rest_graphql
+   ddd
+   mdd
 
    pattern
    clean_code

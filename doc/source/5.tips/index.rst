@@ -1,5 +1,5 @@
 #################################
-5. Method
+5. Tips
 #################################
 
 
@@ -8,9 +8,9 @@
    :caption: Contents:
 
    overview
+   spring_boot_tips
    tdd
    test_mock
    test_in_java
-   mdd
-   ddd
+
 

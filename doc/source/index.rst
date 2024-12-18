@@ -29,9 +29,10 @@ Java 江湖生存手册
 
    1.basic/index
    2.library/index
-   3.devops/index
+   3.middleware/index
    4.architecture/index
-   5.method/index
+   5.tips/index
+   6.faq/index
 
 Indices and tables
 ==================

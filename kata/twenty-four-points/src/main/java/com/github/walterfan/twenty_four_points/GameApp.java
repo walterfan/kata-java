@@ -8,12 +8,12 @@ public class GameApp {
         Scanner scanner = new Scanner(System.in);
         GameSolver solver = new GameSolver();
 
-        System.out.println("请输入 4 个整数 (以空格分隔):");
+        System.out.println("Please enter 4 integers (separated by spaces):");
         String input = scanner.nextLine();
         String[] tokens = input.split("\\s+");
 
         if (tokens.length != 4) {
-            System.out.println("请输入正确的 4 个整数！");
+            System.out.println("Please enter 4 correct integers！");
             return;
         }
 
@@ -23,14 +23,14 @@ public class GameApp {
                 numbers[i] = Integer.parseInt(tokens[i]);
             }
         } catch (NumberFormatException e) {
-            System.out.println("输入包含非数字内容，请重新输入！");
+            System.out.println("The input contains non-numeric content, please re-enter!");
             return;
         }
 
         if (solver.canReach24(numbers)) {
-            System.out.println("这组数字可以通过运算得到 24！");
+            System.out.println("This set of numbers can be calculated to get 24!");
         } else {
-            System.out.println("遗憾！这组数字无法通过运算得到 24！");
+            System.out.println("Sorry! This set of numbers cannot be calculated to get 24!");
         }
     }
 }

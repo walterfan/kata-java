@@ -1,4 +1,4 @@
-package com.fanyamin.bjava.util;
+package com.fanyamin.kata.util;
 
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;

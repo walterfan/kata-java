@@ -1,4 +1,4 @@
-package com.fanyamin.bjava.leetcode;
+package com.fanyamin.kata.leetcode;
 
 public class HandOfStraights {
 

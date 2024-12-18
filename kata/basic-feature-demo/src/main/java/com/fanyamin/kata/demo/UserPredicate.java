@@ -1,4 +1,4 @@
-package com.fanyamin.bjava.demo;
+package com.fanyamin.kata.demo;
 
 public interface UserPredicate {
 

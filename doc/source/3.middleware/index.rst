@@ -1,5 +1,5 @@
 #######################
-3. DevOps
+3. Middleware
 #######################
 
 
@@ -8,6 +8,6 @@
    :caption: Contents:
 
    overview
-   automation
-   ansible
    cloud_native
+   nacos
+   mongodb

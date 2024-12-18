@@ -15,7 +15,7 @@ public class GameSolver {
         }
         boolean result = solve(nums, expressions);
         if (result) {
-            System.out.println("找到的公式是: " + solution);
+            System.out.println("The formula found is: " + solution);
         }
         return result;
     }

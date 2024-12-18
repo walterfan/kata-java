@@ -1,4 +1,4 @@
-package com.fanyamin.bjava.demo;
+package com.fanyamin.kata.demo;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
