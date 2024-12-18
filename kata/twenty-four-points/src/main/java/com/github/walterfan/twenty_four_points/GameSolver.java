@@ -6,12 +6,12 @@ import java.util.List;
 public class GameSolver {
     private String solution = "";
 
-    public boolean canReach24(int[] numbers) {
+	public boolean canReach24(int[] numbers) {
         List<Double> nums = new ArrayList<>();
         List<String> expressions = new ArrayList<>();
         for (int num : numbers) {
             nums.add((double) num);
-            expressions.add(String.valueOf(num)); // 初始表达式是数字本身
+            expressions.add(String.valueOf(num)); 
         }
         boolean result = solve(nums, expressions);
         if (result) {
@@ -23,7 +23,7 @@ public class GameSolver {
     private boolean solve(List<Double> nums, List<String> expressions) {
         if (nums.size() == 1) {
             if (Math.abs(nums.get(0) - 24) < 1e-6) {
-                solution = expressions.get(0); // 保存公式
+                solution = expressions.get(0); 
                 return true;
             }
             return false;
@@ -45,35 +45,35 @@ public class GameSolver {
                     double a = nums.get(i), b = nums.get(j);
                     String exprA = expressions.get(i), exprB = expressions.get(j);
 
-                    // 尝试所有操作
+                    // try all possible formula
                     for (int op = 0; op < 6; op++) {
-                        if (op == 0) { // 加法
+                        if (op == 0) { // add
                             nextNums.add(a + b);
                             nextExpressions.add("(" + exprA + " + " + exprB + ")");
-                        } else if (op == 1) { // 减法
+                        } else if (op == 1) { // subtract
                             nextNums.add(a - b);
                             nextExpressions.add("(" + exprA + " - " + exprB + ")");
-                        } else if (op == 2) { // 反向减法
+                        } else if (op == 2) { // reverse subtract
                             nextNums.add(b - a);
                             nextExpressions.add("(" + exprB + " - " + exprA + ")");
-                        } else if (op == 3) { // 乘法
+                        } else if (op == 3) { // multiply
                             nextNums.add(a * b);
                             nextExpressions.add("(" + exprA + " * " + exprB + ")");
-                        } else if (op == 4 && b != 0) { // 除法
+                        } else if (op == 4 && b != 0) { // divide
                             nextNums.add(a / b);
                             nextExpressions.add("(" + exprA + " / " + exprB + ")");
-                        } else if (op == 5 && a != 0) { // 反向除法
+                        } else if (op == 5 && a != 0) { // reverse divide
                             nextNums.add(b / a);
                             nextExpressions.add("(" + exprB + " / " + exprA + ")");
                         } else {
-                            continue; // 跳过非法操作
+                            continue; // skip illegal operator
                         }
 
                         if (solve(nextNums, nextExpressions)) {
                             return true;
                         }
 
-                        // 回溯
+                        // back trace
                         nextNums.remove(nextNums.size() - 1);
                         nextExpressions.remove(nextExpressions.size() - 1);
                     }

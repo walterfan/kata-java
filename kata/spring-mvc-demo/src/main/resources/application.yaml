@@ -1,0 +1,43 @@
+server:
+  port: 2024
+  tomcat:
+    connection-timeout: 2s
+    keep-alive-timeout: 15s
+    threads:
+      max: 50
+      min-spare: 5
+
+spring:
+  application:
+    name: reminder
+  config:
+    import: optional:file:.env
+  sql:
+    init:
+      mode: always
+  jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+    time-zone: UTC
+
+  datasource:
+    platform: h2
+    username: ${DB_USER:walter}
+    password: ${DB_PWD:pass1234}
+    url: ${DB_URL:jdbc:h2:~/reminder}
+    hikari:
+      connection-timeout: 2000 #ms
+      maximum-pool-size: 5
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+reminder:
+  greeting: Welcome to the borrowed book reminder!

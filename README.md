@@ -13,6 +13,7 @@
 1. [bloom filter demo](kata/bloomfilter-demo)
 1. [micrometer-demo](kata/micrometer-demo/)
 1. [twenty four points game](kata/twenty-four-points)
+1. [spring mvc demo](kata/spring-mvc-demo)
 
 ## doc
 
