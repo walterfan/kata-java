@@ -1,14 +1,32 @@
 
-## init
+# Java Basic Feature Demo
+
+## create it
 
 ```bash
-mvn archetype:generate -DgroupId=com.fanyamin.kata -DartifactId=jwhat \
+mvn archetype:generate -DgroupId=com.fanyamin.kata -DartifactId=basic-feature-demo \
 -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+```
+
+## build it
+
+```bash
 mvn clean compile assembly:single
-java -jar target/jwhat-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
+
+## run it
+```
+java -jar target/basic-feature-demo-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 
-## replace chinese to english puncutation mark
+## example
 
-java -cp ./target/jwhat-1.0-SNAPSHOT-jar-with-dependencies.jar com.fanyamin.kata.util.PunctuationConverter -i <file>
+* new lambda usage
+```
+java -cp ./target/basic-feature-demo-1.0-SNAPSHOT-jar-with-dependencies.jar com.fanyamin.kata.demo.PointAvgDistance
+```
+* replace chinese to english puncutation mark
+```
+java -cp ./target/basic-feature-demo-1.0-SNAPSHOT-jar-with-dependencies.jar com.fanyamin.kata.util.PunctuationConverter -i <file>
+```

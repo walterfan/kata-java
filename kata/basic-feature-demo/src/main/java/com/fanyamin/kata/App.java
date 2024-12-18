@@ -8,11 +8,11 @@ public class App {
 
         Options options = new Options();
 
-        Option question = new Option("q", "question", true, "question file path");
-        question.setRequired(true);
-        options.addOption(question);
+        Option kata = new Option("k", "kata", true, "kata name");
+        kata.setRequired(true);
+        options.addOption(kata);
 
-        Option parameters = new Option("p", "parameters", true, "parameters file");
+        Option parameters = new Option("p", "para", true, "kata parameters");
         parameters.setRequired(true);
         options.addOption(parameters);
 
@@ -24,16 +24,16 @@ public class App {
             cmd = parser.parse(options, args);
         } catch (ParseException e) {
             System.out.println(e.getMessage());
-            formatter.printHelp("utility-name", options);
-
+            formatter.printHelp("kata name", options);
+            
             System.exit(1);
         }
 
-        String question_value = cmd.getOptionValue("question");
-        String parameters_value = cmd.getOptionValue("parameters");
+        String kata_value = cmd.getOptionValue("kata");
+        String para_value = cmd.getOptionValue("para");
 
-        System.out.println(question_value);
-        System.out.println(parameters_value);
+        System.out.println(kata_value);
+        System.out.println(para_value);
 
     }
 
