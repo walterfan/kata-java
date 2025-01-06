@@ -1,0 +1,67 @@
+<mapper namespace="com.example.mapper.PromptMapper">
+
+    <!-- Select Prompt by ID -->
+    <select id="getPromptById" resultMap="PromptResultMap">
+        SELECT * FROM Prompt WHERE id = #{id};
+    </select>
+
+    <!-- Insert Prompt -->
+    <insert id="insertPrompt">
+        INSERT INTO Prompt (id, name, description, system_prompt, user_prompt, additional_prompt)
+        VALUES (#{id}, #{name}, #{description}, #{systemPrompt}, #{userPrompt}, #{additionalPrompt});
+    </insert>
+
+    <!-- Update Prompt -->
+    <update id="updatePrompt">
+        UPDATE Prompt
+        SET name = #{name}, description = #{description},
+            system_prompt = #{systemPrompt}, user_prompt = #{userPrompt},
+            additional_prompt = #{additionalPrompt}
+        WHERE id = #{id};
+    </update>
+
+    <!-- Delete Prompt -->
+    <delete id="deletePrompt">
+        DELETE FROM Prompt WHERE id = #{id};
+    </delete>
+
+    <!-- Associate Tags -->
+    <insert id="insertPromptTag">
+        INSERT INTO Prompt_Tag (prompt_id, tag_id)
+        VALUES (#{promptId}, #{tagId});
+    </insert>
+
+    <!-- Associate Variables -->
+    <insert id="insertVariable">
+        INSERT INTO Variable (id, prompt_id, variable_key, variable_value)
+        VALUES (#{id}, #{promptId}, #{key}, #{value});
+    </insert>
+
+    <!-- Remove all associated tags for a prompt -->
+    <delete id="deletePromptTags">
+        DELETE FROM Prompt_Tag WHERE prompt_id = #{promptId};
+    </delete>
+
+    <!-- Remove all variables for a prompt -->
+    <delete id="deletePromptVariables">
+        DELETE FROM Variable WHERE prompt_id = #{promptId};
+    </delete>
+
+    <!-- Result Map -->
+    <resultMap id="PromptResultMap" type="com.example.entity.Prompt">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="description" property="description" />
+        <result column="system_prompt" property="systemPrompt" />
+        <result column="user_prompt" property="userPrompt" />
+        <result column="additional_prompt" property="additionalPrompt" />
+        <collection property="tags" ofType="com.example.entity.Tag">
+            <id column="tag_id" property="id" />
+            <result column="tag_name" property="name" />
+        </collection>
+        <collection property="variables" ofType="java.util.Map">
+            <id column="variable_key" property="key" />
+            <result column="variable_value" property="value" />
+        </collection>
+    </resultMap>
+</mapper>
