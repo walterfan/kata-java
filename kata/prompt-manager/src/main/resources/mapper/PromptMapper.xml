@@ -1,29 +1,62 @@
-<mapper namespace="com.example.mapper.PromptMapper">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-    <!-- Select Prompt by ID -->
-    <select id="getPromptById" resultMap="PromptResultMap">
-        SELECT * FROM Prompt WHERE id = #{id};
+<mapper namespace="com.fanyamin.promptmgr.PromptMapper">
+
+    <resultMap id="PromptResultMap" type="com.fanyamin.promptmgr.Prompt">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="systemPrompt" column="system_prompt"/>
+        <result property="userPrompt" column="user_prompt"/>
+        <result property="additionalPrompt" column="additional_prompt"/>
+        <collection property="tags" ofType="com.fanyamin.promptmgr.Tag" column="id" select="findTagsByPromptId"/>
+        <collection property="variables" ofType="java.util.Map.Entry" resultMap="VariableResultMap"/>
+    </resultMap>
+
+    <resultMap id="VariableResultMap" type="java.util.Map.Entry">
+        <result property="key" column="variable_key"/>
+        <result property="value" column="variable_value"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="PromptResultMap">
+        SELECT * FROM prompt
     </select>
 
-    <!-- Insert Prompt -->
-    <insert id="insertPrompt">
-        INSERT INTO Prompt (id, name, description, system_prompt, user_prompt, additional_prompt)
-        VALUES (#{id}, #{name}, #{description}, #{systemPrompt}, #{userPrompt}, #{additionalPrompt});
+    <select id="findById" resultMap="PromptResultMap">
+        SELECT * FROM prompt WHERE id = #{id}
+    </select>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO prompt (name, description, system_prompt, user_prompt, additional_prompt)
+        VALUES (#{name}, #{description}, #{systemPrompt}, #{userPrompt}, #{additionalPrompt})
     </insert>
 
-    <!-- Update Prompt -->
-    <update id="updatePrompt">
-        UPDATE Prompt
-        SET name = #{name}, description = #{description},
-            system_prompt = #{systemPrompt}, user_prompt = #{userPrompt},
+    <update id="update">
+        UPDATE prompt
+        SET name = #{name},
+            description = #{description},
+            system_prompt = #{systemPrompt},
+            user_prompt = #{userPrompt},
             additional_prompt = #{additionalPrompt}
-        WHERE id = #{id};
+        WHERE id = #{id}
     </update>
 
-    <!-- Delete Prompt -->
-    <delete id="deletePrompt">
-        DELETE FROM Prompt WHERE id = #{id};
+    <delete id="deleteById">
+        DELETE FROM prompt WHERE id = #{id}
     </delete>
+
+    <select id="searchByNameOrDescription" resultMap="PromptResultMap">
+        SELECT * FROM prompt
+        WHERE name LIKE CONCAT('%', #{name}, '%')
+           OR description LIKE CONCAT('%', #{description}, '%')
+    </select>
+
+    <select id="findTagsByPromptId" resultType="com.fanyamin.promptmgr.Tag">
+        SELECT * FROM prompt_tag WHERE prompt_id = #{id}
+    </select>
 
     <!-- Associate Tags -->
     <insert id="insertPromptTag">
@@ -42,26 +75,10 @@
         DELETE FROM Prompt_Tag WHERE prompt_id = #{promptId};
     </delete>
 
-    <!-- Remove all variables for a prompt -->
+        <!-- Remove all variables for a prompt -->
     <delete id="deletePromptVariables">
         DELETE FROM Variable WHERE prompt_id = #{promptId};
     </delete>
 
-    <!-- Result Map -->
-    <resultMap id="PromptResultMap" type="com.example.entity.Prompt">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="description" property="description" />
-        <result column="system_prompt" property="systemPrompt" />
-        <result column="user_prompt" property="userPrompt" />
-        <result column="additional_prompt" property="additionalPrompt" />
-        <collection property="tags" ofType="com.example.entity.Tag">
-            <id column="tag_id" property="id" />
-            <result column="tag_name" property="name" />
-        </collection>
-        <collection property="variables" ofType="java.util.Map">
-            <id column="variable_key" property="key" />
-            <result column="variable_value" property="value" />
-        </collection>
-    </resultMap>
+
 </mapper>

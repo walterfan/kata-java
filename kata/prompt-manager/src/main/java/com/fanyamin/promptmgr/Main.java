@@ -3,7 +3,7 @@ package com.fanyamin.promptmgr;
 import java.util.UUID;
 
 import org.apache.ibatis.session.SqlSession;
-import com.fanyamin.promptmgr.MyBatisUtil;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -17,7 +17,7 @@ public class Main {
             prompt.setSystemPrompt("System message.");
             prompt.setUserPrompt("User message.");
             prompt.setAdditionalPrompt("Additional message.");
-            mapper.insertPrompt(prompt);
+            mapper.save(prompt);
 
             // Add tags and variables
             Tag tag = new Tag();
@@ -29,7 +29,7 @@ public class Main {
             session.commit();
 
             // Fetch Prompt by ID
-            Prompt fetchedPrompt = mapper.getPromptById(prompt.getId());
+            Prompt fetchedPrompt = mapper.findById(prompt.getId());
             System.out.println(fetchedPrompt);
         }
     }
