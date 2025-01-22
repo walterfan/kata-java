@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanyamin.bookstore.mapper.BookMapper">
+
+    <!-- Insert -->
+    <insert id="insertBook">
+        INSERT INTO Book (isbn, title, author, borrow_date, return_date)
+        VALUES (#{isbn}, #{title}, #{author}, #{borrowDate}, #{returnDate});
+    </insert>
+
+    <!-- Update -->
+    <update id="updateBook">
+        UPDATE Book
+        SET title = #{title},
+            author = #{author},
+            borrow_date = #{borrowDate},
+            return_date = #{returnDate}
+        WHERE isbn = #{isbn};
+    </update>
+
+    <!-- Delete -->
+    <delete id="deleteBook">
+        DELETE FROM Book WHERE isbn = #{isbn};
+    </delete>
+
+    <!-- Select -->
+    <select id="getBookByIsbn" resultType="com.example.demo.model.Book">
+        SELECT * FROM Book WHERE isbn = #{isbn};
+    </select>
+
+    <!-- Search -->
+    <select id="searchBooks" resultType="com.example.demo.model.Book">
+        SELECT * FROM Book WHERE title LIKE CONCAT('%', #{title}, '%');
+    </select>
+
+</mapper>

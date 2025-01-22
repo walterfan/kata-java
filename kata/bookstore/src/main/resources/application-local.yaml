@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:9306/library?useSSL=false&serverTimezone=UTC
+    username: ${DB_USER:walter}
+    password: ${DB_PWD:pass1234}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 8090

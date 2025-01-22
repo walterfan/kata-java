@@ -1,0 +1,13 @@
+spring.profiles.active: local
+spring:
+  application:
+    name: bookstore
+
+spring.main.allow-circular-references: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+session:
+  timeout: 3600
+  prefix: bookstore-session-
