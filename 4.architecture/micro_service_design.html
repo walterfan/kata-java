@@ -1,0 +1,545 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>微服务设计方法 &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="MicroProfile Config" href="micro-profile-config.html" />
+    <link rel="prev" title="什么是好代码" href="good_code.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1.basic/index.html">1. Basic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2.library/index.html">2. Framework and Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3.middleware/index.html">3. Middleware</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">4. Architecture</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">敏捷架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graph_model.html">Property Graph Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rpc_rest_graphql.html">RPC, REST, 还是 GraphQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddd.html">DDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mdd.html">MDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pattern.html">Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clean_code.html">Clean Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="good_code.html">什么是好代码</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">微服务设计方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">软件设计</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">需求分析和整理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-case">用例 Use case</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plantuml">二是使用是通过 plantuml 来生成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#graphviz">三是使用graphviz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#user-story">用户故事 User Story</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">概要设计</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">详细设计</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">领域驱动服务设计</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">领域驱动设计概述</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">微服务设计模板</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id10">1. 总体介绍</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">2. 设计</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">3. 依赖条件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">4. 部署</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">5. 度量</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">6. 测试方案</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">7. 问题与风险</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">8. 参考文档和链接</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="micro-profile-config.html">MicroProfile Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="micro-profile-fault-tolerance.html">MicroProfile Fault Tolerance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../5.tips/index.html">5. Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">4. Architecture</a></li>
+      <li class="breadcrumb-item active">微服务设计方法</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/4.architecture/micro_service_design.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>微服务设计方法<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>概述<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>服务就是代表特定功能的软件实体, 是不依赖于任何上下文或外部服务的自治构件.微服务设计就是软件设计的一个子范畴, 它主要是指如何设计这样的服务来满足需求, 而这个服务是微小且自治的, 满足微服务的若干特征.</p>
+<p>先让我们看看传统软件设计的流程: 需求分析–概要设计–详细设计</p>
+</section>
+<section id="id3">
+<h2>软件设计<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h3>需求分析和整理<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>对需要做详细的分析, 一是功能性需求</p>
+<p>功能性需求:</p>
+<ul class="simple">
+<li><p>用例</p></li>
+<li><p>场景</p></li>
+<li><p>验收测试用例</p></li>
+</ul>
+<p>非功能性需求:</p>
+<ul class="simple">
+<li><p>高可用性</p></li>
+<li><p>高性能</p></li>
+<li><p>伸缩性</p></li>
+<li><p>扩展性</p></li>
+<li><p>伸缩性</p></li>
+<li><p>安全性</p></li>
+<li><p>稳定性</p></li>
+<li><p>健壮性</p></li>
+<li><p>可测试性</p></li>
+</ul>
+<p>以用户登录与注册为例, 我们来分析其用例 Use case 和用户故事 User Story</p>
+</section>
+<section id="use-case">
+<h3>用例 Use case<a class="headerlink" href="#use-case" title="Link to this heading"></a></h3>
+<p>除了使用绘图工具和画用例图， 还有几种方法通过脚本来生成用例图</p>
+<section id="yuml-me">
+<h4>一是使用在线网站 yuml.me<a class="headerlink" href="#yuml-me" title="Link to this heading"></a></h4>
+<p>https://yuml.me/608ca377</p>
+<p><img alt="use case" src="http://upload-images.jianshu.io/upload_images/1598924-fa230b39b9469c71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>UML 生成脚本如下</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">User</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">Sign</span> <span class="n">In</span><span class="p">)</span>
+<span class="p">[</span><span class="n">User</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">Sign</span> <span class="n">Out</span><span class="p">)</span>
+<span class="p">[</span><span class="n">User</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">Sign</span> <span class="n">Up</span><span class="p">)</span>
+<span class="p">[</span><span class="n">User</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">Forget</span> <span class="n">Password</span><span class="p">)</span>
+<span class="p">[</span><span class="n">User</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">Change</span> <span class="n">Password</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Sign</span> <span class="n">In</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Remember</span> <span class="n">Me</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Sign</span> <span class="n">Up</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Send</span> <span class="n">Verification</span> <span class="n">Email</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Forget</span> <span class="n">Password</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Send</span> <span class="n">Reset</span> <span class="n">Password</span> <span class="n">Email</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Change</span> <span class="n">Password</span><span class="p">)</span><span class="o">&lt;</span><span class="p">(</span><span class="n">Send</span> <span class="n">Reset</span> <span class="n">Password</span> <span class="n">Email</span><span class="p">)</span>
+<span class="p">[</span><span class="n">Admin</span><span class="p">]</span><span class="o">^</span><span class="p">[</span><span class="n">User</span><span class="p">]</span>
+<span class="p">[</span><span class="n">Admin</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">Add</span> <span class="n">User</span><span class="p">)</span>
+<span class="p">[</span><span class="n">Admin</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">Delete</span> <span class="n">User</span><span class="p">)</span>
+<span class="p">[</span><span class="n">Admin</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">Lock</span> <span class="n">User</span><span class="p">)</span>
+<span class="p">[</span><span class="n">Admin</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">Change</span> <span class="n">Password</span> <span class="n">Policy</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="plantuml">
+<h3>二是使用是通过 plantuml 来生成<a class="headerlink" href="#plantuml" title="Link to this heading"></a></h3>
+<p>到 http://plantuml.com/ 上下载 plantuml.jar ， 然后用如下命令生成用例图</p>
+<p>java -jar plantuml.jar usecase.txt</p>
+<p>示例UML 生成脚本如下</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@startuml</span>
+
+<span class="n">User</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">Sign</span> <span class="n">In</span><span class="p">)</span>
+<span class="n">User</span> <span class="o">--&gt;</span> <span class="p">(</span><span class="n">Sign</span> <span class="n">Out</span><span class="p">)</span> 
+<span class="n">User</span> <span class="o">--&gt;</span> <span class="p">(</span><span class="n">Sign</span> <span class="n">Up</span><span class="p">)</span>
+<span class="n">User</span> <span class="o">--&gt;</span> <span class="p">(</span><span class="n">activate</span><span class="p">)</span>
+<span class="n">User</span> <span class="o">--&gt;</span> <span class="p">(</span><span class="n">forget</span><span class="o">/</span><span class="n">reset</span> <span class="n">password</span><span class="p">)</span>
+<span class="p">:</span><span class="n">Admin</span><span class="p">:</span> <span class="o">---&gt;</span> <span class="p">(</span><span class="n">lock</span> <span class="n">user</span><span class="p">)</span>
+<span class="p">:</span><span class="n">Admin</span><span class="p">:</span> <span class="o">---&gt;</span> <span class="p">(</span><span class="n">add</span> <span class="n">user</span><span class="p">)</span> 
+<span class="p">:</span><span class="n">Admin</span><span class="p">:</span> <span class="o">---&gt;</span> <span class="p">(</span><span class="n">delete</span> <span class="n">user</span><span class="p">)</span> 
+
+<span class="nd">@enduml</span>
+</pre></div>
+</div>
+</section>
+<section id="graphviz">
+<h3>三是使用graphviz<a class="headerlink" href="#graphviz" title="Link to this heading"></a></h3>
+<p>先安装graphviz, 再运行如下命令</p>
+<p>dot usecase1.gv -Tpng -o usecase1.png</p>
+<p>示例UML生成脚本如下</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">digraph</span> <span class="n">G</span> <span class="p">{</span>
+    <span class="n">rankdir</span><span class="o">=</span><span class="n">LR</span><span class="p">;</span>
+
+    <span class="n">subgraph</span> <span class="n">clusterUser</span> <span class="p">{</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;User&quot;</span><span class="p">;</span> <span class="n">labelloc</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">;</span> <span class="n">peripheries</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">user</span><span class="p">};</span>
+    
+    <span class="n">user</span> <span class="p">[</span><span class="n">shapefile</span><span class="o">=</span><span class="s2">&quot;stick.png&quot;</span><span class="p">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
+
+    <span class="n">signin</span> <span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Sign In&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">ellipse</span><span class="p">];</span>
+
+    <span class="n">signout</span> <span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Sign Out&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">ellipse</span><span class="p">];</span>
+
+    <span class="n">signup</span> <span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Sign Up&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">ellipse</span><span class="p">];</span>
+
+    <span class="n">user</span><span class="o">-&gt;</span><span class="n">signin</span> <span class="p">[</span><span class="n">arrowhead</span><span class="o">=</span><span class="n">none</span><span class="p">];</span>
+
+    <span class="n">user</span><span class="o">-&gt;</span><span class="n">signout</span> <span class="p">[</span><span class="n">arrowhead</span><span class="o">=</span><span class="n">none</span><span class="p">];</span>
+
+    <span class="n">user</span><span class="o">-&gt;</span><span class="n">signup</span> <span class="p">[</span><span class="n">arrowhead</span><span class="o">=</span><span class="n">none</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="user-story">
+<h3>用户故事 User Story<a class="headerlink" href="#user-story" title="Link to this heading"></a></h3>
+<p>User Story 讲究 INVEST 原则</p>
+<ul class="simple">
+<li><p>“I” ndependent (of all others) 独立的</p></li>
+<li><p>“N” egotiable (not a specific contract for features) 可协商的</p></li>
+<li><p>“V” aluable (or <a class="reference external" href="http://guide.agilealliance.org/guide/incremental.html">vertical</a>) 有价值的</p></li>
+<li><p>“E” stimable (to a good approximation) 可估量的</p></li>
+<li><p>“S” mall (so as to fit within an iteration) 足够小的</p></li>
+<li><p>“T” estable (in principle, even if there isn’t a test for it yet) 可测试的</p></li>
+</ul>
+<p>以用户注册 Sign Up 为例, 可以拆分为如下子用户故事</p>
+<ol class="arabic simple">
+<li><p>作为一个未注册用户， 我想输入我的电子邮件地址和密码，注册到站点</p></li>
+</ol>
+<p>1.1 我必须输入合法和邮件地址，符合密码策略的密码以及一致的验证码进行注册
+默认的密码策略是最低8个字符， 必须包含大小写字母和至少一个数字</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>##</p></th>
+<th class="head"><p>Story</p></th>
+<th class="head"><p>Priority</p></th>
+<th class="head"><p>Estimation</p></th>
+<th class="head"><p>Deadline</p></th>
+<th class="head"><p>Comments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.1.1</p></td>
+<td><p>生成验证码</p></td>
+<td><p>P3</p></td>
+<td><p>2 MD</p></td>
+<td><p>2018-10-15</p></td>
+<td><p>防光学识别</p></td>
+</tr>
+<tr class="row-odd"><td><p>1.1.2</p></td>
+<td><p>显示注册表单</p></td>
+<td><p>P1</p></td>
+<td><p>1 MD</p></td>
+<td><p>2018-10-10</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>1.1.3</p></td>
+<td><p>邮件地址格式验证</p></td>
+<td><p>P1</p></td>
+<td><p>1 MD</p></td>
+<td><p>2018-10-10</p></td>
+<td><p>客户端和服务端都要验证</p></td>
+</tr>
+<tr class="row-odd"><td><p>1.1.4</p></td>
+<td><p>比较两次输入的密码是否相同</p></td>
+<td><p>P1</p></td>
+<td><p>2 M</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>H</p></td>
+<td><p>2018-10-10</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>1.1.5</p></td>
+<td><p>验证密码是否符合密码策略</p></td>
+<td><p>P2</p></td>
+<td><p>1 MD</p></td>
+<td><p>2018-10-10</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>1.1.6</p></td>
+<td><p>验证输入的验证码</p></td>
+<td><p>P3</p></td>
+<td><p>2 MD</p></td>
+<td><p>2018-10-12</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>1.1.7</p></td>
+<td><p>检查是否已有相同的邮件地址存在</p></td>
+<td><p>P1</p></td>
+<td><p>1 MD</p></td>
+<td><p>2018-10-12</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>1.1.8</p></td>
+<td><p>输入验证无误后存入数据库，状态为pending</p></td>
+<td><p>P2</p></td>
+<td><p>2 MD</p></td>
+<td><p>2018-10-13</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>1.1.9</p></td>
+<td><p>生成此用户的激活链接</p></td>
+<td><p>P2</p></td>
+<td><p>2 MD</p></td>
+<td><p>2018-10-15</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>1.1.10</p></td>
+<td><p>向注册邮箱发送一封确认邮件</p></td>
+<td><p>P2</p></td>
+<td><p>2 MD</p></td>
+<td><p>2018-10-15</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p>1.2 我的注册邮箱会收到一封验证邮件， 提示我点击注册连接， 从而激活我的注册帐户</p>
+<p>1.3 当我完成激活后会自动跳到站点的首页， 提示我进行登录</p>
+</section>
+<section id="id5">
+<h3>概要设计<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>基于上面所定义的验收测试用例, 进行软件服务的总体设计,</p>
+<p>先划分模块，以及模块之间的关系和交互.</p>
+<p>先让我们来看看微服务的典型架构 – 六边形架构（Hexagonal Architecture），又称为端口和适配器架构风格</p>
+<p>传统的分层架构我们非常熟悉</p>
+<ol class="arabic simple">
+<li><p>表现层</p></li>
+<li><p>业务层</p></li>
+<li><p>数据层</p></li>
+</ol>
+<p>而六边形架构更加强调对外提供服务的接口适配
+<img alt="" src="https://upload-images.jianshu.io/upload_images/1598924-ad8bdbb86e9d7bb5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<ol class="arabic simple">
+<li><p>领域层（Domain Layer）：位于最内层的核心层，纯粹的核心业务逻辑，一般不包含任何技术实现或引用。</p></li>
+<li><p>端口层（Ports Layer）：领域层之外，负责接收与用例相关的所有请求，这些请求负责在领域层中协调工作。端口层在端口内部作为领域层的边界，在端口外部则扮演了外部实体的角色。</p></li>
+<li><p>适配器层（Adapters Layer）：端口层之外，负责以某种格式接收输入、及产生输出。</p></li>
+</ol>
+</section>
+<section id="id6">
+<h3>详细设计<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<p>详细设计就是把总体设计落到实处, 一般我们会绘制如下的 4+1 视图</p>
+<p><img alt="" src="https://upload-images.jianshu.io/upload_images/1598924-c84321f5f77bcc7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<ol class="arabic simple">
+<li><p>逻辑视图（Logical View），设计的对象模型。</p></li>
+<li><p>进程视图（Process View），捕捉设计的并发和同步特征。</p></li>
+<li><p>部署视图（Deployment View），描述了软件到硬件的映射，反映了分布式特性。</p></li>
+<li><p>实现视图（Implementation View），描述了在开发环境中软件的静态组织结构。</p></li>
+</ol>
+<p>四加一的一是指我们之前提到的用例视图</p>
+<ol class="arabic simple">
+<li><p>用例视图（Use-Case View），该视图是其他视图的依据</p></li>
+</ol>
+</section>
+</section>
+<section id="id7">
+<h2>领域驱动服务设计<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<p>软件的领域有多广, 微服务的领域就有多广. 基本上我们可分为两大类</p>
+<ol class="arabic simple">
+<li><p>非功能领域的通用服务</p></li>
+</ol>
+<p>它指对应于非功能需求的, 通用的, 可重用的服务类型, 比如系统认证服务, 缓存服务, 数据存储服务, 以及在云平台上常用的注册服务, 分布式锁服务, 消息队列服务等等</p>
+<p>微服务构建有其自身特点, 尤其是相比单体服务, 分布式系统使得我们在容错和高可用方面必须考虑周详, 有些共通的原则, 模式和实践, 我们在系统设计需要熟练掌握, 并在实践中不断根据度量数据进行演进和调优.</p>
+<p>这些和具体的业务关系不大, 无论你是做电商的 还是做网络会议的, 基本上都会用到.</p>
+<ul class="simple">
+<li><p>服务注册和发现</p></li>
+<li><p>服务网关和编排</p></li>
+<li><p>服务度量和基于度量的自动化运维</p></li>
+<li><p>服务安全,跟踪和审计</p></li>
+<li><p>服务可用性相关模式: 分流, 限流, 断流</p></li>
+<li><p>等等</p></li>
+</ul>
+<p>这些通用模块之后再展开来讲</p>
+<ol class="arabic simple" start="2">
+<li><p>业务功能领域的专用服务</p></li>
+</ol>
+<p>技术经常更新换代，语言层出不穷，这些都会过时, 淘汰和更新换代, 可以业务逻辑及商业模型不会轻易废弃，因为它是企业安身立命，生存和赚钱的根本，需要小心维护，应用户的需求，企业未来的发展而增强和改进。</p>
+<p>而商业模型和业务逻辑如何能映射到软件系统中呢?答案就是领域模型，它是软件设计的核心，指导着我们如何实现，如何编码。</p>
+<p>所谓领域主要就是指业务逻辑，规则和流程所对应的的软件设计模型，对于那些重要的，复杂的业务模型称为核心域，相对次要的模型称为支撑子域，这些领域都有一个边界上下文，使用一种通用语言来描述, 而领域的边界，彼此之间的关系以及集成方式使用上下文映射图来表示.</p>
+<section id="id8">
+<h3>领域驱动设计概述<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<p>领域驱动设计采用的架构不一而足，视具体案例情况而定。比如分层架构，端口和适配器，SOA，REST，CQRS，事件驱动(管道和过滤器，长时间处理过程，事件源)</p>
+<p>领域模型的基础是实体和值对象，而对于它们的处理以及流程控制更适合用领域服务来表示，而领域事件在不同的服务和系统之间用于集成和交互很有用。以模块来划分领域对象，以聚合来整合相关的对象，以工厂来创建对象，以资源库来存取对象，这些都是领域驱动设计中的核心。</p>
+<p>每个领域都有其专有的知识体系和业务场景, 服务必然是针对某个业务场景, 直接或者间接地为业务提供服务</p>
+<ol class="arabic simple">
+<li><p>使用通用语言
+在领域专家和技术人员之间使用统一的语言来描述业务逻辑， 使用规范统一的术语，协议，各种文档和图表</p></li>
+<li><p>做好领域的划分和建模
+领域可分为</p></li>
+</ol>
+<ul class="simple">
+<li><p>核心子域：核心的业务逻辑和流程</p></li>
+<li><p>支撑子域：支持核心业务的运转
+*通用子域： 基础设施和通用的工具或管理系统， 比如安全验证， 用户管理等</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>对领域对象进行细分</p></li>
+</ol>
+<ul class="simple">
+<li><p>分析聚合根实体</p></li>
+<li><p>识别根实体和范围和边界</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p>定义限界上下文</p></li>
+</ol>
+<ul class="simple">
+<li><p>根据业务场景，领域的划分来定义系统和边界和上下文
+微服务与上下游服务的交互与依赖关系</p></li>
+</ul>
+</section>
+</section>
+<section id="id9">
+<h2>微服务设计模板<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="id10">
+<h3>1. 总体介绍<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<p>1.1 需求
+1.1.1  业务需求和目标
+需求分析, 用户场景及用例图</p>
+<p>1.1.2 技术需求: 容量需求，高可用性，安全性，伸缩性</p>
+<p>1.2 背景
+1.2.1 业务背景
+1.2.2 技术背景: 当前架构, 容量, 局限和性能瓶颈</p>
+</section>
+<section id="id11">
+<h3>2. 设计<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<p>2.1 总体架构
+总体框图</p>
+<p>2.2 备选方案</p>
+<p>2.3 领域设计
+主要的领域对象, 流程以及实体关系图</p>
+<p>2.4 范围与影响
+所影响的范围以及对于其他上下游组件的影响</p>
+<p>2.5 详细设计</p>
+<p>2.5.1 接口描述
+2.5.2 逻辑描述
+2.5.3 数据结构
+2.5.4 局限与限制
+2.5.5 性能问题
+2.5.6 设计约束
+2.5.7 意外情况处理</p>
+</section>
+<section id="id12">
+<h3>3. 依赖条件<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<p>3.1 平台
+3.2 数据库
+3.3 其他服务及其 SDK</p>
+</section>
+<section id="id13">
+<h3>4. 部署<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<p>4.1 配置
+4.2 安装
+4.3 部署及验证</p>
+</section>
+<section id="id14">
+<h3>5. 度量<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<p>5.1 关键因素 KPI
+5.2 度量设计
+5.3 度量工具</p>
+</section>
+<section id="id15">
+<h3>6. 测试方案<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<p>6.1 测试用例
+6.2 API 测试方案
+6.3 集成测试和端到端测试方案
+6.4 性能测试方案</p>
+</section>
+<section id="id16">
+<h3>7. 问题与风险<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<p>当前存在的问题与可能存在的风险</p>
+</section>
+<section id="id17">
+<h3>8. 参考文档和链接<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="good_code.html" class="btn btn-neutral float-left" title="什么是好代码" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="micro-profile-config.html" class="btn btn-neutral float-right" title="MicroProfile Config" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

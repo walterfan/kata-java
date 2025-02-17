@@ -1,0 +1,1086 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thread Pool Optimization by MDD &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="JAR" href="jar_package.html" />
+    <link rel="prev" title="Spring Security" href="spring_security.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Basic</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Java 语言概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring-boot-starter-test.html">Spring Boot Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_framework.html">Spring Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_mvc.html">Spring MVC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_boot.html">Spring Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_security.html">Spring Security</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Thread Pool Optimization by MDD</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jdk">JDK 的线程池简介</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">线程池的参数包括：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">线程池的工作流程</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">1. 根据经验和通式公式按需求设置相对合理的参数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">2. 根据度量指标进行调整</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#metricregistry">MetricRegistry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">度量类型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">线程相关度量指标</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">线程的度量与监控的方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">线程的度量与监控的实例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#instrumentedexecutorservice">InstrumentedExecutorService</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">1) 先定义一个线程池参数对象</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">2) 再写一个创建线程池的工具类：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">3）用线程池执行多副扑克牌的排序任务</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">3.1) 扑克牌对象类</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">3.2) 排序任务类</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">3.3) 线程池演示类</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">1) 线程任务执行时间</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">2) 线程池中的线程数变化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">线程池队列长度</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id18">线程池拒绝的任务数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="jar_package.html">JAR</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../2.library/index.html">2. Framework and Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3.middleware/index.html">3. Middleware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.architecture/index.html">4. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5.tips/index.html">5. Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">1. Basic</a></li>
+      <li class="breadcrumb-item active">Thread Pool Optimization by MDD</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/1.basic/thread_pool_mdd.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="thread-pool-optimization-by-mdd">
+<h1>Thread Pool Optimization by MDD<a class="headerlink" href="#thread-pool-optimization-by-mdd" title="Link to this heading"></a></h1>
+<section id="jdk">
+<h2>JDK 的线程池简介<a class="headerlink" href="#jdk" title="Link to this heading"></a></h2>
+<p>多线程池是我们最常用的并行编程工具，多线程是性能优化在多核处理器时代是最常用的手段。而线程池是处理并发请求和任务的常用方法，使用线程池可以减少在创建和销毁线程上所花的时间以及系统资源的开销，解决系统资源利用不足的问题，创建一个线程池来并发的任务看起来非常简单，其实线程池的参数是很有讲究的。</p>
+<p>以 Java 为例，一个标准的线程池创建方法如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/** Thread Pool Executor */
+public ThreadPoolExecutor(
+   int corePoolSize, //核心线程数
+   int maxPoolSize, //最大线程数
+   long keepAliveTime, //存活时间，超过corePoolSize的空闲线程在此时间之后会被回收
+   TimeUnit unit, //存活时间单位
+   BlockingQueue&lt;Runnable&gt; workQueue//阻塞的任务队列
+   RejectedExecutionHandler handler //当队列已满，线程数已达maxPoolSize时的策略
+) {...}
+
+</pre></div>
+</div>
+<section id="id1">
+<h3>线程池的参数包括：<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>corePoolSize：核心线程数，即线程池初始化的时候就存在的线程数量。</p></li>
+<li><p>maximumPoolSize：最大线程数，即线程池能够容纳同时执行的最大线程数量。</p></li>
+<li><p>keepAliveTime：线程空闲时间，即当线程池中线程数量大于corePoolSize时，如果空闲时间达到keepAliveTime，线程池会关闭空闲的线程。</p></li>
+<li><p>unit：keepAliveTime的时间单位。</p></li>
+<li><p>workQueue：任务队列，即存放任务的队列。</p></li>
+<li><p>threadFactory：线程工厂，用于创建新的线程。</p></li>
+<li><p>handler：拒绝策略，即当任务队列满，且线程池线程数量达到maximumPoolSize时，如何处理新任务。
+线程池的工作原理:</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>线程池的工作流程<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>线程池创建时，会根据参数初始化线程池，创建corePoolSize个线程，等待任务 incoming。</p></li>
+<li><p>当有新的任务进来时，线程池会尝试将任务放入workQueue中由工作线程消费，如果workQueue没有满，则放入成功，线程池继续等待任务 incoming。</p></li>
+<li><p>当workQueue满了，线程池会尝试创建新的线程，如果线程数量没有达到maximumPoolSize，则创建新的线程，否则，线程池会尝试将任务放入handler中，handler会根据拒绝策略决定如何处理。</p></li>
+<li><p>当线程池中的线程空闲一段时间 (keepAliveTime) ，且线程数量大于corePoolSize，则线程池会尝试关闭空闲的线程，直到线程数量等于corePoolSize。</p></li>
+</ul>
+<p>虽然JDK 提供了一些默认实现，比如:</p>
+<ul class="simple">
+<li><p>static ExecutorService newCachedThreadPool()</p></li>
+<li><p>static ExecutorService	newFixedThreadPool(int nThreads)</p></li>
+<li><p>static ScheduledExecutorService	newScheduledThreadPool(int corePoolSize)</p></li>
+</ul>
+<p>这些线程池并不能满足不了各种各样的业务场景，我们要为 ThreadPoolExecutor 设置更加合理的线程池参数来达到最优，以满足应用的性能需求。</p>
+</section>
+</section>
+<section id="id3">
+<h2>1. 根据经验和通式公式按需求设置相对合理的参数<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>拿线程数来说， 我们需要考虑线程数设置多少才合适， 这个取决于诸多因素：</p>
+<ul class="simple">
+<li><p>服务器的 CPU 资源。</p></li>
+<li><p>取决任务的类型和其消耗的资源情况。</p></li>
+</ul>
+<p>如果任务是读写数据库， 那么它取决于数据库连接池的连接数目， 以及数据库的负载和性能， 而如果任务是通过网络访问第三方服务，那么它取决于网络负载大小，以及第三方服务的负载和性能。
+通常来说，CPU 密集型的任务占用CPU 时间较长，线程数可以设置的小一点， I/O密集型的任务占用CPU时间较短，线程数可以设的大一点。
+我们的目的是充分利用给到我们的 CPU 资源，如果线程的任务有很多等待时间，比如等待磁盘和网络I/O，那么就把线程数设多一点，如果任务本身非常耗费CPU的计算资源，CPU 处理时间较长，那么就把线程数设得小一点。</p>
+<p>根据以下公式</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">线程数</span> <span class="o">=</span> <span class="n">CPU核数</span> <span class="o">*</span> <span class="n">希望的CPU使用率</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">等待时间</span><span class="o">/</span><span class="n">处理时间</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>假设我们的服务器为4核CPU，我们要创建一个线程池来发送度量数据指标到远端的 Kafka 上，网络延迟约为50ms，数据解析编码压缩时间大约5ms，CPU占用率希望在10%之内。根据下面的计算结果，得出我们需要4.4, 约5个线程</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">4</span> <span class="o">*</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">50</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="mf">4.4</span>
+</pre></div>
+</div>
+<p>于是， 我们设置参数如下：</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>参数</p></th>
+<th class="head"><p>赋值</p></th>
+<th class="head"><p>解释</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>int corePoolSize</p></td>
+<td><p>5</p></td>
+<td><p>核心线程数</p></td>
+</tr>
+<tr class="row-odd"><td><p>int maxPoolSize</p></td>
+<td><p>10</p></td>
+<td><p>最大线程数</p></td>
+</tr>
+<tr class="row-even"><td><p>long keepAliveTime</p></td>
+<td><p>5000</p></td>
+<td><p>线程保活时间，超过核心线程数的空闲线程在此时间之后会被回收，这个值设长一点有利于避免频繁的创建和销毁线程</p></td>
+</tr>
+<tr class="row-odd"><td><p>TimeUnit unit</p></td>
+<td><p>TimeUnit.MILLISECOND</p></td>
+<td><p>保活时间的单位, 这里用毫秒</p></td>
+</tr>
+<tr class="row-even"><td><p>BlockingQueue<Runnable> workQueue</p></td>
+<td><p>new LinkedBlockingQueue(500)</p></td>
+<td><p>暂存线程任务的阻塞队列，先入先出的场景就用LinkedBlockingQueue 好了</p></td>
+</tr>
+<tr class="row-odd"><td><p>ThreadFactory threadfactory</p></td>
+<td><p>new DefaultThreadFactory()</p></td>
+<td><p>线程创建工厂</p></td>
+</tr>
+<tr class="row-even"><td><p>RejectedExecutionHandler handler</p></td>
+<td><p>new DefaultRejectedExecutionHandler()</p></td>
+<td><p>当线程队列和线程数已满，或者线程池关闭，对新任务的拒绝服务策略，内置的有4种策略: <br>1) AbortPolicy, <br>2) CallerRunsPolicy, <br>3) DiscardPolicy, <br>4) DiscardOldestPolicy</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id4">
+<h2>2. 根据度量指标进行调整<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>为了进行充分的度量，我们必需对线程池的各种指标进行记录和展示。
+先来简单了解一些度量术语，详情参见<a class="reference external" href="https://metrics.dropwizard.io/4.1.2/manual/core.html">https://metrics.dropwizard.io/4.1.2/manual/core.html</a></p>
+<section id="metricregistry">
+<h3>MetricRegistry<a class="headerlink" href="#metricregistry" title="Link to this heading"></a></h3>
+<p>各种度量数据的容器，类似于 windows 的系统注册表，各项度量数据都可以在其中进行注册。</p>
+</section>
+<section id="id5">
+<h3>度量类型<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Gauge 计量器，它代表一个瞬时变化的值，比如连接数，线程数等</p></li>
+<li><p>Counter 计数器，它代表一个连续变化的值，比如线程队列长度，不会突变，但是会递增或递减</p></li>
+<li><p>Meter 测量仪, 它用来统计基于时间单位的处理速率，比如TPS(每秒事务数)， DAU(日均活跃用户）等</p></li>
+<li><p>Timer 计时器，它用来统计所花费时间的统计分布值，比如线程的忙闲程度，平均响应时间等</p></li>
+</ul>
+</section>
+<section id="id6">
+<h3>线程相关度量指标<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>线程数： 最大，最小和实时的线程数</p></li>
+<li><p>线程队列长度： 最大长度限制和实时长度</p></li>
+<li><p>任务处理速率：任务提交与完成速度</p></li>
+<li><p>任务运行数量</p></li>
+<li><p>线程的忙闲比</p></li>
+<li><p>任务被拒绝的数量</p></li>
+<li><p>任务在队列中等待的时间：最大和实时的等待时间</p></li>
+<li><p>超过最大等待时间的任务数量</p></li>
+</ol>
+</section>
+</section>
+<section id="id7">
+<h2>线程的度量与监控的方法<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>创建线程池并注册各项度量指标</p></li>
+<li><p>运行线程池并收集度量指标</p></li>
+<li><p>观察度量指标并相应地调整参数</p></li>
+</ol>
+</section>
+<section id="id8">
+<h2>线程的度量与监控的实例<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<p>我们可以应用 dropwizard 的 metrics 库中的 <a class="reference external" href="https://metrics.dropwizard.io/">https://metrics.dropwizard.io/</a> 类库 InstrumentedExecutorService 来帮助我们进行上述指标的统计，部分关键代码如下：</p>
+</section>
+<section id="instrumentedexecutorservice">
+<h2>InstrumentedExecutorService<a class="headerlink" href="#instrumentedexecutorservice" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="k">class</span> <span class="nc">InstrumentedExecutorService</span> <span class="n">implements</span> <span class="n">ExecutorService</span> <span class="p">{</span>
+    <span class="n">private</span> <span class="n">static</span> <span class="n">final</span> <span class="n">AtomicLong</span> <span class="n">NAME_COUNTER</span> <span class="o">=</span> <span class="n">new</span> <span class="n">AtomicLong</span><span class="p">();</span>
+    <span class="n">private</span> <span class="n">final</span> <span class="n">ExecutorService</span> <span class="n">delegate</span><span class="p">;</span>
+    <span class="n">private</span> <span class="n">final</span> <span class="n">Meter</span> <span class="n">submitted</span><span class="p">;</span>
+    <span class="n">private</span> <span class="n">final</span> <span class="n">Counter</span> <span class="n">running</span><span class="p">;</span>
+    <span class="n">private</span> <span class="n">final</span> <span class="n">Meter</span> <span class="n">completed</span><span class="p">;</span>
+    <span class="n">private</span> <span class="n">final</span> <span class="n">Timer</span> <span class="n">idle</span><span class="p">;</span>
+    <span class="n">private</span> <span class="n">final</span> <span class="n">Timer</span> <span class="n">duration</span><span class="p">;</span>
+
+    <span class="n">public</span> <span class="n">InstrumentedExecutorService</span><span class="p">(</span><span class="n">ExecutorService</span> <span class="n">delegate</span><span class="p">,</span> <span class="n">MetricRegistry</span> <span class="n">registry</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">this</span><span class="p">(</span><span class="n">delegate</span><span class="p">,</span> <span class="n">registry</span><span class="p">,</span> <span class="s2">&quot;instrumented-delegate-&quot;</span> <span class="o">+</span> <span class="n">NAME_COUNTER</span><span class="o">.</span><span class="n">incrementAndGet</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">InstrumentedExecutorService</span><span class="p">(</span><span class="n">ExecutorService</span> <span class="n">delegate</span><span class="p">,</span> <span class="n">MetricRegistry</span> <span class="n">registry</span><span class="p">,</span> <span class="n">String</span> <span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">delegate</span><span class="p">;</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">submitted</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">meter</span><span class="p">(</span><span class="n">MetricRegistry</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">new</span> <span class="n">String</span><span class="p">[]{</span><span class="s2">&quot;submitted&quot;</span><span class="p">}));</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">counter</span><span class="p">(</span><span class="n">MetricRegistry</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">new</span> <span class="n">String</span><span class="p">[]{</span><span class="s2">&quot;running&quot;</span><span class="p">}));</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">completed</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">meter</span><span class="p">(</span><span class="n">MetricRegistry</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">new</span> <span class="n">String</span><span class="p">[]{</span><span class="s2">&quot;completed&quot;</span><span class="p">}));</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">idle</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">timer</span><span class="p">(</span><span class="n">MetricRegistry</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">new</span> <span class="n">String</span><span class="p">[]{</span><span class="s2">&quot;idle&quot;</span><span class="p">}));</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">timer</span><span class="p">(</span><span class="n">MetricRegistry</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">new</span> <span class="n">String</span><span class="p">[]{</span><span class="s2">&quot;duration&quot;</span><span class="p">}));</span>
+    <span class="p">}</span>
+    <span class="o">//...</span>
+    <span class="n">private</span> <span class="k">class</span> <span class="nc">InstrumentedRunnable</span> <span class="n">implements</span> <span class="n">Runnable</span> <span class="p">{</span>
+        <span class="n">private</span> <span class="n">final</span> <span class="n">Runnable</span> <span class="n">task</span><span class="p">;</span>
+        <span class="n">private</span> <span class="n">final</span> <span class="n">Timer</span><span class="o">.</span><span class="n">Context</span> <span class="n">idleContext</span><span class="p">;</span>
+
+        <span class="n">InstrumentedRunnable</span><span class="p">(</span><span class="n">Runnable</span> <span class="n">task</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">this</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="n">task</span><span class="p">;</span>
+            <span class="n">this</span><span class="o">.</span><span class="n">idleContext</span> <span class="o">=</span> <span class="n">idle</span><span class="o">.</span><span class="n">time</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="n">public</span> <span class="n">void</span> <span class="n">run</span><span class="p">()</span> <span class="p">{</span>
+            <span class="n">idleContext</span><span class="o">.</span><span class="n">stop</span><span class="p">();</span>
+            <span class="n">running</span><span class="o">.</span><span class="n">inc</span><span class="p">();</span>
+            <span class="k">try</span> <span class="p">(</span><span class="n">Timer</span><span class="o">.</span><span class="n">Context</span> <span class="n">durationContext</span> <span class="o">=</span> <span class="n">duration</span><span class="o">.</span><span class="n">time</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">task</span><span class="o">.</span><span class="n">run</span><span class="p">();</span>
+            <span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+                <span class="n">running</span><span class="o">.</span><span class="n">dec</span><span class="p">();</span>
+                <span class="n">completed</span><span class="o">.</span><span class="n">mark</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>它通过装饰器模式对原来的 Executor Service 进行包装，记录了 submited, running, completed, idle , duration 这些指标，我们可以另外再记录一些指标，部分代码如下：</p>
+</section>
+<section id="id9">
+<h2>1) 先定义一个线程池参数对象<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">walterfan</span><span class="o">.</span><span class="n">helloconcurrency</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">com.codahale.metrics.Gauge</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">com.codahale.metrics.MetricRegistry</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Builder</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Getter</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Setter</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java.time.Duration</span><span class="p">;</span>
+
+
+<span class="o">/**</span>
+ <span class="o">*</span> <span class="nd">@Author</span><span class="p">:</span> <span class="n">Walter</span> <span class="n">Fan</span>
+ <span class="o">**/</span>
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="nd">@Builder</span>
+<span class="n">public</span> <span class="k">class</span> <span class="nc">ThreadPoolParam</span> <span class="p">{</span>
+    <span class="n">private</span> <span class="nb">int</span> <span class="n">minPoolSize</span><span class="p">;</span>
+    <span class="n">private</span> <span class="nb">int</span> <span class="n">maxPoolSize</span><span class="p">;</span>
+    <span class="n">private</span> <span class="n">Duration</span> <span class="n">keepAliveTime</span><span class="p">;</span>
+    <span class="n">private</span> <span class="nb">int</span> <span class="n">queueSize</span><span class="p">;</span>
+    <span class="n">private</span> <span class="n">String</span> <span class="n">threadPrefix</span><span class="p">;</span>
+    <span class="n">private</span> <span class="n">boolean</span> <span class="n">daemon</span><span class="p">;</span>
+    <span class="n">private</span> <span class="n">MetricRegistry</span> <span class="n">metricRegistry</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h2>2) 再写一个创建线程池的工具类：<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>ThreadPoolUtil.java</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+package com.github.walterfan.helloconcurrency;
+
+import com.codahale.metrics.Counter;
+import com.codahale.metrics.Gauge;
+import com.codahale.metrics.InstrumentedExecutorService;
+import com.codahale.metrics.Meter;
+
+import com.codahale.metrics.MetricRegistry;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+import java.util.function.Supplier;
+
+import static com.codahale.metrics.MetricRegistry.name;
+
+/**
+ * @Author: Walter Fan
+ **/
+@Slf4j
+public class ThreadPoolUtil {
+    /*
+    和系统内置的 ThreadPoolExecutor.CallerRunsPolicy 差不多，
+    如果被拒绝，就用提交任务的线程来执行任务.
+    */
+    public static class DiscardAndLogPolicy implements RejectedExecutionHandler {
+        final MetricRegistry metricRegistry;
+        final Meter rejectedMeter;
+        final Counter rejectedCounter;
+
+        public DiscardAndLogPolicy(String threadPrefix, MetricRegistry metricRegistry) {
+            this.metricRegistry = metricRegistry;
+            this.rejectedMeter =  metricRegistry.meter(threadPrefix + &quot;.rejected-meter&quot;);
+            this.rejectedCounter = metricRegistry.counter(threadPrefix + &quot;.rejected-counter&quot;);
+        }
+
+
+        public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+            rejectedMeter.mark();
+            rejectedCounter.inc();
+            if (!e.isShutdown()) {
+                log.warn(&quot;reject task and run {} directly&quot;, r);
+                r.run();
+
+            }
+        }
+    }
+
+    //创建线程执行器，注册了几个度量指标
+    public static ThreadPoolExecutor createThreadExecutor(ThreadPoolParam threadPoolParam) {
+        MetricRegistry metricRegistry = threadPoolParam.getMetricRegistry();
+
+        metricRegistry.register(threadPoolParam.getThreadPrefix() + &quot;.min&quot;, createIntGauge(() -&gt; threadPoolParam.getMinPoolSize()));
+        metricRegistry.register(threadPoolParam.getThreadPrefix() + &quot;.max&quot;, createIntGauge(() -&gt; threadPoolParam.getMaxPoolSize()));
+        metricRegistry.register(threadPoolParam.getThreadPrefix() + &quot;.queue_limitation&quot;, createIntGauge(() -&gt; threadPoolParam.getQueueSize()));
+
+
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(threadPoolParam.getMinPoolSize(),
+                threadPoolParam.getMaxPoolSize(),
+                threadPoolParam.getKeepAliveTime().toMillis(),
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue&lt;Runnable&gt;(threadPoolParam.getQueueSize()),
+                createThreadFactory(threadPoolParam),
+                createRejectedExecutionHandler(threadPoolParam));
+
+        metricRegistry.register(threadPoolParam.getThreadPrefix() + &quot;.pool_size&quot;, createIntGauge(() -&gt; executor.getPoolSize()));
+        metricRegistry.register(threadPoolParam.getThreadPrefix() + &quot;.queue_size&quot;, createIntGauge(() -&gt; executor.getQueue().size()));
+        return executor;
+    }
+
+    //创建线程执行服务，用 InstrumentedExecutorService 来包装和度量线程任务
+    public static ExecutorService createExecutorService(ThreadPoolParam threadPoolParam) {
+        ThreadPoolExecutor executor = createThreadExecutor(threadPoolParam);
+
+        return new InstrumentedExecutorService(executor,
+                threadPoolParam.getMetricRegistry(),
+                threadPoolParam.getThreadPrefix());
+    }
+
+    private static Gauge&lt;Integer&gt; createIntGauge(Supplier&lt;Integer&gt; suppier) {
+        return () -&gt; suppier.get();
+    }
+
+    public static ThreadFactory createThreadFactory(ThreadPoolParam threadPoolParam) {
+        return new ThreadFactoryBuilder()
+                .setDaemon(threadPoolParam.isDaemon())
+                .setNameFormat(threadPoolParam.getThreadPrefix() + &quot;-%d&quot;)
+                .build();
+    }
+
+    public static RejectedExecutionHandler createRejectedExecutionHandler(ThreadPoolParam threadPoolParam) {
+        return new DiscardAndLogPolicy(threadPoolParam.getThreadPrefix(), threadPoolParam.getMetricRegistry());
+    }
+}
+
+</pre></div>
+</div>
+<p>注意: 我们在这个线程池中埋设了12个度量指标，看你能不能在代码中找出来设置的地方 。</p>
+<ol class="arabic simple">
+<li><p>cards-thread-pool.completed</p></li>
+<li><p>cards-thread-pool.max</p></li>
+<li><p>cards-thread-pool.queue_limitation</p></li>
+<li><p>cards-thread-pool.rejected-meter</p></li>
+<li><p>cards-thread-pool.duration</p></li>
+<li><p>cards-thread-pool.min</p></li>
+<li><p>cards-thread-pool.queue_size</p></li>
+<li><p>cards-thread-pool.running</p></li>
+<li><p>cards-thread-pool.idle</p></li>
+<li><p>cards-thread-pool.pool_size</p></li>
+<li><p>cards-thread-pool.rejected-counter</p></li>
+<li><p>cards-thread-pool.submitted</p></li>
+</ol>
+</section>
+<section id="id11">
+<h2>3）用线程池执行多副扑克牌的排序任务<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<p>以我们最常用的打扑克牌为例，分别用冒泡排序，插入排序和 JDK 自带的 TimSort 来对若干副牌排序，总共创建20个任务，都放入线程池中执行，当我们采用不同的线程池参数时，效果大不相同。</p>
+<section id="id12">
+<h3>3.1) 扑克牌对象类<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Poker.java</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">walterfan</span><span class="o">.</span><span class="n">helloconcurrency</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Collections</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Comparator</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="p">;</span>
+
+<span class="o">/**</span>
+ <span class="o">*</span> <span class="nd">@Author</span><span class="p">:</span> <span class="n">Walter</span> <span class="n">Fan</span>
+ <span class="o">**/</span>
+<span class="n">public</span> <span class="k">class</span> <span class="nc">Poker</span> <span class="p">{</span>
+    <span class="n">public</span> <span class="n">static</span> <span class="k">class</span> <span class="nc">Card</span> <span class="p">{</span>
+        <span class="n">enum</span> <span class="n">Suite</span> <span class="p">{</span>
+            <span class="n">Spades</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">Hearts</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">Clubs</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Diamonds</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+            <span class="nb">int</span> <span class="n">value</span><span class="p">;</span>
+
+            <span class="n">Suite</span><span class="p">(</span><span class="nb">int</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">this</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+
+            <span class="p">}</span>
+
+            <span class="n">private</span> <span class="n">static</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span> <span class="n">Suite</span><span class="o">&gt;</span> <span class="n">valueMap</span> <span class="o">=</span> <span class="n">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+            <span class="n">static</span> <span class="p">{</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">Suite</span> <span class="n">suite</span> <span class="p">:</span> <span class="n">Suite</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="n">valueMap</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">suite</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">suite</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="n">public</span> <span class="n">static</span> <span class="n">Suite</span> <span class="n">valueOf</span><span class="p">(</span><span class="nb">int</span> <span class="n">pageType</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="n">valueMap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pageType</span><span class="p">);</span>
+            <span class="p">}</span>
+
+        <span class="p">}</span>
+        <span class="n">Suite</span> <span class="n">suite</span><span class="p">;</span>
+        <span class="o">//</span><span class="mi">1</span><span class="o">~</span><span class="mi">13</span>
+        <span class="nb">int</span> <span class="n">point</span><span class="p">;</span>
+
+        <span class="n">public</span> <span class="n">Card</span><span class="p">(</span><span class="nb">int</span> <span class="n">suiteValue</span><span class="p">,</span> <span class="nb">int</span> <span class="n">point</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">this</span><span class="o">.</span><span class="n">suite</span> <span class="o">=</span> <span class="n">Suite</span><span class="o">.</span><span class="n">valueOf</span><span class="p">(</span><span class="n">suiteValue</span><span class="p">);</span>
+            <span class="n">this</span><span class="o">.</span><span class="n">point</span> <span class="o">=</span> <span class="n">point</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">public</span> <span class="n">String</span> <span class="n">toString</span><span class="p">()</span> <span class="p">{</span>
+            <span class="n">String</span> <span class="n">strPoint</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="n">toString</span><span class="p">(</span><span class="n">point</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">point</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">switch</span> <span class="p">(</span><span class="n">point</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">case</span> <span class="mi">11</span><span class="p">:</span>
+                        <span class="n">strPoint</span> <span class="o">=</span> <span class="s2">&quot;J&quot;</span><span class="p">;</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="mi">12</span><span class="p">:</span>
+                        <span class="n">strPoint</span> <span class="o">=</span> <span class="s2">&quot;Q&quot;</span><span class="p">;</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="mi">13</span><span class="p">:</span>
+                        <span class="n">strPoint</span> <span class="o">=</span> <span class="s2">&quot;K&quot;</span><span class="p">;</span>
+                        <span class="k">break</span><span class="p">;</span>
+
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="k">return</span> <span class="n">suite</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="n">strPoint</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">public</span> <span class="nb">int</span> <span class="n">getScore</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">suite</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">+</span> <span class="n">point</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+
+
+
+    <span class="n">public</span> <span class="n">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Card</span><span class="o">&gt;</span> <span class="n">createCardList</span><span class="p">(</span><span class="nb">int</span> <span class="n">suiteCount</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Card</span><span class="o">&gt;</span> <span class="n">cards</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">52</span><span class="p">);</span>
+        <span class="k">for</span><span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span><span class="p">(</span><span class="nb">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">14</span> <span class="p">;</span><span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">cards</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">Card</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">));</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Card</span><span class="o">&gt;</span> <span class="n">totalCards</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">suiteCount</span> <span class="p">);</span>
+
+        <span class="k">for</span><span class="p">(</span><span class="nb">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">suiteCount</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">totalCards</span><span class="o">.</span><span class="n">addAll</span><span class="p">(</span><span class="n">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">cards</span><span class="p">));</span>
+        <span class="p">}</span>
+
+        <span class="n">Collections</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">totalCards</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">totalCards</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">static</span> <span class="k">class</span> <span class="nc">CardComparator</span> <span class="n">implements</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Card</span><span class="o">&gt;</span> <span class="p">{</span>
+
+        <span class="nd">@Override</span>
+        <span class="n">public</span> <span class="nb">int</span> <span class="n">compare</span><span class="p">(</span><span class="n">Card</span> <span class="n">o1</span><span class="p">,</span> <span class="n">Card</span> <span class="n">o2</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">o1</span><span class="o">.</span><span class="n">getScore</span><span class="p">()</span> <span class="o">-</span> <span class="n">o2</span><span class="o">.</span><span class="n">getScore</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>3.2) 排序任务类<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<p>任务很简单，就象我们平常打扑克那样，将几副牌排序，可用三种排序方法
+1）冒泡排序
+2）插入排序
+3）Tim 排序，JDK7 中用的一种结合了插入排序和归并排序的高效排序方法</p>
+<ul class="simple">
+<li><p>SortCardTask.java</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>package com.github.walterfan.helloconcurrency;
+
+import com.google.common.base.Stopwatch;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.Callable;
+
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
+/**
+ * @Author: Walter Fan
+ **/
+@Slf4j
+public class SortCardTask implements Callable&lt;Long&gt; {
+    public enum SortMethod { BUBBLE_SORT, INSERT_SORT, TIM_SORT}
+    private final List&lt;Poker.Card&gt; cards;
+    private final SortMethod sortMethod;
+    private final int taskNumber;
+
+    private final AtomicInteger taskCounter;
+
+    public SortCardTask(List&lt;Poker.Card&gt; cards, SortMethod method, int taskNumber, AtomicInteger taskCounter) {
+        this.cards = cards;
+        this.sortMethod = method;
+        this.taskNumber = taskNumber;
+        this.taskCounter = taskCounter;
+    }
+
+    @Override
+    public Long call() {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        log.info(&quot;* {} begin to sort {} cards by {}&quot;, this.taskNumber, cards.size(), sortMethod);
+        switch(sortMethod) {
+            case BUBBLE_SORT:
+                bubbleSort(cards, new Poker.CardComparator());
+                break;
+            case INSERT_SORT:
+                insertSort(cards, new Poker.CardComparator());
+                break;
+            case TIM_SORT:
+                timSort(cards, new Poker.CardComparator());
+                break;
+        }
+
+        stopwatch.stop();
+
+        long millis = stopwatch.elapsed(MILLISECONDS);
+        log.info(&quot;* {} end to sort {} cards sort by {} spend {} milliseconds - {}&quot; , this.taskNumber, cards.size(), sortMethod, millis, stopwatch); // formatted string like &quot;12.3 ms&quot;
+        taskCounter.incrementAndGet();
+        return millis;
+    }
+
+    public static &lt;T&gt; void bubbleSort(List&lt;T&gt; aList, Comparator&lt;T&gt; comparator) {
+        boolean sorted = false;
+        int loopCount = aList.size() - 1;
+        while (!sorted) {
+            sorted = true;
+            for (int i = 0; i &lt; loopCount; i++) {
+                if (comparator.compare(aList.get(i), aList.get(i + 1)) &gt; 0) {
+                    Collections.swap(aList, i, i + 1);
+                    sorted = false;
+                }
+            }
+        }
+    }
+
+    public static &lt;T&gt; void insertSort(List&lt;T&gt; aList, Comparator&lt;T&gt; comparator) {
+        int size = aList.size();
+        for (int i = 1; i &lt; size; ++i) {
+            T selected = aList.get(i);
+
+            if (size &lt; 10) {
+                log.info(&quot;{} insert to {}&quot;, selected, aList.subList(0, i).stream().map(String::valueOf).collect(Collectors.joining(&quot;, &quot;)));
+            }
+
+            int j = i - 1;
+            //find a position for insert currentElement in the left sorted collection
+            while (j &gt;= 0 &amp;&amp; comparator.compare(selected, aList.get(j)) &lt; 0) {
+                //it does not overwrite existed element because the j+1=i that is currentElement at beginging
+                aList.set(j + 1, aList.get(j));
+                j--;
+            }
+            aList.set(j + 1, selected);
+
+        }
+    }
+
+    public static &lt;T&gt; void timSort(List&lt;T&gt; aList, Comparator&lt;T&gt; comparator) {
+        aList.stream().sorted(comparator).collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return &quot;SortCardTask{&quot; +
+                &quot;taskNumber=&quot; + taskNumber +
+                &quot;, sortMethod=&quot; + sortMethod +
+                &#39;}&#39;;
+    }
+}
+
+</pre></div>
+</div>
+</section>
+<section id="id14">
+<h3>3.3) 线程池演示类<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>ThreadPoolDemo.java</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>package com.github.walterfan.helloconcurrency;
+
+
+import com.codahale.metrics.CsvReporter;
+import com.codahale.metrics.Slf4jReporter;
+
+import com.codahale.metrics.MetricRegistry;
+
+import com.google.common.base.Stopwatch;
+import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.Callable;
+
+import java.util.concurrent.ExecutorService;
+
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * @Author: Walter Fan
+ **/
+@Slf4j
+public class ThreadPoolDemo {
+    private static AtomicInteger finishCounter = new AtomicInteger(0);
+
+    private AtomicInteger taskNumber = new AtomicInteger(0);
+
+    private ExecutorService executorService;
+
+    public ThreadPoolDemo(ThreadPoolParam threadPoolParam) {
+        executorService = ThreadPoolUtil.createExecutorService(threadPoolParam);
+
+    }
+
+    public Callable&lt;Long&gt; createTask(int cardSuiteCount, SortCardTask.SortMethod method) {
+        List&lt;Poker.Card&gt; cards = Poker.createCardList(cardSuiteCount);
+        return new SortCardTask(cards, method, taskNumber.incrementAndGet(), finishCounter);
+
+    }
+
+    public List&lt;Future&lt;Long&gt;&gt; exeucteTasks(List&lt;Callable&lt;Long&gt;&gt; tasks, Duration waitTime)  {
+        try {
+            return this.executorService.invokeAll(tasks, waitTime.toMillis(), TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            log.warn(&quot;invokeAll interrupt&quot;, e);
+            return Collections.emptyList();
+        }
+    }
+
+    public void waitUntil(long ms) {
+        executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(ms, TimeUnit.MILLISECONDS)) {
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException ex) {
+            executorService.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public static void main(String[] args) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        log.info(&quot;--- start ---&quot;);
+        MetricRegistry metricRegistry = new MetricRegistry();
+
+        final CsvReporter csvReporter = CsvReporter.forRegistry(metricRegistry)
+                .formatFor(Locale.US)
+                .convertRatesTo(TimeUnit.SECONDS)
+                .convertDurationsTo(TimeUnit.MILLISECONDS)
+                .build(new File(&quot;./&quot;));
+        csvReporter.start(100, TimeUnit.MILLISECONDS);
+
+/*        final Slf4jReporter logReporter = Slf4jReporter.forRegistry(metricRegistry)
+                .outputTo(log)
+                .convertRatesTo(TimeUnit.SECONDS)
+                .convertDurationsTo(TimeUnit.MILLISECONDS)
+                .build();
+
+        logReporter.start(1, TimeUnit.MINUTES);*/
+
+        ThreadPoolParam threadPoolParam = ThreadPoolParam.builder()
+                .minPoolSize(1)
+                .maxPoolSize(4)
+                .daemon(true)
+                .keepAliveTime(Duration.ofSeconds(1))
+                .queueSize(5)
+                .threadPrefix(&quot;cards-thread-pool&quot;)
+                .metricRegistry(metricRegistry)
+                .build();
+
+        ThreadPoolDemo demo = new ThreadPoolDemo(threadPoolParam);
+        List&lt;Callable&lt;Long&gt;&gt; tasks = new ArrayList&lt;&gt;();
+        //30 tasks, 10, 40, 90 ... 1000 suite cards
+        for(int i=1; i&lt;=10; i++) {
+            tasks.add(demo.createTask(i*i*10, SortCardTask.SortMethod.BUBBLE_SORT));
+            tasks.add(demo.createTask(i*i*10, SortCardTask.SortMethod.INSERT_SORT));
+            tasks.add(demo.createTask(i*i*10, SortCardTask.SortMethod.TIM_SORT));
+        }
+
+
+
+        List&lt;Future&lt;Long&gt;&gt; results = demo.exeucteTasks(tasks, Duration.ofMinutes(1));
+
+        //logReporter.report();
+        stopwatch.stop();
+        log.info(&quot;--- end finish {}, spent {} ---&quot;, finishCounter.get(), stopwatch);
+        results.stream().filter(x -&gt; !x.isDone()).forEach(x -&gt; log.info(&quot;{} is not done&quot;, x));
+
+
+    }
+}
+
+</pre></div>
+</div>
+<p>上述代码让线程池执行了30个排序任务，最多排序1000副牌(52000张),
+10任务用冒泡排序，10个任务用插入排序，10个任务用  Tim 排序, 总共花了18秒多
+执行结果如下:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+17:09:47.341 [main] INFO com.github.walterfan.helloconcurrency.ThreadPoolDemo - --- start ---
+17:09:47.497 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 1 begin to sort 520 cards (10 suite） by BUBBLE_SORT
+17:09:47.496 [main] WARN com.github.walterfan.helloconcurrency.ThreadPoolUtil - reject task and run java.util.concurrent.FutureTask@61baa894 directly
+17:09:47.497 [cards-thread-pool-1] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 7 begin to sort 4680 cards (90 suite） by BUBBLE_SORT
+17:09:47.497 [cards-thread-pool-3] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 9 begin to sort 4680 cards (90 suite） by TIM_SORT
+17:09:47.497 [cards-thread-pool-2] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 8 begin to sort 4680 cards (90 suite） by INSERT_SORT
+17:09:47.498 [main] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 10 begin to sort 8320 cards (160 suite） by BUBBLE_SORT
+17:09:47.515 [cards-thread-pool-3] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 9 end to sort 4680 cards (90 suite）sort by TIM_SORT spend 17 milliseconds - 17.70 ms
+17:09:47.520 [cards-thread-pool-3] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 2 begin to sort 520 cards (10 suite） by INSERT_SORT
+17:09:47.520 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 1 end to sort 520 cards (10 suite）sort by BUBBLE_SORT spend 22 milliseconds - 22.91 ms
+17:09:47.521 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 3 begin to sort 520 cards (10 suite） by TIM_SORT
+17:09:47.522 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 3 end to sort 520 cards (10 suite）sort by TIM_SORT spend 0 milliseconds - 528.3 μs
+17:09:47.522 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 4 begin to sort 2080 cards (40 suite） by BUBBLE_SORT
+17:09:47.531 [cards-thread-pool-3] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 2 end to sort 520 cards (10 suite）sort by INSERT_SORT spend 10 milliseconds - 10.60 ms
+17:09:47.531 [cards-thread-pool-3] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 5 begin to sort 2080 cards (40 suite） by INSERT_SORT
+17:09:47.546 [cards-thread-pool-3] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 5 end to sort 2080 cards (40 suite）sort by INSERT_SORT spend 14 milliseconds - 14.85 ms
+17:09:47.547 [cards-thread-pool-3] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 6 begin to sort 2080 cards (40 suite） by TIM_SORT
+17:09:47.548 [cards-thread-pool-3] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 6 end to sort 2080 cards (40 suite）sort by TIM_SORT spend 1 milliseconds - 1.666 ms
+17:09:47.560 [cards-thread-pool-2] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 8 end to sort 4680 cards (90 suite）sort by INSERT_SORT spend 63 milliseconds - 63.22 ms
+17:09:47.579 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 4 end to sort 2080 cards (40 suite）sort by BUBBLE_SORT spend 57 milliseconds - 57.37 ms
+17:09:47.715 [cards-thread-pool-1] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 7 end to sort 4680 cards (90 suite）sort by BUBBLE_SORT spend 218 milliseconds - 218.0 ms
+17:09:48.171 [main] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 10 end to sort 8320 cards (160 suite）sort by BUBBLE_SORT spend 672 milliseconds - 672.3 ms
+17:09:48.171 [main] WARN com.github.walterfan.helloconcurrency.ThreadPoolUtil - reject task and run java.util.concurrent.FutureTask@b065c63 directly
+17:09:48.171 [main] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 16 begin to sort 18720 cards (360 suite） by BUBBLE_SORT
+17:09:48.171 [cards-thread-pool-2] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 12 begin to sort 8320 cards (160 suite） by TIM_SORT
+17:09:48.172 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 13 begin to sort 13000 cards (250 suite） by BUBBLE_SORT
+17:09:48.171 [cards-thread-pool-3] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 11 begin to sort 8320 cards (160 suite） by INSERT_SORT
+17:09:48.173 [cards-thread-pool-1] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 14 begin to sort 13000 cards (250 suite） by INSERT_SORT
+17:09:48.178 [cards-thread-pool-2] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 12 end to sort 8320 cards (160 suite）sort by TIM_SORT spend 6 milliseconds - 6.314 ms
+17:09:48.178 [cards-thread-pool-2] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 15 begin to sort 13000 cards (250 suite） by TIM_SORT
+17:09:48.187 [cards-thread-pool-2] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 15 end to sort 13000 cards (250 suite）sort by TIM_SORT spend 8 milliseconds - 8.673 ms
+17:09:48.228 [cards-thread-pool-3] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 11 end to sort 8320 cards (160 suite）sort by INSERT_SORT spend 56 milliseconds - 56.62 ms
+17:09:48.333 [cards-thread-pool-1] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 14 end to sort 13000 cards (250 suite）sort by INSERT_SORT spend 159 milliseconds - 159.2 ms
+17:09:49.595 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 13 end to sort 13000 cards (250 suite）sort by BUBBLE_SORT spend 1423 milliseconds - 1.424 s
+17:09:50.520 [main] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 16 end to sort 18720 cards (360 suite）sort by BUBBLE_SORT spend 2348 milliseconds - 2.348 s
+17:09:50.520 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 17 begin to sort 18720 cards (360 suite） by INSERT_SORT
+17:09:50.520 [cards-thread-pool-4] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 22 begin to sort 33280 cards (640 suite） by BUBBLE_SORT
+17:09:50.521 [main] WARN com.github.walterfan.helloconcurrency.ThreadPoolUtil - reject task and run java.util.concurrent.FutureTask@449b2d27 directly
+17:09:50.521 [cards-thread-pool-5] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 24 begin to sort 33280 cards (640 suite） by TIM_SORT
+17:09:50.521 [main] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 26 begin to sort 42120 cards (810 suite） by INSERT_SORT
+17:09:50.521 [cards-thread-pool-6] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 25 begin to sort 42120 cards (810 suite） by BUBBLE_SORT
+17:09:50.537 [cards-thread-pool-5] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 24 end to sort 33280 cards (640 suite）sort by TIM_SORT spend 16 milliseconds - 16.03 ms
+17:09:50.537 [cards-thread-pool-5] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 18 begin to sort 18720 cards (360 suite） by TIM_SORT
+17:09:50.545 [cards-thread-pool-5] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 18 end to sort 18720 cards (360 suite）sort by TIM_SORT spend 7 milliseconds - 7.866 ms
+17:09:50.545 [cards-thread-pool-5] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 19 begin to sort 25480 cards (490 suite） by BUBBLE_SORT
+17:09:50.772 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 17 end to sort 18720 cards (360 suite）sort by INSERT_SORT spend 251 milliseconds - 251.9 ms
+17:09:50.772 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 20 begin to sort 25480 cards (490 suite） by INSERT_SORT
+17:09:51.614 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 20 end to sort 25480 cards (490 suite）sort by INSERT_SORT spend 841 milliseconds - 841.2 ms
+17:09:51.614 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 21 begin to sort 25480 cards (490 suite） by TIM_SORT
+17:09:51.615 [main] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 26 end to sort 42120 cards (810 suite）sort by INSERT_SORT spend 1093 milliseconds - 1.094 s
+17:09:51.642 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 21 end to sort 25480 cards (490 suite）sort by TIM_SORT spend 28 milliseconds - 28.11 ms
+17:09:51.643 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 23 begin to sort 33280 cards (640 suite） by INSERT_SORT
+17:09:52.308 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 23 end to sort 33280 cards (640 suite）sort by INSERT_SORT spend 664 milliseconds - 664.9 ms
+17:09:52.308 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 27 begin to sort 42120 cards (810 suite） by TIM_SORT
+17:09:52.318 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 27 end to sort 42120 cards (810 suite）sort by TIM_SORT spend 9 milliseconds - 9.679 ms
+17:09:52.318 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 28 begin to sort 52000 cards (1000 suite） by BUBBLE_SORT
+17:09:55.392 [cards-thread-pool-5] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 19 end to sort 25480 cards (490 suite）sort by BUBBLE_SORT spend 4846 milliseconds - 4.847 s
+17:09:55.392 [cards-thread-pool-5] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 29 begin to sort 52000 cards (1000 suite） by INSERT_SORT
+17:09:56.511 [cards-thread-pool-5] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 29 end to sort 52000 cards (1000 suite）sort by INSERT_SORT spend 1119 milliseconds - 1.119 s
+17:09:56.512 [cards-thread-pool-5] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 30 begin to sort 52000 cards (1000 suite） by TIM_SORT
+17:09:56.523 [cards-thread-pool-5] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 30 end to sort 52000 cards (1000 suite）sort by TIM_SORT spend 11 milliseconds - 11.68 ms
+17:09:58.528 [cards-thread-pool-4] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 22 end to sort 33280 cards (640 suite）sort by BUBBLE_SORT spend 8007 milliseconds - 8.008 s
+17:10:02.026 [cards-thread-pool-6] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 25 end to sort 42120 cards (810 suite）sort by BUBBLE_SORT spend 11504 milliseconds - 11.50 s
+17:10:07.127 [cards-thread-pool-0] INFO com.github.walterfan.helloconcurrency.SortCardTask - * 28 end to sort 52000 cards (1000 suite）sort by BUBBLE_SORT spend 14808 milliseconds - 14.81 s
+17:10:07.128 [main] INFO com.github.walterfan.helloconcurrency.ThreadPoolDemo - --- end finish 30, spent 19.79 s ---
+
+</pre></div>
+</div>
+<p>我用 CsvReporter 把若干度量指标打印到Csv文件中，共有如下12个 CSV 文件</p>
+<ol class="arabic simple">
+<li><p>cards-thread-pool.completed.csv</p></li>
+<li><p>cards-thread-pool.max.csv</p></li>
+<li><p>cards-thread-pool.queue_limitation.csv</p></li>
+<li><p>cards-thread-pool.rejected-meter.csv</p></li>
+<li><p>cards-thread-pool.duration.csv</p></li>
+<li><p>cards-thread-pool.min.csv</p></li>
+<li><p>cards-thread-pool.queue_size.csv</p></li>
+<li><p>cards-thread-pool.running.csv</p></li>
+<li><p>cards-thread-pool.idle.csv</p></li>
+<li><p>cards-thread-pool.pool_size.csv</p></li>
+<li><p>cards-thread-pool.rejected-counter.csv</p></li>
+<li><p>cards-thread-pool.submitted.csv</p></li>
+</ol>
+<p>基于这些度量指标，我们可以看到任务特点和线程池的参数是否合理</p>
+</section>
+<section id="id15">
+<h3>1) 线程任务执行时间<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<p>看结果三种排序方法的效率差别很大，只排两副牌时，三种方法差不太多，而排序1000副牌（52000张）时， TimSort 花了大约11 毫秒， InsertSort 花了大约 1 秒 ，而 BubbleSort 花了14 秒多。</p>
+<p>对于任务执行时间，我们可以通过记录的度量指标文件来作一个分析，简单画一个线形图，</p>
+<ul class="simple">
+<li><p>csv 文件内容 cards-thread-pool.duration.csv</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">,</span><span class="n">count</span><span class="p">,</span><span class="nb">max</span><span class="p">,</span><span class="n">mean</span><span class="p">,</span><span class="nb">min</span><span class="p">,</span><span class="n">stddev</span><span class="p">,</span><span class="n">p50</span><span class="p">,</span><span class="n">p75</span><span class="p">,</span><span class="n">p95</span><span class="p">,</span><span class="n">p98</span><span class="p">,</span><span class="n">p99</span><span class="p">,</span><span class="n">p999</span><span class="p">,</span><span class="n">mean_rate</span><span class="p">,</span><span class="n">m1_rate</span><span class="p">,</span><span class="n">m5_rate</span><span class="p">,</span><span class="n">m15_rate</span><span class="p">,</span><span class="n">rate_unit</span><span class="p">,</span><span class="n">duration_unit</span>
+<span class="mi">1585473845</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="n">calls</span><span class="o">/</span><span class="n">second</span><span class="p">,</span><span class="n">milliseconds</span>
+<span class="mi">1585473846</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="n">calls</span><span class="o">/</span><span class="n">second</span><span class="p">,</span><span class="n">milliseconds</span>
+<span class="mi">1585473846</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">37.658003</span><span class="p">,</span><span class="mf">2.579674</span><span class="p">,</span><span class="mf">25.915099</span><span class="p">,</span><span class="mf">39.007040</span><span class="p">,</span><span class="mf">61.809917</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">33.614807</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="n">calls</span><span class="o">/</span><span class="n">second</span><span class="p">,</span><span class="n">milliseconds</span>
+<span class="mi">1585473846</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">37.658003</span><span class="p">,</span><span class="mf">2.579674</span><span class="p">,</span><span class="mf">25.915099</span><span class="p">,</span><span class="mf">39.007040</span><span class="p">,</span><span class="mf">61.809917</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">23.777415</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="n">calls</span><span class="o">/</span><span class="n">second</span><span class="p">,</span><span class="n">milliseconds</span>
+<span class="mi">1585473846</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">37.658003</span><span class="p">,</span><span class="mf">2.579674</span><span class="p">,</span><span class="mf">25.915099</span><span class="p">,</span><span class="mf">39.007040</span><span class="p">,</span><span class="mf">61.809917</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">63.069663</span><span class="p">,</span><span class="mf">18.448678</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="n">calls</span><span class="o">/</span><span class="n">second</span><span class="p">,</span><span class="n">milliseconds</span>
+<span class="mi">1585473846</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mf">384.357751</span><span class="p">,</span><span class="mf">76.180197</span><span class="p">,</span><span class="mf">2.579674</span><span class="p">,</span><span class="mf">111.663094</span><span class="p">,</span><span class="mf">58.345330</span><span class="p">,</span><span class="mf">62.339820</span><span class="p">,</span><span class="mf">384.357751</span><span class="p">,</span><span class="mf">384.357751</span><span class="p">,</span><span class="mf">384.357751</span><span class="p">,</span><span class="mf">384.357751</span><span class="p">,</span><span class="mf">16.884697</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="mf">0.000000</span><span class="p">,</span><span class="n">calls</span><span class="o">/</span><span class="n">second</span><span class="p">,</span><span class="n">milliseconds</span>
+<span class="c1"># 省略余下内容</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>分析任务执行时间的 Python 脚本</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">durations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;cards-thread-pool.duration.csv&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">durations</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">durations</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">],</span> <span class="n">durations</span><span class="p">[</span><span class="s1">&#39;max&#39;</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;max&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">durations</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">],</span> <span class="n">durations</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">durations</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">],</span> <span class="n">durations</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;min&#39;</span><span class="p">)</span>
+
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;milliSeconds&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;timestamp&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">prop</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span> 
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="排序任务时间" src="https://upload-images.jianshu.io/upload_images/1598924-7e8f37dde11c437f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+</section>
+<section id="id16">
+<h3>2) 线程池中的线程数变化<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">durations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;cards-thread-pool.pool_size.csv&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">durations</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">durations</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">],</span> <span class="n">durations</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;pool size&#39;</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;thread count&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;timestamp&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">prop</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span> 
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="线程池中的线程数" src="https://upload-images.jianshu.io/upload_images/1598924-6b995dfb61b13dd9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>线程池的线程数应该比较平稳，避免频繁的创建和销毁线程，这张图揭示如果系统资源足够的话，corePoolSize, maxPoolSize 和  keepAliveTime 时间可以适当调大。</p>
+</section>
+<section id="id17">
+<h3>线程池队列长度<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">durations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;cards-thread-pool.queue_size.csv&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">durations</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">durations</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">],</span> <span class="n">durations</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;queue size&#39;</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;queue size&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;timestamp&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">prop</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span> 
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="线程池队列长度" src="https://upload-images.jianshu.io/upload_images/1598924-24d786a6efa89dc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+</section>
+<section id="id18">
+<h3>线程池拒绝的任务数<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">durations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;cards-thread-pool.rejected-counter.csv&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">durations</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">durations</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">],</span> <span class="n">durations</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;rejected count&#39;</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;rejected count&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;timestamp&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">prop</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span> 
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="被拒绝的任务数" src="https://upload-images.jianshu.io/upload_images/1598924-065d3359c0e4308e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>基于被拒绝的任务数来看，显然核心线程数和队列长度应该增大。</p>
+<p>在实际工作中， ConsoleReporter, Slf4jReporter，还是CsvReporter 这些  metrics-core 自带的报告器都是定时采样并打印度量指标，分析查询很不方便。</p>
+<p><img alt="" src="https://upload-images.jianshu.io/upload_images/1598924-3a90380bdb2d94b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>它们都是对线程池的度量指标定时采样记录，我们可以利用一些时间序列数据库（例如 InfluxDB，Promethues 等）将这些指标保存起来，再利用报表分析工具（Grafana, Graphite等）对它们进行分析。</p>
+<p>完整源代码参见 <a class="reference external" href="https://github.com/walterfan/helloworld/tree/master/helloconcurrency/src/main/java/com/github/walterfan/helloconcurrency">https://github.com/walterfan/helloworld/tree/master/helloconcurrency/src/main/java/com/github/walterfan/helloconcurrency</a></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="spring_security.html" class="btn btn-neutral float-left" title="Spring Security" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="jar_package.html" class="btn btn-neutral float-right" title="JAR" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

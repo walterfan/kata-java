@@ -1,0 +1,263 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spring AI &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Automation" href="automation.html" />
+    <link rel="prev" title="Gradle" href="gradle.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1.basic/index.html">1. Basic</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">2. Framework and Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Spring 概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gradle.html">Gradle</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Spring AI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#concepts">Concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#model">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prompt">Prompt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#embedding">Embedding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#token">Token</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#structured-output">Structured Output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rag">RAG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#function-calling">Function Calling</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#reference">Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="automation.html">Automation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansible.html">Ansible</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../3.middleware/index.html">3. Middleware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.architecture/index.html">4. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5.tips/index.html">5. Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">2. Framework and Library</a></li>
+      <li class="breadcrumb-item active">Spring AI</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/2.library/spring_ai.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="spring-ai">
+<h1>Spring AI<a class="headerlink" href="#spring-ai" title="Link to this heading"></a></h1>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Abstract</strong></p></td>
+<td><p>Spring AI</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Authors</strong></p></td>
+<td><p>Walter Fan</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Status</strong></p></td>
+<td><p>WIP as draft</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Updated</strong></p></td>
+<td><p>2025-02-17</p></td>
+</tr>
+</tbody>
+</table>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id1">overview</a></p></li>
+<li><p><a class="reference internal" href="#features" id="id2">Features</a></p></li>
+<li><p><a class="reference internal" href="#concepts" id="id3">Concepts</a></p>
+<ul>
+<li><p><a class="reference internal" href="#model" id="id4">Model</a></p></li>
+<li><p><a class="reference internal" href="#prompt" id="id5">Prompt</a></p></li>
+<li><p><a class="reference internal" href="#embedding" id="id6">Embedding</a></p></li>
+<li><p><a class="reference internal" href="#token" id="id7">Token</a></p></li>
+<li><p><a class="reference internal" href="#structured-output" id="id8">Structured Output</a></p></li>
+<li><p><a class="reference internal" href="#rag" id="id9">RAG</a></p></li>
+<li><p><a class="reference internal" href="#function-calling" id="id10">Function Calling</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#reference" id="id11">Reference</a></p></li>
+</ul>
+</nav>
+<section id="overview">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">overview</a><a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>The Spring AI project aims to streamline the development of applications that incorporate artificial intelligence functionality without unnecessary complexity.</p>
+<p>The project draws inspiration from notable Python projects, such as LangChain and LlamaIndex, but Spring AI is not a direct port of those projects.</p>
+<p>The project was founded with the belief that the next wave of Generative AI applications will not be only for Python developers but will be ubiquitous across many programming languages.</p>
+</section>
+<section id="features">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Features</a><a class="headerlink" href="#features" title="Link to this heading"></a></h2>
+<ul>
+<li><p>Portable API support across AI providers for Chat, text-to-image, and Embedding models. Both synchronous and streaming API options are supported. Access to model-specific features is also available.</p></li>
+<li><p>Support for all major AI Model providers such as Anthropic, OpenAI, Microsoft, Amazon, Google, and Ollama. Supported model types include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Chat Completion</p></li>
+<li><p>Embedding</p></li>
+<li><p>Text to Image</p></li>
+<li><p>Audio Transcription</p></li>
+<li><p>Text to Speech</p></li>
+<li><p>Moderation</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Structured Outputs - Mapping of AI Model output to POJOs.</p></li>
+<li><p>Support for all major Vector Database providers such as Apache Cassandra, Azure Cosmos DB, Azure Vector Search, Chroma, Elasticsearch, GemFire, MariaDB, Milvus, MongoDB Atlas, Neo4j, OpenSearch, Oracle, PostgreSQL/PGVector, PineCone, Qdrant, Redis, SAP Hana, Typesense and Weaviate.</p></li>
+<li><p>Portable API across Vector Store providers, including a novel SQL-like metadata filter API.</p></li>
+<li><p>Tools/Function Calling - permits the model to request the execution of client-side tools and functions, thereby accessing necessary real-time information as required.</p></li>
+<li><p>Observability - Provides insights into AI-related operations.</p></li>
+<li><p>Document injection ETL framework for Data Engineering.</p></li>
+<li><p>AI Model Evaluation - Utilities to help evaluate generated content and protect against hallucinated response.</p></li>
+<li><p>Spring Boot Auto Configuration and Starters for AI Models and Vector Stores.</p></li>
+<li><p>ChatClient API - Fluent API for communicating with AI Chat Models, idiomatically similar to the WebClient and RestClient APIs.</p></li>
+<li><p>Advisors API - Encapsulates recurring Generative AI patterns, transforms data sent to and from Language Models (LLMs), and provides portability across various models and use cases.</p></li>
+<li><p>Support for Chat Conversation Memory and Retrieval Augmented Generation (RAG).</p></li>
+</ul>
+</section>
+<section id="concepts">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Concepts</a><a class="headerlink" href="#concepts" title="Link to this heading"></a></h2>
+<section id="model">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Model</a><a class="headerlink" href="#model" title="Link to this heading"></a></h3>
+</section>
+<section id="prompt">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Prompt</a><a class="headerlink" href="#prompt" title="Link to this heading"></a></h3>
+</section>
+<section id="embedding">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Embedding</a><a class="headerlink" href="#embedding" title="Link to this heading"></a></h3>
+<p>嵌入是文本、图像或视频的数字表示，用于捕捉输入之间的关系。</p>
+<p>嵌入的工作原理是将文本、图像和视频转换为浮点数数组（称为向量）。这些向量旨在捕捉文本、图像和视频的含义。嵌入数组的长度称为向量的维数。</p>
+<p>通过计算两段文本的向量表示之间的数值距离，应用程序可以确定用于生成嵌入向量的对象之间的相似性。</p>
+<p>嵌入在实际应用中尤其重要，例如检索增强生成 (RAG) 模式。它们可以将数据表示为语义空间中的点，这类似于欧几里得几何的二维空间，但在更高的维度上。这意味着，就像欧几里得几何中平面上的点可以根据其坐标而接近或远离一样，在语义空间中，点的接近度反映了含义的相似性。</p>
+<p>关于相似主题的句子在这个多维空间中的位置更近，就像图上彼此靠近的点一样。这种接近度有助于文本分类、语义搜索甚至产品推荐等任务，因为它允许 AI 根据相关概念在这个扩展的语义景观中的“位置”来辨别和分组相关概念。</p>
+</section>
+<section id="token">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Token</a><a class="headerlink" href="#token" title="Link to this heading"></a></h3>
+</section>
+<section id="structured-output">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Structured Output</a><a class="headerlink" href="#structured-output" title="Link to this heading"></a></h3>
+</section>
+<section id="rag">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">RAG</a><a class="headerlink" href="#rag" title="Link to this heading"></a></h3>
+</section>
+<section id="function-calling">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Function Calling</a><a class="headerlink" href="#function-calling" title="Link to this heading"></a></h3>
+</section>
+</section>
+<section id="reference">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Reference</a><a class="headerlink" href="#reference" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.spring.io/spring-ai/reference">https://docs.spring.io/spring-ai/reference</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="gradle.html" class="btn btn-neutral float-left" title="Gradle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="automation.html" class="btn btn-neutral float-right" title="Automation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

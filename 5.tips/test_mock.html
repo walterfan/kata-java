@@ -1,0 +1,899 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Mock &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Java 测试实战" href="test_in_java.html" />
+    <link rel="prev" title="TDD" href="tdd.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1.basic/index.html">1. Basic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2.library/index.html">2. Framework and Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3.middleware/index.html">3. Middleware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.architecture/index.html">4. Architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. Tips</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Development Methodology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_boot_tips.html">Spring Boot Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdd.html">TDD</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Test Mock</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">模拟对象</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mock">Mock</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Mock 的原则</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Mock 使用步骤</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Mock 的问题</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">1.无法mock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">2. 需要mock的太多了</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">mock 的粒度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Mock 类库和工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mockito-for-java">Mockito for Java</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#powermock-for-java">Powermock for Java</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#googlemock-for-c">GoogleMock for C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mock-server">Mock Server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wiremock">wiremock</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">典型示例</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id10">Mock 依赖的类和方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">Mock 静态方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">Mock 第三方服务</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">参考资料</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="test_in_java.html">Java 测试实战</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">5. Tips</a></li>
+      <li class="breadcrumb-item active">Test Mock</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/5.tips/test_mock.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="test-mock">
+<h1>Test Mock<a class="headerlink" href="#test-mock" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>模拟对象<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>一般都叫 Mock 或 Stub, 两者差不多, 都是模拟被测组件对外依赖的模拟, 存根 stub 就在那里, 不需要检查它和被测组件的交互, Mock 则可以用来检查于被测对象的交互</p>
+</section>
+<section id="mock">
+<h2>Mock<a class="headerlink" href="#mock" title="Link to this heading"></a></h2>
+<p>Mock 是测试驱动开发必备之利器, 只要有状态, 有依赖, 做单元测试就不能没有 Mock
+在 API 或 集成测试的时候, 如果依赖于第三方的 API, 也时常使用 mock server 或 mock proxy</p>
+<section id="id2">
+<h3>Mock 的原则<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>Mockito 是广泛使用的 Java Mock library, 它的 wiki 上有篇文章 - <a class="reference external" href="https://github.com/mockito/mockito/wiki/How-to-write-good-tests">如何写出好的测试代码</a>, 其中提出了几条使用 mock 的原则:</p>
+<ul class="simple">
+<li><p>不要 mock 非你所有的类型</p></li>
+<li><p>不要 mock 值对象</p></li>
+<li><p>不要 mock 所有的东西</p></li>
+</ul>
+<p>后两点很好理解, 第一点有些语焉不详, 什么叫非你所有的类型, 我的理解就是如果一个类型不是你与第三方约定的接口, 它属于别人定义的, 你只是拿过来使用, 那么你最好不要去mock 它, 你可以写一个中间层或适配器, 然后mock 这个中间层和适配器, 原因是第三方可以随时更改它的定义和行为, 你把它mock掉了, 你也就不会发现由于别人更改了定义或行为导致的异常. 而你自己写的中间层由你掌控，不必有此担心。</p>
+<p>与第三方或其它服务集成测试属于Consumer Test 消费者测试和End to End 端到端的测试的范围</p>
+</section>
+<section id="id3">
+<h3>Mock 使用步骤<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>1.模拟外部依赖并将mock插入到测试代码中</p></li>
+<li><p>2.定义指定的行为及响应</p></li>
+<li><ol class="arabic simple" start="3">
+<li><p>执行测试下的代码</p></li>
+</ol>
+</li>
+<li><p>4.验证代码是否正确执行</p></li>
+</ul>
+<p>验证什么呢, 除了你的程序的应用逻辑, 还有对于所mock的对象的交互验证</p>
+<ul class="simple">
+<li><p>对于mock 的对象的调用次数验证</p></li>
+<li><p>对于mock 的对象的调用参数验证</p></li>
+<li><p>对于mock 的对象所给出的不同输出结果的反应</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Mock 的问题<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>mock的时候最烦人的是两个问题</p>
+</section>
+<section id="id5">
+<h3>1.无法mock<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>就我熟悉的, 也是应用最广的两门语言 C++ 和 Java 来看</p>
+<p>gmock 和 mockito 在大多数情况下都够用了，一般情况下不需要也不应该 mock  私有方法，静态方法和全局方法，当然如果你的代码可测试性及依赖反转做得得没那么好, 实在绕不过去，也有权变之法, C++可以直接改掉其在内存中的函数地址, Java 可以利用反射或修改字节码来搞定.</p>
+</section>
+<section id="id6">
+<h3>2. 需要mock的太多了<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>举例来说, 我曾经做过一个网络电话控制系统, 它会对呼入呼出的电话会做一些语音交互应答(IVR), 并控制后续的电话会议流程, 系统比较复杂, 单元测试也很难做, 因为它用的是自己定义的一门领域特定语言 - Call Control XML, 并由自己的 Call Flow 引擎进行解析执行, 端到端的测试由于环境及配置的复杂性做起来很麻烦, 我的一位同事提出把系统的网络消息发送接收模块 mock 掉, 也就是把对外交互的消息全部 mock 起来,  但是mock的消息数量巨大, 工作量惊人.</p>
+</div></blockquote>
+<p>我也写了一个类似于 hub 的类, 所有消息会回调到一个 MessageReceiver, MessageReceiver 会直接调用注册上来的各个 MessageHandler, 每个 Handler 只关注自己关心的消息, 具体来说, 每个 Handler 都可以设置一个正则表达式, 当消息头或消息体匹配这个正则表达式, 则由这个 Handler 来处理回应事先 mock好的消息, 回应你自己指定的消息, 从而把这个系统对外的依赖全部 mock 掉, 并测试了所有的交互</p>
+</section>
+</section>
+<section id="id7">
+<h2>mock 的粒度<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<p>根据你测试的对象大小，粒度自然有区别，根据测试三角形，小而美，越大越麻烦, 从小到大可以分为如下三个粒度</p>
+<p>##1. mock一个函数</p>
+<p>与这个函数的交互全部mock 掉</p>
+<p>##2. mock整个类或接口</p>
+<p>与这个类或接口的交互全部mock 掉，接口也可指某个API</p>
+<p>##3. mock 整个系统</p>
+<p>与系统外部的交互全部mock 掉</p>
+<p>总之，模拟外部依赖要区分内外的边界，找到合适的切入点</p>
+</section>
+<section id="id8">
+<h2>Mock 类库和工具<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<p>仅就我所熟悉的 Java 和 C++ 举例如下, python, ruby, JavaScript 之类的脚本语言就更简单了</p>
+<section id="mockito-for-java">
+<h3>Mockito for Java<a class="headerlink" href="#mockito-for-java" title="Link to this heading"></a></h3>
+<p>http://site.mockito.org/</p>
+</section>
+<section id="powermock-for-java">
+<h3>Powermock for Java<a class="headerlink" href="#powermock-for-java" title="Link to this heading"></a></h3>
+<p>https://github.com/powermock/powermock 它通过自定义类加载器和修改字节码来mock  static methods, constructors, final classes and methods, private methods, removal of static initializers 等等</p>
+</section>
+<section id="googlemock-for-c">
+<h3>GoogleMock for C++<a class="headerlink" href="#googlemock-for-c" title="Link to this heading"></a></h3>
+<p>https://github.com/google/googletest/tree/master/googlemock</p>
+</section>
+<section id="mock-server">
+<h3>Mock Server<a class="headerlink" href="#mock-server" title="Link to this heading"></a></h3>
+<p>MockServer 用来 mock 整个web service
+https://github.com/jamesdbloom/mockserver</p>
+</section>
+<section id="wiremock">
+<h3>wiremock<a class="headerlink" href="#wiremock" title="Link to this heading"></a></h3>
+<p>WireMock 和上面的 mock server差不多, 是一个 HTTP-based APIs的模拟器.</p>
+<p>http://wiremock.org/</p>
+</section>
+</section>
+<section id="id9">
+<h2>典型示例<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<p>接下来, 让我们写几个例子来说明 mock 和相关类库的用法…</p>
+<section id="id10">
+<h3>Mock 依赖的类和方法<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<p>基本步骤:</p>
+<ol class="arabic simple">
+<li><p>mock 设置模拟行为</p></li>
+<li><p>call 调用被测试代码</p></li>
+<li><p>verify 检验期望行为</p></li>
+</ol>
+<p>这里以 <a class="reference external" href="https://www.jianshu.com/p/2d3d30015915">Guava Loading Cache</a> 类为例, 测试它的基本行为是否符合预期</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">walterfan</span><span class="o">.</span><span class="n">hellotest</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">com.google.common.cache.CacheBuilder</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">com.google.common.cache.CacheLoader</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">com.google.common.cache.LoadingCache</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">com.google.common.cache.RemovalCause</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">com.google.common.cache.RemovalListener</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">com.google.common.cache.RemovalNotification</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">com.google.common.util.concurrent.Uninterruptibles</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">lombok.extern.slf4j.Slf4j</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.mockito.ArgumentCaptor</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.mockito.Captor</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.mockito.Mock</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.mockito.Mockito</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.mockito.MockitoAnnotations</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.mockito.invocation.InvocationOnMock</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.mockito.stubbing.Answer</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.testng.annotations.BeforeMethod</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.testng.annotations.Test</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.ExecutionException</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.TimeUnit</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.atomic.AtomicInteger</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="n">mockito</span><span class="o">.</span><span class="n">Mockito</span><span class="o">.</span><span class="n">times</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="n">mockito</span><span class="o">.</span><span class="n">Mockito</span><span class="o">.</span><span class="n">verify</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="n">testng</span><span class="o">.</span><span class="n">Assert</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="n">testng</span><span class="o">.</span><span class="n">Assert</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">;</span>
+
+<span class="o">/**</span>
+ <span class="o">*</span> <span class="n">Created</span> <span class="n">by</span> <span class="n">yafan</span> <span class="n">on</span> <span class="mi">23</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mf">2018.</span>
+ <span class="o">*/</span>
+<span class="nd">@Slf4j</span>
+<span class="n">public</span> <span class="k">class</span> <span class="nc">LoadingCacheTest</span> <span class="p">{</span>
+    <span class="n">private</span> <span class="n">LoadingCache</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span>  <span class="n">String</span><span class="o">&gt;</span> <span class="n">internalCache</span><span class="p">;</span>
+
+    <span class="nd">@Mock</span>
+    <span class="n">private</span> <span class="n">CacheLoader</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">cacheLoader</span><span class="p">;</span>
+
+    <span class="nd">@Mock</span>
+    <span class="n">private</span> <span class="n">RemovalListener</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">cacheListener</span><span class="p">;</span>
+
+    <span class="nd">@Captor</span>
+    <span class="n">private</span> <span class="n">ArgumentCaptor</span><span class="o">&lt;</span><span class="n">RemovalNotification</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">argumentCaptor</span><span class="p">;</span>
+
+    <span class="n">private</span> <span class="n">Answer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">loaderAnswer</span><span class="p">;</span>
+
+    <span class="n">private</span> <span class="n">AtomicInteger</span> <span class="n">loadCounter</span> <span class="o">=</span> <span class="n">new</span> <span class="n">AtomicInteger</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="nd">@BeforeMethod</span>
+    <span class="n">public</span> <span class="n">void</span> <span class="n">setup</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="n">MockitoAnnotations</span><span class="o">.</span><span class="n">initMocks</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+
+        <span class="n">this</span><span class="o">.</span><span class="n">internalCache</span> <span class="o">=</span> <span class="n">CacheBuilder</span><span class="o">.</span><span class="n">newBuilder</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">maximumSize</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">expireAfterWrite</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">removalListener</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">cacheListener</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">cacheLoader</span><span class="p">);</span>
+
+        <span class="n">this</span><span class="o">.</span><span class="n">loaderAnswer</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Answer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nd">@Override</span>
+            <span class="n">public</span> <span class="n">String</span> <span class="n">answer</span><span class="p">(</span><span class="n">InvocationOnMock</span> <span class="n">invocationOnMock</span><span class="p">)</span> <span class="n">throws</span> <span class="n">Throwable</span> <span class="p">{</span>
+                <span class="n">String</span> <span class="n">key</span> <span class="o">=</span> <span class="n">invocationOnMock</span><span class="o">.</span><span class="n">getArgumentAt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">String</span><span class="o">.</span><span class="n">class</span><span class="p">);</span>
+                <span class="n">switch</span><span class="p">(</span><span class="n">loadCounter</span><span class="o">.</span><span class="n">getAndIncrement</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="k">case</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="s2">&quot;alice&quot;</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="s2">&quot;bob&quot;</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="s2">&quot;carl&quot;</span><span class="p">;</span>
+                    <span class="n">default</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="n">public</span> <span class="n">void</span> <span class="n">cacheTest</span><span class="p">()</span> <span class="n">throws</span> <span class="ne">Exception</span> <span class="p">{</span>
+        <span class="o">//</span><span class="n">Mock</span> <span class="n">the</span> <span class="k">return</span> <span class="n">value</span> <span class="n">of</span> <span class="n">loader</span>
+        <span class="o">//</span><span class="n">Mockito</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="n">cacheLoader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">Mockito</span><span class="o">.</span><span class="n">anyString</span><span class="p">()))</span><span class="o">.</span><span class="n">thenReturn</span><span class="p">(</span><span class="s2">&quot;alice&quot;</span><span class="p">);</span>
+        <span class="n">Mockito</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="n">cacheLoader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">Mockito</span><span class="o">.</span><span class="n">anyString</span><span class="p">()))</span><span class="o">.</span><span class="n">thenAnswer</span><span class="p">(</span><span class="n">loaderAnswer</span><span class="p">);</span>
+
+        <span class="n">assertTrue</span><span class="p">(</span><span class="s2">&quot;alice&quot;</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">internalCache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)));</span>
+
+        <span class="o">//</span><span class="n">sleep</span> <span class="k">for</span> <span class="mi">2</span> <span class="n">seconds</span>
+        <span class="n">Uninterruptibles</span><span class="o">.</span><span class="n">sleepUninterruptibly</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">);</span>
+        <span class="n">assertTrue</span><span class="p">(</span><span class="s2">&quot;bob&quot;</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">internalCache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)));</span>
+
+        <span class="n">verify</span><span class="p">(</span><span class="n">cacheLoader</span><span class="p">,</span> <span class="n">times</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">);</span>
+        <span class="n">verify</span><span class="p">(</span><span class="n">cacheListener</span><span class="p">)</span><span class="o">.</span><span class="n">onRemoval</span><span class="p">(</span><span class="n">argumentCaptor</span><span class="o">.</span><span class="n">capture</span><span class="p">());</span>
+
+        <span class="n">assertEquals</span><span class="p">(</span><span class="n">argumentCaptor</span><span class="o">.</span><span class="n">getValue</span><span class="p">()</span><span class="o">.</span><span class="n">getKey</span><span class="p">(),</span> <span class="s2">&quot;name&quot;</span><span class="p">);</span>
+        <span class="n">assertEquals</span><span class="p">(</span><span class="n">argumentCaptor</span><span class="o">.</span><span class="n">getValue</span><span class="p">()</span><span class="o">.</span><span class="n">getValue</span><span class="p">(),</span> <span class="s2">&quot;alice&quot;</span><span class="p">);</span>
+        <span class="n">assertEquals</span><span class="p">(</span><span class="n">argumentCaptor</span><span class="o">.</span><span class="n">getValue</span><span class="p">()</span><span class="o">.</span><span class="n">getCause</span><span class="p">(),</span> <span class="n">RemovalCause</span><span class="o">.</span><span class="n">EXPIRED</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h3>Mock 静态方法<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<p>这里使用 Powermock 和 testng , 如果有 junit 的话, 用法稍有不同
+testng 需要从 PowerMockTestCase 继承
+junit4 需要加上一个注解 &#64;RunWith(PowerMockRunner.class)</p>
+<ul class="simple">
+<li><p>静态类和方法</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">walterfan</span><span class="o">.</span><span class="n">hellotest</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.extern.slf4j.Slf4j</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.commons.io.IOUtils</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java.io.File</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.io.FileFilter</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.io.FilenameFilter</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.nio.charset.Charset</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="p">;</span>
+
+
+<span class="nd">@Slf4j</span>
+<span class="n">public</span> <span class="k">class</span> <span class="nc">FileUtils</span> <span class="p">{</span>
+
+    <span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">FileFilter</span> <span class="n">javaFileFilter</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FileFilter</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nd">@Override</span>
+        <span class="n">public</span> <span class="n">boolean</span> <span class="n">accept</span><span class="p">(</span><span class="n">File</span> <span class="n">file</span><span class="p">)</span> <span class="p">{</span>
+
+            <span class="k">if</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">isDirectory</span><span class="p">())</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span><span class="o">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s2">&quot;.java&quot;</span><span class="p">))</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+
+    <span class="n">public</span> <span class="n">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">listFiles</span><span class="p">(</span><span class="n">File</span> <span class="n">folder</span><span class="p">,</span> <span class="n">FileFilter</span> <span class="nb">filter</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">files</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+        <span class="n">listDir</span><span class="p">(</span><span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">),</span> <span class="n">files</span><span class="p">,</span> <span class="nb">filter</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">files</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">listDir</span><span class="p">(</span><span class="n">File</span> <span class="n">folder</span><span class="p">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">fileNames</span><span class="p">,</span> <span class="n">FileFilter</span> <span class="nb">filter</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">File</span><span class="p">[]</span> <span class="n">files</span> <span class="o">=</span> <span class="n">folder</span><span class="o">.</span><span class="n">listFiles</span><span class="p">(</span><span class="nb">filter</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">File</span> <span class="n">file</span><span class="p">:</span> <span class="n">files</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">isFile</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">fileNames</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">getName</span><span class="p">());</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">isDirectory</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">listDir</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">fileNames</span><span class="p">,</span> <span class="nb">filter</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>测试类</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">walterfan</span><span class="o">.</span><span class="n">hellotest</span><span class="p">;</span>
+
+
+
+<span class="kn">import</span> <span class="nn">org.junit.runner.RunWith</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.mockito.Mockito</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.powermock.api.mockito.PowerMockito</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.powermock.core.classloader.annotations.PrepareForTest</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.powermock.modules.junit4.PowerMockRunner</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.powermock.modules.testng.PowerMockObjectFactory</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.powermock.modules.testng.PowerMockTestCase</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.testng.IObjectFactory</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.testng.annotations.Test</span><span class="p">;</span>
+
+
+<span class="kn">import</span> <span class="nn">java.io.File</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.io.FileFilter</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="n">mockito</span><span class="o">.</span><span class="n">Matchers</span><span class="o">.</span><span class="n">eq</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="n">testng</span><span class="o">.</span><span class="n">Assert</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">;</span>
+
+<span class="o">//</span><span class="nd">@RunWith</span><span class="p">(</span><span class="n">PowerMockRunner</span><span class="o">.</span><span class="n">class</span><span class="p">)</span> <span class="o">--</span> <span class="k">for</span> <span class="n">junit4</span>
+<span class="nd">@PrepareForTest</span><span class="p">(</span><span class="n">FileUtils</span><span class="o">.</span><span class="n">class</span><span class="p">)</span>
+<span class="n">public</span> <span class="k">class</span> <span class="nc">FileUtilsTest</span> <span class="n">extends</span> <span class="n">PowerMockTestCase</span> <span class="p">{</span>
+
+    <span class="n">public</span>  <span class="nb">int</span> <span class="n">howManyFiles</span><span class="p">(</span><span class="n">String</span> <span class="n">path</span><span class="p">,</span> <span class="n">FileFilter</span> <span class="nb">filter</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;-----------&quot;</span><span class="p">);</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">files</span> <span class="o">=</span> <span class="n">FileUtils</span><span class="o">.</span><span class="n">listFiles</span><span class="p">(</span><span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="nb">filter</span><span class="p">);</span>
+        <span class="n">files</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span><span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="p">::</span><span class="n">println</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">files</span><span class="o">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="p">}</span>
+
+
+    <span class="nd">@Test</span>
+    <span class="n">public</span> <span class="n">void</span> <span class="n">testHowManyFiles</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">fileNames</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="n">asList</span><span class="p">(</span><span class="s2">&quot;a.java&quot;</span><span class="p">,</span> <span class="s2">&quot;b.java&quot;</span><span class="p">,</span> <span class="s2">&quot;c.java&quot;</span><span class="p">);</span>
+        <span class="n">PowerMockito</span><span class="o">.</span><span class="n">mockStatic</span><span class="p">(</span><span class="n">FileUtils</span><span class="o">.</span><span class="n">class</span><span class="p">);</span>
+        <span class="n">PowerMockito</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="n">FileUtils</span><span class="o">.</span><span class="n">listFiles</span><span class="p">(</span><span class="n">Mockito</span><span class="o">.</span><span class="n">any</span><span class="p">(),</span> <span class="n">Mockito</span><span class="o">.</span><span class="n">any</span><span class="p">()))</span><span class="o">.</span><span class="n">thenReturn</span><span class="p">(</span><span class="n">fileNames</span><span class="p">);</span>
+
+        <span class="nb">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">howManyFiles</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">FileUtils</span><span class="o">.</span><span class="n">javaFileFilter</span><span class="p">);</span>
+        <span class="n">assertEquals</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</pre></div>
+</div>
+<p>在 pom.xml 中加上</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+			<span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="n">powermock</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+			<span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">powermock</span><span class="o">-</span><span class="n">core</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+			<span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">1.7.1</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+			<span class="o">&lt;</span><span class="n">scope</span><span class="o">&gt;</span><span class="n">test</span><span class="o">&lt;/</span><span class="n">scope</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">scope</span><span class="o">&gt;</span><span class="n">test</span><span class="o">&lt;/</span><span class="n">scope</span><span class="o">&gt;</span>
+		<span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
+
+		<span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+			<span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="n">powermock</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+			<span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">powermock</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">mockito</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+			<span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">1.7.1</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">scope</span><span class="o">&gt;</span><span class="n">test</span><span class="o">&lt;/</span><span class="n">scope</span><span class="o">&gt;</span>
+		<span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
+
+        <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="n">powermock</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">powermock</span><span class="o">-</span><span class="n">module</span><span class="o">-</span><span class="n">junit4</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">1.7.1</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">scope</span><span class="o">&gt;</span><span class="n">test</span><span class="o">&lt;/</span><span class="n">scope</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
+
+		<span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+			<span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="n">powermock</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+			<span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">powermock</span><span class="o">-</span><span class="n">module</span><span class="o">-</span><span class="n">testng</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+			<span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">1.7.1</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+			<span class="o">&lt;</span><span class="n">scope</span><span class="o">&gt;</span><span class="n">test</span><span class="o">&lt;/</span><span class="n">scope</span><span class="o">&gt;</span>
+		<span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
+
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>Mock 第三方服务<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<p>假设我们在服务启动时需要调用第三方的服务来获取访问口令</p>
+<p>GET $third_service_url/oauth2/api/v1/access_token?client_id=$clientId&amp;client_secret=$clientPass</p>
+<p>返回值是 json :</p>
+<p>{ “token”: “$token”}</p>
+<p>我们在本地做测试时并没有部署这个第三方服务, 我们可以用如下方法 mock 掉整个第三方服务的所有 API 调用, 例子代码如下, 这里用到了以上所说的 http://www.mock-server.com 库</p>
+<p><img alt="" src="http://upload-images.jianshu.io/upload_images/1598924-8b39d652b617b7c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>package com.github.walterfan.hellotest;
+
+import lombok.extern.slf4j.Slf4j;
+import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.apache.http.HttpHeaders;
+import org.mockserver.integration.ClientAndServer;
+import org.mockserver.matchers.Times;
+import org.mockserver.model.HttpRequest;
+import org.mockserver.model.HttpResponse;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.mockserver.model.HttpResponse.response;
+import static org.testng.Assert.assertTrue;
+
+@Slf4j
+public class MockServerTest {
+
+    public static final String ACCESS_TOKEN_URL = &quot;/oauth2/api/v1/access_token&quot;;
+
+    public static final String ACCESS_TOKEN_RESP = &quot;{ \&quot;token\&quot;: \&quot;abcd1234\&quot;}&quot;;
+
+    private int listenPort;
+
+    private OkHttpClient httpClient;
+    //mock server
+    private ClientAndServer mocker;
+
+    
+    public MockServerTest() {
+        listenPort = 10086;
+        httpClient = new OkHttpClient();
+    }
+
+    //启动 mock server
+    @BeforeSuite
+    public void startup() {
+        mocker = ClientAndServer.startClientAndServer(listenPort);
+    }
+
+    //关闭 mock server
+    @AfterSuite
+    public void shutdown() {
+        mocker.stop(true);
+    }
+
+    @Test
+    public void testCheckHealth() throws IOException {
+
+        HttpRequest mockReq = new HttpRequest().withMethod(&quot;GET&quot;).withPath(ACCESS_TOKEN_URL);
+        HttpResponse mockResp = new HttpResponse().withStatusCode(200).withBody(ACCESS_TOKEN_RESP).withHeader(HttpHeaders.CONTENT_TYPE, &quot;application/json;charset=UTF-8&quot;);
+       //mock API 的返回
+       mocker.when(mockReq, Times.exactly(1))
+              .respond(mockResp);
+
+        String theUrl = String.format(&quot;http://localhost:%d%s?%s&quot; , listenPort, ACCESS_TOKEN_URL, &quot;client_id=test&amp;client_secret=pass&quot;);
+        Request request = new Request.Builder()
+                .url(theUrl)
+                .build();
+
+        Response response = httpClient.newCall(request).execute();
+        assertTrue(response.isSuccessful());
+
+
+        Headers responseHeaders = response.headers();
+        for (int i = 0; i &lt; responseHeaders.size(); i++) {
+            log.info(responseHeaders.name(i) + &quot;: &quot; + responseHeaders.value(i));
+        }
+        //mock server 返回了之前设定的结果
+        String strResult = response.body().string();
+        log.info(&quot; strResult: {}&quot;, strResult);
+        assertEquals(strResult, ACCESS_TOKEN_RESP);
+        //验证 mock 的交互
+        mocker.verify(mockReq);
+    }
+
+
+
+
+}
+
+</pre></div>
+</div>
+<p>输出如下</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">05.000</span> <span class="p">[</span><span class="n">main</span><span class="p">]</span> <span class="n">DEBUG</span> <span class="n">org</span><span class="o">.</span><span class="n">mockserver</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">NettyHttpClient</span> <span class="o">-</span> <span class="n">Sending</span> <span class="n">to</span><span class="p">:</span> <span class="n">localhost</span><span class="o">/</span><span class="mf">127.0.0.1</span><span class="p">:</span><span class="mi">10086</span> <span class="n">request</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">&quot;method&quot;</span> <span class="p">:</span> <span class="s2">&quot;PUT&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;path&quot;</span> <span class="p">:</span> <span class="s2">&quot;/expectation&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;headers&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;host&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;localhost:10086&quot;</span> <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;body&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;STRING&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;string&quot;</span> <span class="p">:</span> <span class="s2">&quot;{</span><span class="se">\n</span><span class="s2">  </span><span class="se">\&quot;</span><span class="s2">httpRequest</span><span class="se">\&quot;</span><span class="s2"> : {</span><span class="se">\n</span><span class="s2">    </span><span class="se">\&quot;</span><span class="s2">method</span><span class="se">\&quot;</span><span class="s2"> : </span><span class="se">\&quot;</span><span class="s2">GET</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\n</span><span class="s2">    </span><span class="se">\&quot;</span><span class="s2">path</span><span class="se">\&quot;</span><span class="s2"> : </span><span class="se">\&quot;</span><span class="s2">/oauth2/api/v1/access_token</span><span class="se">\&quot;\n</span><span class="s2">  },</span><span class="se">\n</span><span class="s2">  </span><span class="se">\&quot;</span><span class="s2">httpResponse</span><span class="se">\&quot;</span><span class="s2"> : {</span><span class="se">\n</span><span class="s2">    </span><span class="se">\&quot;</span><span class="s2">statusCode</span><span class="se">\&quot;</span><span class="s2"> : 200,</span><span class="se">\n</span><span class="s2">    </span><span class="se">\&quot;</span><span class="s2">headers</span><span class="se">\&quot;</span><span class="s2"> : {</span><span class="se">\n</span><span class="s2">      </span><span class="se">\&quot;</span><span class="s2">Content-Type</span><span class="se">\&quot;</span><span class="s2"> : [ </span><span class="se">\&quot;</span><span class="s2">application/json;charset=UTF-8</span><span class="se">\&quot;</span><span class="s2"> ]</span><span class="se">\n</span><span class="s2">    },</span><span class="se">\n</span><span class="s2">    </span><span class="se">\&quot;</span><span class="s2">body</span><span class="se">\&quot;</span><span class="s2"> : </span><span class="se">\&quot;</span><span class="s2">{ </span><span class="se">\\\&quot;</span><span class="s2">token</span><span class="se">\\\&quot;</span><span class="s2">: </span><span class="se">\\\&quot;</span><span class="s2">abcd1234</span><span class="se">\\\&quot;</span><span class="s2">}</span><span class="se">\&quot;\n</span><span class="s2">  },</span><span class="se">\n</span><span class="s2">  </span><span class="se">\&quot;</span><span class="s2">times</span><span class="se">\&quot;</span><span class="s2"> : {</span><span class="se">\n</span><span class="s2">    </span><span class="se">\&quot;</span><span class="s2">remainingTimes</span><span class="se">\&quot;</span><span class="s2"> : 1,</span><span class="se">\n</span><span class="s2">    </span><span class="se">\&quot;</span><span class="s2">unlimited</span><span class="se">\&quot;</span><span class="s2"> : false</span><span class="se">\n</span><span class="s2">  },</span><span class="se">\n</span><span class="s2">  </span><span class="se">\&quot;</span><span class="s2">timeToLive</span><span class="se">\&quot;</span><span class="s2"> : {</span><span class="se">\n</span><span class="s2">    </span><span class="se">\&quot;</span><span class="s2">unlimited</span><span class="se">\&quot;</span><span class="s2"> : true</span><span class="se">\n</span><span class="s2">  }</span><span class="se">\n</span><span class="s2">}&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;contentType&quot;</span> <span class="p">:</span> <span class="s2">&quot;text/plain; charset=utf-8&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">05.059</span> <span class="p">[</span><span class="n">nioEventLoopGroup</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="n">DEBUG</span> <span class="n">io</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">AbstractByteBuf</span> <span class="o">-</span> <span class="o">-</span><span class="n">Dio</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">bytebuf</span><span class="o">.</span><span class="n">checkAccessible</span><span class="p">:</span> <span class="n">true</span>
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">05.060</span> <span class="p">[</span><span class="n">nioEventLoopGroup</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="n">DEBUG</span> <span class="n">io</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ResourceLeakDetectorFactory</span> <span class="o">-</span> <span class="n">Loaded</span> <span class="n">default</span> <span class="n">ResourceLeakDetector</span><span class="p">:</span> <span class="n">io</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ResourceLeakDetector</span><span class="o">@</span><span class="mi">6</span><span class="n">fc3e619</span>
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">05.106</span> <span class="p">[</span><span class="n">nioEventLoopGroup</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="n">DEBUG</span> <span class="n">io</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">Recycler</span> <span class="o">-</span> <span class="o">-</span><span class="n">Dio</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">recycler</span><span class="o">.</span><span class="n">maxCapacityPerThread</span><span class="p">:</span> <span class="mi">32768</span>
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">05.106</span> <span class="p">[</span><span class="n">nioEventLoopGroup</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="n">DEBUG</span> <span class="n">io</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">Recycler</span> <span class="o">-</span> <span class="o">-</span><span class="n">Dio</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">recycler</span><span class="o">.</span><span class="n">maxSharedCapacityFactor</span><span class="p">:</span> <span class="mi">2</span>
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">05.106</span> <span class="p">[</span><span class="n">nioEventLoopGroup</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="n">DEBUG</span> <span class="n">io</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">Recycler</span> <span class="o">-</span> <span class="o">-</span><span class="n">Dio</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">recycler</span><span class="o">.</span><span class="n">linkCapacity</span><span class="p">:</span> <span class="mi">16</span>
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">05.106</span> <span class="p">[</span><span class="n">nioEventLoopGroup</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="n">DEBUG</span> <span class="n">io</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">Recycler</span> <span class="o">-</span> <span class="o">-</span><span class="n">Dio</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">recycler</span><span class="o">.</span><span class="n">ratio</span><span class="p">:</span> <span class="mi">8</span>
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">06.003</span> <span class="p">[</span><span class="n">nioEventLoopGroup</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="n">INFO</span> <span class="n">org</span><span class="o">.</span><span class="n">mockserver</span><span class="o">.</span><span class="n">mock</span><span class="o">.</span><span class="n">HttpStateHandler</span> <span class="o">-</span> <span class="n">creating</span> <span class="n">expectation</span><span class="p">:</span>
+
+	<span class="p">{</span>
+	  <span class="s2">&quot;httpRequest&quot;</span> <span class="p">:</span> <span class="p">{</span>
+	    <span class="s2">&quot;method&quot;</span> <span class="p">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+	    <span class="s2">&quot;path&quot;</span> <span class="p">:</span> <span class="s2">&quot;/oauth2/api/v1/access_token&quot;</span>
+	  <span class="p">},</span>
+	  <span class="s2">&quot;times&quot;</span> <span class="p">:</span> <span class="p">{</span>
+	    <span class="s2">&quot;remainingTimes&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+	    <span class="s2">&quot;unlimited&quot;</span> <span class="p">:</span> <span class="n">false</span>
+	  <span class="p">},</span>
+	  <span class="s2">&quot;timeToLive&quot;</span> <span class="p">:</span> <span class="p">{</span>
+	    <span class="s2">&quot;unlimited&quot;</span> <span class="p">:</span> <span class="n">true</span>
+	  <span class="p">},</span>
+	  <span class="s2">&quot;httpResponse&quot;</span> <span class="p">:</span> <span class="p">{</span>
+	    <span class="s2">&quot;statusCode&quot;</span> <span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+	    <span class="s2">&quot;headers&quot;</span> <span class="p">:</span> <span class="p">{</span>
+	      <span class="s2">&quot;Content-Type&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;application/json;charset=UTF-8&quot;</span> <span class="p">]</span>
+	    <span class="p">},</span>
+	    <span class="s2">&quot;body&quot;</span> <span class="p">:</span> <span class="s2">&quot;{ </span><span class="se">\&quot;</span><span class="s2">token</span><span class="se">\&quot;</span><span class="s2">: </span><span class="se">\&quot;</span><span class="s2">abcd1234</span><span class="se">\&quot;</span><span class="s2">}&quot;</span>
+	  <span class="p">}</span>
+	<span class="p">}</span>
+
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">06.035</span> <span class="p">[</span><span class="n">nioEventLoopGroup</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="n">DEBUG</span> <span class="n">io</span><span class="o">.</span><span class="n">netty</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">PoolThreadCache</span> <span class="o">-</span> <span class="n">Freed</span> <span class="mi">3</span> <span class="n">thread</span><span class="o">-</span><span class="n">local</span> <span class="n">buffer</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">thread</span><span class="p">:</span> <span class="n">nioEventLoopGroup</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">1</span>
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">06.106</span> <span class="p">[</span><span class="n">nioEventLoopGroup</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="n">INFO</span> <span class="n">org</span><span class="o">.</span><span class="n">mockserver</span><span class="o">.</span><span class="n">mock</span><span class="o">.</span><span class="n">HttpStateHandler</span> <span class="o">-</span> <span class="n">request</span><span class="p">:</span>
+
+	<span class="p">{</span>
+	  <span class="s2">&quot;method&quot;</span> <span class="p">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+	  <span class="s2">&quot;path&quot;</span> <span class="p">:</span> <span class="s2">&quot;/oauth2/api/v1/access_token&quot;</span><span class="p">,</span>
+	  <span class="s2">&quot;queryStringParameters&quot;</span> <span class="p">:</span> <span class="p">{</span>
+	    <span class="s2">&quot;client_secret&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;pass&quot;</span> <span class="p">],</span>
+	    <span class="s2">&quot;client_id&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;test&quot;</span> <span class="p">]</span>
+	  <span class="p">},</span>
+	  <span class="s2">&quot;headers&quot;</span> <span class="p">:</span> <span class="p">{</span>
+	    <span class="s2">&quot;content-length&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;0&quot;</span> <span class="p">],</span>
+	    <span class="s2">&quot;Connection&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;Keep-Alive&quot;</span> <span class="p">],</span>
+	    <span class="s2">&quot;User-Agent&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;okhttp/3.8.0&quot;</span> <span class="p">],</span>
+	    <span class="s2">&quot;Host&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;localhost:10086&quot;</span> <span class="p">],</span>
+	    <span class="s2">&quot;Accept-Encoding&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;gzip&quot;</span> <span class="p">]</span>
+	  <span class="p">},</span>
+	  <span class="s2">&quot;keepAlive&quot;</span> <span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+	  <span class="s2">&quot;secure&quot;</span> <span class="p">:</span> <span class="n">false</span>
+	<span class="p">}</span>
+
+ <span class="n">matched</span> <span class="n">expectation</span><span class="p">:</span>
+
+	<span class="p">{</span>
+	  <span class="s2">&quot;method&quot;</span> <span class="p">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+	  <span class="s2">&quot;path&quot;</span> <span class="p">:</span> <span class="s2">&quot;/oauth2/api/v1/access_token&quot;</span>
+	<span class="p">}</span>
+
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">06.114</span> <span class="p">[</span><span class="n">nioEventLoopGroup</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="n">INFO</span> <span class="n">org</span><span class="o">.</span><span class="n">mockserver</span><span class="o">.</span><span class="n">mock</span><span class="o">.</span><span class="n">HttpStateHandler</span> <span class="o">-</span> <span class="n">returning</span> <span class="n">response</span><span class="p">:</span>
+
+	<span class="p">{</span>
+	  <span class="s2">&quot;statusCode&quot;</span> <span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+	  <span class="s2">&quot;headers&quot;</span> <span class="p">:</span> <span class="p">{</span>
+	    <span class="s2">&quot;Content-Type&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;application/json;charset=UTF-8&quot;</span> <span class="p">],</span>
+	    <span class="s2">&quot;connection&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;keep-alive&quot;</span> <span class="p">]</span>
+	  <span class="p">},</span>
+	  <span class="s2">&quot;body&quot;</span> <span class="p">:</span> <span class="s2">&quot;{ </span><span class="se">\&quot;</span><span class="s2">token</span><span class="se">\&quot;</span><span class="s2">: </span><span class="se">\&quot;</span><span class="s2">abcd1234</span><span class="se">\&quot;</span><span class="s2">}&quot;</span>
+	<span class="p">}</span>
+
+ <span class="k">for</span> <span class="n">request</span><span class="p">:</span>
+
+	<span class="p">{</span>
+	  <span class="s2">&quot;method&quot;</span> <span class="p">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+	  <span class="s2">&quot;path&quot;</span> <span class="p">:</span> <span class="s2">&quot;/oauth2/api/v1/access_token&quot;</span><span class="p">,</span>
+	  <span class="s2">&quot;queryStringParameters&quot;</span> <span class="p">:</span> <span class="p">{</span>
+	    <span class="s2">&quot;client_secret&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;pass&quot;</span> <span class="p">],</span>
+	    <span class="s2">&quot;client_id&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;test&quot;</span> <span class="p">]</span>
+	  <span class="p">},</span>
+	  <span class="s2">&quot;headers&quot;</span> <span class="p">:</span> <span class="p">{</span>
+	    <span class="s2">&quot;content-length&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;0&quot;</span> <span class="p">],</span>
+	    <span class="s2">&quot;Connection&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;Keep-Alive&quot;</span> <span class="p">],</span>
+	    <span class="s2">&quot;User-Agent&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;okhttp/3.8.0&quot;</span> <span class="p">],</span>
+	    <span class="s2">&quot;Host&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;localhost:10086&quot;</span> <span class="p">],</span>
+	    <span class="s2">&quot;Accept-Encoding&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;gzip&quot;</span> <span class="p">]</span>
+	  <span class="p">},</span>
+	  <span class="s2">&quot;keepAlive&quot;</span> <span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+	  <span class="s2">&quot;secure&quot;</span> <span class="p">:</span> <span class="n">false</span>
+	<span class="p">}</span>
+
+ <span class="k">for</span> <span class="n">response</span> <span class="n">action</span><span class="p">:</span>
+
+	<span class="p">{</span>
+	  <span class="s2">&quot;statusCode&quot;</span> <span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+	  <span class="s2">&quot;headers&quot;</span> <span class="p">:</span> <span class="p">{</span>
+	    <span class="s2">&quot;Content-Type&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;application/json;charset=UTF-8&quot;</span> <span class="p">]</span>
+	  <span class="p">},</span>
+	  <span class="s2">&quot;body&quot;</span> <span class="p">:</span> <span class="s2">&quot;{ </span><span class="se">\&quot;</span><span class="s2">token</span><span class="se">\&quot;</span><span class="s2">: </span><span class="se">\&quot;</span><span class="s2">abcd1234</span><span class="se">\&quot;</span><span class="s2">}&quot;</span>
+	<span class="p">}</span>
+
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">06.122</span> <span class="p">[</span><span class="n">main</span><span class="p">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">walterfan</span><span class="o">.</span><span class="n">hellotest</span><span class="o">.</span><span class="n">MockServerTest</span> <span class="o">-</span> <span class="n">Content</span><span class="o">-</span><span class="n">Type</span><span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">json</span><span class="p">;</span><span class="n">charset</span><span class="o">=</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span>
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">06.123</span> <span class="p">[</span><span class="n">main</span><span class="p">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">walterfan</span><span class="o">.</span><span class="n">hellotest</span><span class="o">.</span><span class="n">MockServerTest</span> <span class="o">-</span> <span class="n">connection</span><span class="p">:</span> <span class="n">keep</span><span class="o">-</span><span class="n">alive</span>
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">06.123</span> <span class="p">[</span><span class="n">main</span><span class="p">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">walterfan</span><span class="o">.</span><span class="n">hellotest</span><span class="o">.</span><span class="n">MockServerTest</span> <span class="o">-</span> <span class="n">content</span><span class="o">-</span><span class="n">length</span><span class="p">:</span> <span class="mi">22</span>
+<span class="mi">22</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">06.124</span> <span class="p">[</span><span class="n">main</span><span class="p">]</span> <span class="n">INFO</span> <span class="n">com</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">walterfan</span><span class="o">.</span><span class="n">hellotest</span><span class="o">.</span><span class="n">MockServerTest</span> <span class="o">-</span>  <span class="n">strResult</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="s2">&quot;abcd1234&quot;</span><span class="p">}</span>
+
+</pre></div>
+</div>
+<p>pom.xml 如下</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+	xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+	&lt;groupId&gt;com.github.walterfan&lt;/groupId&gt;
+	&lt;artifactId&gt;hellotest&lt;/artifactId&gt;
+	&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+	&lt;packaging&gt;jar&lt;/packaging&gt;
+
+	&lt;name&gt;hellotest&lt;/name&gt;
+	&lt;description&gt;Demo project for Mock Test&lt;/description&gt;
+
+	&lt;parent&gt;
+		&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+		&lt;version&gt;1.5.8.RELEASE&lt;/version&gt;
+		&lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+	&lt;/parent&gt;
+
+	&lt;properties&gt;
+		&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+		&lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+		&lt;java.version&gt;1.8&lt;/java.version&gt;
+		&lt;spring-cloud.version&gt;Dalston.SR4&lt;/spring-cloud.version&gt;
+		&lt;okhttp.version&gt;3.8.0&lt;/okhttp.version&gt;
+		&lt;mock-server-version&gt;5.3.0&lt;/mock-server-version&gt;
+		&lt;maven-shade-plugin-version&gt;2.1&lt;/maven-shade-plugin-version&gt;
+		&lt;metrics.version&gt;3.1.5&lt;/metrics.version&gt;
+	&lt;/properties&gt;
+
+	&lt;dependencies&gt;
+
+			&lt;dependency&gt;
+				&lt;groupId&gt;io.dropwizard.metrics&lt;/groupId&gt;
+				&lt;artifactId&gt;metrics-core&lt;/artifactId&gt;
+				&lt;version&gt;${metrics.version}&lt;/version&gt;
+			&lt;/dependency&gt;
+
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+		&lt;/dependency&gt;
+
+		&lt;dependency&gt;
+			&lt;groupId&gt;com.h2database&lt;/groupId&gt;
+			&lt;artifactId&gt;h2&lt;/artifactId&gt;
+			&lt;scope&gt;runtime&lt;/scope&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+			&lt;artifactId&gt;lombok&lt;/artifactId&gt;
+			&lt;optional&gt;true&lt;/optional&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+			&lt;scope&gt;test&lt;/scope&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-cloud-starter-contract-stub-runner&lt;/artifactId&gt;
+			&lt;scope&gt;test&lt;/scope&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-cloud-starter-contract-verifier&lt;/artifactId&gt;
+			&lt;scope&gt;test&lt;/scope&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-cloud-contract-wiremock&lt;/artifactId&gt;
+			&lt;scope&gt;test&lt;/scope&gt;
+		&lt;/dependency&gt;
+
+		&lt;dependency&gt;
+			&lt;groupId&gt;com.fasterxml.jackson.datatype&lt;/groupId&gt;
+			&lt;artifactId&gt;jackson-datatype-jsr310&lt;/artifactId&gt;
+			&lt;version&gt;2.4.0&lt;/version&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;com.jayway.jsonpath&lt;/groupId&gt;
+			&lt;artifactId&gt;json-path&lt;/artifactId&gt;
+			&lt;version&gt;2.4.0&lt;/version&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.testng&lt;/groupId&gt;
+			&lt;artifactId&gt;testng&lt;/artifactId&gt;
+			&lt;version&gt;6.11&lt;/version&gt;
+		&lt;/dependency&gt;
+
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.mock-server&lt;/groupId&gt;
+			&lt;artifactId&gt;mockserver-netty&lt;/artifactId&gt;
+			&lt;version&gt;${mock-server-version}&lt;/version&gt;
+		&lt;/dependency&gt;
+
+		&lt;dependency&gt;
+			&lt;groupId&gt;com.squareup.okhttp3&lt;/groupId&gt;
+			&lt;artifactId&gt;okhttp&lt;/artifactId&gt;
+			&lt;version&gt;${okhttp.version}&lt;/version&gt;
+		&lt;/dependency&gt;
+
+		&lt;dependency&gt;
+			&lt;groupId&gt;com.github.tomakehurst&lt;/groupId&gt;
+			&lt;artifactId&gt;wiremock&lt;/artifactId&gt;
+			&lt;version&gt;2.12.0&lt;/version&gt;
+		&lt;/dependency&gt;
+
+	&lt;/dependencies&gt;
+
+	&lt;dependencyManagement&gt;
+		&lt;dependencies&gt;
+			&lt;dependency&gt;
+				&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+				&lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
+				&lt;version&gt;${spring-cloud.version}&lt;/version&gt;
+				&lt;type&gt;pom&lt;/type&gt;
+				&lt;scope&gt;import&lt;/scope&gt;
+			&lt;/dependency&gt;
+		&lt;/dependencies&gt;
+	&lt;/dependencyManagement&gt;
+
+	&lt;build&gt;
+		&lt;plugins&gt;
+			&lt;plugin&gt;
+				&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+				&lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+			&lt;/plugin&gt;
+		&lt;/plugins&gt;
+	&lt;/build&gt;
+
+
+&lt;/project&gt;
+
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>参考资料<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>https://github.com/google/googletest/blob/master/googlemock/docs/ForDummies.md</p></li>
+<li><p>https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md</p></li>
+<li><p>https://github.com/google/googletest/blob/master/googlemock/docs/CookBook.md</p></li>
+<li><p><a class="reference external" href="http://static.javadoc.io/org.mockito/mockito-core/2.2.15/org/mockito/Mockito.html">Mockito 官方文档 </a></p></li>
+<li><p><a class="reference external" href="https://dzone.com/refcardz/mockito">Mockito Refcard</a></p></li>
+<li><p><a class="reference external" href="https://github.com/mockito/mockito/wiki/How-to-write-good-tests">如何写出好测试</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tdd.html" class="btn btn-neutral float-left" title="TDD" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="test_in_java.html" class="btn btn-neutral float-right" title="Java 测试实战" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

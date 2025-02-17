@@ -1,0 +1,276 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JAR &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2. Framework and Library" href="../2.library/index.html" />
+    <link rel="prev" title="Thread Pool Optimization by MDD" href="thread_pool_mdd.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Basic</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Java 语言概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring-boot-starter-test.html">Spring Boot Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_framework.html">Spring Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_mvc.html">Spring MVC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_boot.html">Spring Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_security.html">Spring Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thread_pool_mdd.html">Thread Pool Optimization by MDD</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">JAR</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#structure">Structure</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#meta-inf">META-INF 目录</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boot-inf">BOOT-INF 目录</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#reference">Reference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../2.library/index.html">2. Framework and Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3.middleware/index.html">3. Middleware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.architecture/index.html">4. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5.tips/index.html">5. Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">1. Basic</a></li>
+      <li class="breadcrumb-item active">JAR</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/1.basic/jar_package.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="jar">
+<h1>JAR<a class="headerlink" href="#jar" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>JAR file is a file format based on the popular ZIP file format and is used for aggregating many files into one. A JAR file is essentially a zip file that contains an optional META-INF directory. A JAR file can be created by the command-line jar tool, or by using the java.util.jar API in the Java platform. There is no restriction on the name of a JAR file, it can be any legal file name on a particular platform</p>
+</section>
+<section id="structure">
+<h2>Structure<a class="headerlink" href="#structure" title="Link to this heading"></a></h2>
+<p>在 Java 应用程序中，尤其是基于 Spring Boot 的应用程序中，BOOT-INF 和 META-INF 目录是用于组织和存储不同类型资源的关键结构。以下是它们各自的用途：</p>
+<section id="meta-inf">
+<h3>META-INF 目录<a class="headerlink" href="#meta-inf" title="Link to this heading"></a></h3>
+<p>META-INF 是 JAR 文件的标准目录，用于存放元信息（metadata）和配置文件，与 JAR 文件本身的行为或依赖关系相关。</p>
+<p>常见内容</p>
+<ol class="arabic simple">
+<li><p>MANIFEST.MF 文件</p></li>
+</ol>
+<ul class="simple">
+<li><p>作用: 存储有关 JAR 包的信息，例如版本号、依赖、入口点类等。</p></li>
+<li><p>关键字段:</p></li>
+<li><p>Main-Class: 指定应用的主类（入口点）。</p></li>
+<li><p>Class-Path: 列出运行时需要的其他 JAR 包。</p></li>
+<li><p>Implementation-Version: 指示版本信息。</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>服务加载器配置文件 (META-INF/services/)</p></li>
+</ol>
+<ul class="simple">
+<li><p>作用: 定义 SPI（Service Provider Interface）服务实现。例如，META-INF/services/javax.servlet.Servlet 会列出实现 Servlet 接口的类。</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>其他配置文件</p></li>
+</ol>
+<ul class="simple">
+<li><p>例如 META-INF/spring.factories，用于指定 Spring Boot 自动配置类。</p></li>
+<li><p>META-INF/persistence.xml，用于 JPA 配置。</p></li>
+</ul>
+<p>example of nacos</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Manifest</span><span class="o">-</span><span class="n">Version</span><span class="p">:</span> <span class="mf">1.0</span>
+<span class="n">Created</span><span class="o">-</span><span class="n">By</span><span class="p">:</span> <span class="n">Maven</span> <span class="n">JAR</span> <span class="n">Plugin</span> <span class="mf">3.2.2</span>
+<span class="n">Build</span><span class="o">-</span><span class="n">Jdk</span><span class="o">-</span><span class="n">Spec</span><span class="p">:</span> <span class="mi">21</span>
+<span class="n">Specification</span><span class="o">-</span><span class="n">Title</span><span class="p">:</span> <span class="n">nacos</span><span class="o">-</span><span class="n">console</span> <span class="mf">2.4.3</span>
+<span class="n">Specification</span><span class="o">-</span><span class="n">Version</span><span class="p">:</span> <span class="mf">2.4</span>
+<span class="n">Specification</span><span class="o">-</span><span class="n">Vendor</span><span class="p">:</span> <span class="n">Alibaba</span> <span class="n">Group</span>
+<span class="n">Implementation</span><span class="o">-</span><span class="n">Title</span><span class="p">:</span> <span class="n">nacos</span><span class="o">-</span><span class="n">console</span> <span class="mf">2.4.3</span>
+<span class="n">Implementation</span><span class="o">-</span><span class="n">Version</span><span class="p">:</span> <span class="mf">2.4.3</span>
+<span class="n">Implementation</span><span class="o">-</span><span class="n">Vendor</span><span class="p">:</span> <span class="n">Alibaba</span> <span class="n">Group</span>
+<span class="n">Main</span><span class="o">-</span><span class="n">Class</span><span class="p">:</span> <span class="n">org</span><span class="o">.</span><span class="n">springframework</span><span class="o">.</span><span class="n">boot</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">PropertiesLauncher</span>
+<span class="n">Start</span><span class="o">-</span><span class="n">Class</span><span class="p">:</span> <span class="n">com</span><span class="o">.</span><span class="n">alibaba</span><span class="o">.</span><span class="n">nacos</span><span class="o">.</span><span class="n">Nacos</span>
+<span class="n">Spring</span><span class="o">-</span><span class="n">Boot</span><span class="o">-</span><span class="n">Version</span><span class="p">:</span> <span class="mf">2.7.18</span>
+<span class="n">Spring</span><span class="o">-</span><span class="n">Boot</span><span class="o">-</span><span class="n">Classes</span><span class="p">:</span> <span class="n">BOOT</span><span class="o">-</span><span class="n">INF</span><span class="o">/</span><span class="n">classes</span><span class="o">/</span>
+<span class="n">Spring</span><span class="o">-</span><span class="n">Boot</span><span class="o">-</span><span class="n">Lib</span><span class="p">:</span> <span class="n">BOOT</span><span class="o">-</span><span class="n">INF</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span>
+<span class="n">Spring</span><span class="o">-</span><span class="n">Boot</span><span class="o">-</span><span class="n">Classpath</span><span class="o">-</span><span class="n">Index</span><span class="p">:</span> <span class="n">BOOT</span><span class="o">-</span><span class="n">INF</span><span class="o">/</span><span class="n">classpath</span><span class="o">.</span><span class="n">idx</span>
+<span class="n">Spring</span><span class="o">-</span><span class="n">Boot</span><span class="o">-</span><span class="n">Layers</span><span class="o">-</span><span class="n">Index</span><span class="p">:</span> <span class="n">BOOT</span><span class="o">-</span><span class="n">INF</span><span class="o">/</span><span class="n">layers</span><span class="o">.</span><span class="n">idx</span>
+
+
+</pre></div>
+</div>
+</section>
+<section id="boot-inf">
+<h3>BOOT-INF 目录<a class="headerlink" href="#boot-inf" title="Link to this heading"></a></h3>
+<p>BOOT-INF 是 Spring Boot 特有的目录，用于组织 Spring Boot 可执行 JAR 文件的内容。这个目录的结构是 Spring Boot 打包工具（例如 Maven 或 Gradle 插件）生成的。</p>
+<p>结构与作用</p>
+<ol class="arabic simple">
+<li><p>BOOT-INF/classes/</p></li>
+</ol>
+<ul class="simple">
+<li><p>存储内容: 应用程序的编译字节码和资源文件（src/main/resources 和 src/main/java 的输出）。</p></li>
+<li><p>作用: 是 Spring Boot 应用运行时的主要类路径。</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>BOOT-INF/lib/</p></li>
+</ol>
+<ul class="simple">
+<li><p>存储内容: 应用运行时所需的依赖 JAR 包。</p></li>
+<li><p>作用: 这些依赖库会添加到类加载器中，用于支持应用运行。</p></li>
+</ul>
+<p>注意:</p>
+<p>Spring Boot 将 JAR 包分层组织到 BOOT-INF 目录中，使得：</p>
+<ul class="simple">
+<li><p>主应用代码（BOOT-INF/classes）与依赖库（BOOT-INF/lib）分离。</p></li>
+<li><p>启动器类加载器（org.springframework.boot.loader.Launcher）能够动态加载这些路径。</p></li>
+</ul>
+<p>两者的区别</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>特性</p></th>
+<th class="head"><p>META-INF</p></th>
+<th class="head"><p>BOOT-INF</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>标准/特有</p></td>
+<td><p>JAR 文件的标准结构</p></td>
+<td><p>Spring Boot 特有的结构</p></td>
+</tr>
+<tr class="row-odd"><td><p>存储内容</p></td>
+<td><p>JAR 元信息、服务加载器文件等</p></td>
+<td><p>应用程序的类和依赖</p></td>
+</tr>
+<tr class="row-even"><td><p>目的</p></td>
+<td><p>描述和配置 JAR 包的行为</p></td>
+<td><p>提供应用的实际运行时类与依赖</p></td>
+</tr>
+<tr class="row-odd"><td><p>工具依赖</p></td>
+<td><p>标准 Java 工具（如 java -jar）支持 Spring Boot 的自定义类加载器支持</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p>总结</p>
+<ul class="simple">
+<li><p>META-INF 是标准 JAR 结构的一部分，用于描述 JAR 的元数据。</p></li>
+<li><p>BOOT-INF 是 Spring Boot 定义的，用于组织应用代码和依赖关系，使 Spring Boot JAR 能作为独立的可执行单元运行。</p></li>
+</ul>
+</section>
+</section>
+<section id="reference">
+<h2>Reference<a class="headerlink" href="#reference" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>https://docs.oracle.com/en/java/javase/17/docs/specs/jar/jar.html</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="thread_pool_mdd.html" class="btn btn-neutral float-left" title="Thread Pool Optimization by MDD" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../2.library/index.html" class="btn btn-neutral float-right" title="2. Framework and Library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

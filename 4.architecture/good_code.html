@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>什么是好代码 &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="微服务设计方法" href="micro_service_design.html" />
+    <link rel="prev" title="Clean Code" href="clean_code.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1.basic/index.html">1. Basic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2.library/index.html">2. Framework and Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3.middleware/index.html">3. Middleware</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">4. Architecture</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">敏捷架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graph_model.html">Property Graph Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rpc_rest_graphql.html">RPC, REST, 还是 GraphQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddd.html">DDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mdd.html">MDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pattern.html">Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clean_code.html">Clean Code</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">什么是好代码</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1. 好代码必须是看起来很舒服，很干净</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2. 好代码要符合基本的编码原则</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kiss">KISS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dry-don-t-repeat-yourself">DRY – Don’t Repeat Yourself</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#srp-single-responsibility-principle">SRP - Single Responsibility Principle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ocp-open-close-principle">OCP - Open Close Principle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lsp">LSP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dip">DIP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#isp">ISP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rep">REP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ccp">CCP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crp">CRP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adp">ADP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdp">SDP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sap">SAP</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">3. 好代码要易于理解，测试和修改</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">4. 好代码要考虑周到</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">5. 好代码要与时俱进，自我蜕变</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#python">Python 之禅</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">参考</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="micro_service_design.html">微服务设计方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="micro-profile-config.html">MicroProfile Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="micro-profile-fault-tolerance.html">MicroProfile Fault Tolerance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../5.tips/index.html">5. Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">4. Architecture</a></li>
+      <li class="breadcrumb-item active">什么是好代码</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/4.architecture/good_code.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>什么是好代码<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>1. 好代码必须是看起来很舒服，很干净<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>象一篇好文章，不罗嗦，容易懂，有头有尾</p>
+<p>各个层次，模块及函数分工明确，各司其职, 望文知义</p>
+<p>接口即契约，要足够简单，易懂易用， 窄接口好过宽接口</p>
+<p>其实只要符合代码规范，命名简单易懂，代码就没那么丑</p>
+<p>参见 <a class="reference external" href="https://github.com/google/styleguide">Google 的代码风格指南</a></p>
+<p>看看重构那本书中的臭味介绍, 可以提高品味</p>
+</section>
+<section id="id3">
+<h2>2. 好代码要符合基本的编码原则<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>首先我们先谈谈几个软件开发的普适原则</p>
+<section id="kiss">
+<h3>KISS<a class="headerlink" href="#kiss" title="Link to this heading"></a></h3>
+<p>KISS: Keep It Simple and Straight 保持简单和直接, 适当隐藏复杂性</p>
+<p>或者</p>
+<p>KISS: Keep It Simple and Stupid 保持简单, 象傻瓜一样, 不要让别人多加思考</p>
+<p>软件接口或 API 的设计要让人一看就明白, 一看就知道作者的意图和想法, 如何使用它, 有什么结果和可能的异常及副作用. 看过很多代码， 踩过许多坑， 大多是作者或者我自己使用了出乎意料的实现， 不做好必要的抽象和封装， 复杂的判断和算法到处都是</p>
+</section>
+<section id="dry-don-t-repeat-yourself">
+<h3>DRY – Don’t Repeat Yourself<a class="headerlink" href="#dry-don-t-repeat-yourself" title="Link to this heading"></a></h3>
+<p>别重复你自己, 如有重复代码, 请抽象或重用</p>
+</section>
+<section id="srp-single-responsibility-principle">
+<h3>SRP - Single Responsibility Principle<a class="headerlink" href="#srp-single-responsibility-principle" title="Link to this heading"></a></h3>
+<p>单一职责原则: 就一类而言, 应该仅有一个引起它变化的原因</p>
+<p>也有一个别称 DOTADIW - Do One Thing and Do It Well 就做一件事并做好它</p>
+</section>
+<section id="ocp-open-close-principle">
+<h3>OCP - Open Close Principle<a class="headerlink" href="#ocp-open-close-principle" title="Link to this heading"></a></h3>
+<p>开放封闭原则: 软件实体(类,模块,函数等)应该是可以扩展的, 但是不可修改</p>
+</section>
+<section id="lsp">
+<h3>LSP<a class="headerlink" href="#lsp" title="Link to this heading"></a></h3>
+<p>LSP替换基类原则: 子类型应该可以替换掉它们的基类型</p>
+</section>
+<section id="dip">
+<h3>DIP<a class="headerlink" href="#dip" title="Link to this heading"></a></h3>
+<p>DIP依赖倒置原则: 抽象不应该依赖于细节, 细节应该依赖于抽象</p>
+</section>
+<section id="isp">
+<h3>ISP<a class="headerlink" href="#isp" title="Link to this heading"></a></h3>
+<p>ISP接口隔离原则: 不应该强迫客户依赖于它们不用的方法, 接口属于客户, 不属于它所在的类层次结构</p>
+</section>
+<section id="rep">
+<h3>REP<a class="headerlink" href="#rep" title="Link to this heading"></a></h3>
+<p>REP重用发布等价原则: 重用的粒度就是发布的粒度</p>
+</section>
+<section id="ccp">
+<h3>CCP<a class="headerlink" href="#ccp" title="Link to this heading"></a></h3>
+<p>CCP共同封闭原则: 包中的所有类对于同一类性质的变化应该是共同封闭的. 一个变化若对一个包产生影响, 则将对包中所有的类产生影响, 而对于其他的包不造成任何影响</p>
+</section>
+<section id="crp">
+<h3>CRP<a class="headerlink" href="#crp" title="Link to this heading"></a></h3>
+<p>CRP共同重用原则: 一个包中的所有类应该是共同重用的. 如果重用了包中的一个类, 那么就要重用包中的所有类</p>
+</section>
+<section id="adp">
+<h3>ADP<a class="headerlink" href="#adp" title="Link to this heading"></a></h3>
+<p>ADP无环依赖原则: 在包的依赖关系图不允许存在环</p>
+</section>
+<section id="sdp">
+<h3>SDP<a class="headerlink" href="#sdp" title="Link to this heading"></a></h3>
+<p>SDP稳定依赖原则: 朝着稳定的方向进行依赖.</p>
+</section>
+<section id="sap">
+<h3>SAP<a class="headerlink" href="#sap" title="Link to this heading"></a></h3>
+<p>SAP稳定抽象原则: 包的抽象程度应该和其稳定程度一致</p>
+<p>设计模式和面向对象设计中讲了很多，不再赘述</p>
+</section>
+</section>
+<section id="id4">
+<h2>3. 好代码要易于理解，测试和修改<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>封装好复杂性，区分开经常变化与基本不变的代码, 适当抽取易变参数作为配置</p>
+<p>还是书里那句话，高内聚，低耦合，依赖倒置</p>
+<p>例如最常用的 MVC 模式，为什么我们要分成模型，视图和控制器三块，原因之一就在于分开易变的与不易变的，分开不会在一起变化的部分，减小每次修改的范围。</p>
+<p>如果某个方面的功能需要修改，最好是改个配置， 其次是加几行代码或传个不同参数，最差的就是改多个地方，加多个判断， 作霰弹式修改</p>
+</section>
+<section id="id5">
+<h2>4. 好代码要考虑周到<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<p>各种逻辑流程和意外情况的处理要面面俱到, 单元和模块测试要覆盖异常逻辑和边界</p>
+<p>对于服务质量 SLA 要考虑周全, 简单说起来就是满足用户的以下基本需求</p>
+<ol class="arabic simple">
+<li><p>功能性</p></li>
+<li><p>稳定性</p></li>
+<li><p>可靠性</p></li>
+<li><p>性能</p></li>
+<li><p>可维护性</p></li>
+<li><p>可移植性</p></li>
+<li><p>灵活性</p></li>
+</ol>
+</section>
+<section id="id6">
+<h2>5. 好代码要与时俱进，自我蜕变<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<p>人会变老，代码也会，新业务，新技术，新架构，新框架层出不穷，要大胆试验，小心引入，逐步演进，不必抱残守缺，也不要盲目冲动</p>
+<p>一般来说，要封装好业务逻辑，核心业务不会大变，即使推到重写也要理解和参照老系统的业务流程</p>
+<p>最后，引述一下，Python 之禅</p>
+</section>
+<section id="python">
+<h2>Python 之禅<a class="headerlink" href="#python" title="Link to this heading"></a></h2>
+<p>虽然说的是Python, 其实适用于多数编程语言</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>英文</p></th>
+<th class="head"><p>中文</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Beautiful is better than ugly.</p></td>
+<td><p>美比丑好</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Explicit is better than implicit.    | 明显比隐晦好
+Simple is better than complex.       | 简单比复杂好
+Complex is better than complicated.  | 复杂比难懂好
+Flat is better than nested.			 | 扁平比嵌套好
+Sparse is better than dense.         | 稀疏比稠密好
+Readability counts.                  | 可读性很重要
+Special cases aren&#39;t special enough to break the rules.  | 特例也不要打破这个原则
+Although practicality beats purity.                      | 尽管实践会破坏纯洁性
+Errors should never pass silently.                       | 错误还是不能让其悄然滑过
+Unless explicitly silenced.                              | 除非你明确声明不用理会它
+In the face of ambiguity, refuse the temptation to guess. | 别让人来猜测不确定的可能性
+There should be one-- and preferably only one --obvious way to do it. | 应该有一个且只有一个比较好的明显的方法来做事
+Although that way may not be obvious at first unless you&#39;re Dutch. | 尽管那个方法可能并非一开始就显而易见
+Now is better than never. | 现在就做比永远不做好
+Although never is often better than right now. | 尽管永远不做经常比马上就动手做好
+If the implementation is hard to explain, it&#39;s a bad idea. | 如果实现很难解释清楚, 那它不是一个好主意
+If the implementation is easy to explain, it may be a good idea. | 如果实现很容易说清楚, 那它是个好主意
+Namespaces are one honking great idea – let&#39;s do more of those! | 命名空间是个绝妙点子, 让我们那样做得更多
+</pre></div>
+</div>
+<p>简单总结一下</p>
+<ul class="simple">
+<li><p>文学化编程，想清楚，整明白，胸有成竹，下手千行</p></li>
+<li><p>测试驱动，不做额外的无用功，不追求覆盖率，为的是增强自信心</p></li>
+<li><p>度量驱动，代码上线怎么办，如何易于度量和调优</p></li>
+<li><p>为未来设计有限的灵活性，高聚低耦，无需多改容易扩展</p></li>
+<li><p>考虑周全，足够的健壮，不易出错，不怕出错</p></li>
+</ul>
+</section>
+<section id="id7">
+<h2>参考<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Agile Software Development, Principles, Patterns, and Practices by Robert C. Martin</p></li>
+<li><p>Clean code by Robert C. Martin</p></li>
+<li><p>Refactoring: Improving the Design of Existing Code Martin Fowler</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="clean_code.html" class="btn btn-neutral float-left" title="Clean Code" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="micro_service_design.html" class="btn btn-neutral float-right" title="微服务设计方法" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

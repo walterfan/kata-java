@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TDD &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Test Mock" href="test_mock.html" />
+    <link rel="prev" title="Spring Boot Tips" href="spring_boot_tips.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1.basic/index.html">1. Basic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2.library/index.html">2. Framework and Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3.middleware/index.html">3. Middleware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.architecture/index.html">4. Architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. Tips</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Development Methodology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_boot_tips.html">Spring Boot Tips</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">TDD</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">1. 背景</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">1. 测试的时机</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">2. 测试的效率</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">3. 测试的度量</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">4. 测试的对象</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">测试的分类</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">测试金字塔</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">单元测试的原则</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#first">FIRST 原则</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#right-bicep">Right-BICEP 测试原则</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#correct">CORRECT 检查原则</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">测试相关框架与库</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">测试的策略</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">测试用例的组织</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">测试的过程</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="test_mock.html">Test Mock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_in_java.html">Java 测试实战</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">5. Tips</a></li>
+      <li class="breadcrumb-item active">TDD</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/5.tips/tdd.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tdd">
+<h1>TDD<a class="headerlink" href="#tdd" title="Link to this heading"></a></h1>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Abstract</strong></p></td>
+<td><p>Test Driven Developement</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Category</strong></p></td>
+<td><p>learning note</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Authors</strong></p></td>
+<td><p>Walter Fan</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Status</strong></p></td>
+<td><p>WIP as draft</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Updated</strong></p></td>
+<td><p>2025-02-17</p></td>
+</tr>
+</tbody>
+</table>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#id1" id="id13">1. 背景</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id2" id="id14">1. 测试的时机</a></p></li>
+<li><p><a class="reference internal" href="#id3" id="id15">2. 测试的效率</a></p></li>
+<li><p><a class="reference internal" href="#id4" id="id16">3. 测试的度量</a></p></li>
+<li><p><a class="reference internal" href="#id5" id="id17">4. 测试的对象</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#id6" id="id18">测试的分类</a></p></li>
+<li><p><a class="reference internal" href="#id7" id="id19">测试金字塔</a></p></li>
+<li><p><a class="reference internal" href="#id8" id="id20">单元测试的原则</a></p>
+<ul>
+<li><p><a class="reference internal" href="#first" id="id21">FIRST 原则</a></p></li>
+<li><p><a class="reference internal" href="#right-bicep" id="id22">Right-BICEP 测试原则</a></p></li>
+<li><p><a class="reference internal" href="#correct" id="id23">CORRECT 检查原则</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#id9" id="id24">测试相关框架与库</a></p></li>
+<li><p><a class="reference internal" href="#id10" id="id25">测试的策略</a></p></li>
+<li><p><a class="reference internal" href="#id11" id="id26">测试用例的组织</a></p></li>
+<li><p><a class="reference internal" href="#id12" id="id27">测试的过程</a></p></li>
+</ul>
+</nav>
+<section id="id1">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">1. 背景</a><a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="id2">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">1. 测试的时机</a><a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>不是东西做出来再测，而是测好了东西才能出来 各个大小公司，独立的测试团队都在削减人员，不是测试不重要，而是需要全员从一开始就要做测试， 全过程测试， 早期注重单元测试和组件测试， 后期注重集成测试和端到端测试。在一个迭代尽量做一个相对完整的功能， 及时做集成， 而不是最后再一起做集成测试
+(当然独立专业的测试团队还是很有必要的, 自己测自己写的东西, 很难发现意想不到的问题)</p>
+</section>
+<section id="id3">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">2. 测试的效率</a><a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>讲究有效性，稳定性和性能，一定要自动化，跨越多个组件的端到端测试必须有，可是不宜多，而且应该是聚焦在于功能性，无需过度测试，有必要才测， 代码对测试友好， 也就是易于测试。 测试要讲究有效性，稳定性和性能。
+从思维定势的角度来看， 单元测试可以自己做， 组件测试和集成测试最好换位思考， 结对测试或交由测试专家来做</p>
+</section>
+<section id="id4">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">3. 测试的度量</a><a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>测试要有覆盖率，哪怕仅作参考 性能测试更要有数据，比如 CPS TPS QPS 最耗时间的函数等在测试过程中收集到的度量数据</p>
+</section>
+<section id="id5">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">4. 测试的对象</a><a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>测试到底测什么?
+测试目的要明确, 检查点是先定义好. 哪些值, 状态, 还是行为要检查?
+测试范围更要定义清楚, 单元,组件,系统内部还是端到端的用户操作?</p>
+</section>
+</section>
+<section id="id6">
+<h2><a class="toc-backref" href="#id18" role="doc-backlink">测试的分类</a><a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>黑盒测试</p></li>
+<li><p>白盒测试</p></li>
+</ul>
+<p>—
+- 手工测试
+- 自动测试</p>
+<p>—
+- 冒烟测试
+- 回归测试
+- 探索性测试</p>
+<p>—
+- 单元测试
+- 组件测试
+- 消费者测试
+- 集成测试
+- 端到端测试</p>
+<p>—
+- 压力测试
+- 异常测试</p>
+</section>
+<section id="id7">
+<h2><a class="toc-backref" href="#id19" role="doc-backlink">测试金字塔</a><a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<p>![](test_pyramid.png)</p>
+<p>因为越往上测试的实现和维护成本就越高, 测试速度也越慢, 所以提倡多写单元测试, 少写端到端的测试, 少写不等于不写, 上层的测试着重测一些主要的路径, 不需要面面俱到, 不然费时费力</p>
+<ul class="simple">
+<li><p>层次越靠上，运行效率越低，延缓持续集成的构建-反馈循环。</p></li>
+<li><p>层次越靠上，开发复杂度越高，如果团队能力受限，交付进度受影响。</p></li>
+<li><p>端到端测试更容易遇到测试结果的不确定性。</p></li>
+<li><p>层次越靠下，单元隔离性越强，定位分析问题越容易。</p></li>
+</ul>
+<p>为了提交效率，加快交付的频率和速度，使产品具备随时可发布的能力，我们需要构建自动化的测试
+- 单元测试
+- 集成测试（包括 API 测试）
+- 端到端的功能测试</p>
+</section>
+<section id="id8">
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">单元测试的原则</a><a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<p>有本书单元测试之道总结了若干单元测试的原则， 先来回顾一下
+Pragmatic Unit Testing by Andrew Hunt and David Thomas</p>
+<section id="first">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">FIRST 原则</a><a class="headerlink" href="#first" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Fast 快速的</p></li>
+<li><p>Isolated 隔离</p></li>
+<li><p>Repeatable 可重复</p></li>
+<li><p>Self-Validating 自验证</p></li>
+<li><p>Timely 及时的</p></li>
+</ul>
+</section>
+<section id="right-bicep">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">Right-BICEP 测试原则</a><a class="headerlink" href="#right-bicep" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Right - Are the results right?        结果是否正确？</p></li>
+<li><p>B - are all the boundary conditions correct?  所有的边界条件测试结果正确吗</p></li>
+<li><p>I - can you check the inverse relationships?  有没有检查反向关系</p></li>
+<li><p>C - can you cross-check results using other means?    能不能用其他方法交叉检查结果？</p></li>
+<li><p>E - can you force error conditions to happen? 能不能强制错误情况发生？</p></li>
+<li><p>P - are performance characteristics within bounds?    性能特性在不在允许范围之内？</p></li>
+</ul>
+</section>
+<section id="correct">
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">CORRECT 检查原则</a><a class="headerlink" href="#correct" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>C - Conformance - does the value conform to an expected format?       一致性 - 值是否符合预期的格式？</p></li>
+<li><p>O - Ordering - is the set of values ordered or unordered as appropriate?      排序 - 值的集合是否根据需要进行排序或无序？</p></li>
+<li><p>R - Range - is the value within reasonable minimum and maximum values?        范围 - 值是否在合理的最小值和最大值范围之内？</p></li>
+<li><p>R - Reference - does the code reference anything external that isn’t under direct control of the code itself? 引用 - 代码是否引用了不受代码本身直接控制的外部依赖？</p></li>
+<li><p>E - Existence - does the value exist (e.g. is not null, non-zero, present in a set)?  存在 - 值是否存在（例如，不为null，非零，是否存在于集合中）？</p></li>
+<li><p>C - Cardinality - are there exactly enough values?    基数 - 是否有足够的值？</p></li>
+<li><p>T - Time (absolute and relative) - is everything happening in order? At the right time? In time?      时间（绝对和相对） - 一切事件是否有序？ 是否在正确的时间？ 是否及时？</p></li>
+</ul>
+</section>
+</section>
+<section id="id9">
+<h2><a class="toc-backref" href="#id24" role="doc-backlink">测试相关框架与库</a><a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<p>林林总总, 不胜枚举, C++的googletest, gmock, Java的 Junit, TestNG, Mockito, PowerMock, JavaScript 的 Qunit, Python 的 unittest, Lua 的 luaunit, 等等， 其实他们都是脱胎于 JUnit , 使用起来也是大同小异。</p>
+</section>
+<section id="id10">
+<h2><a class="toc-backref" href="#id25" role="doc-backlink">测试的策略</a><a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<p>测试要分类，分组，而且要能快速定位和诊断测试的失败之处
+在开始系统级测试之前, 最好能列一个测试矩阵 Test matrix 把所有已知条件, 场景和输入, 或变化的因子列出来, 以免遗漏， 例如我们要测试网页的登录功能对于各大浏览器的兼容性：</p>
+<p>Components      Scenario        Safari  Edge    Chrome  Firefox Opera
+Portal  Login   pass    pass    pass    pass    pass</p>
+</section>
+<section id="id11">
+<h2><a class="toc-backref" href="#id26" role="doc-backlink">测试用例的组织</a><a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<p>Given-When-Then
+===  ==== ====
+BDD  说明  示例
+===  ==== ====
+Given   先决条件    广告部定制了企业的服务电话语音为最近一次促销活动广告
+When    行为或事件   用户拔打 800 服务电话
+Then    期待的变化或结果        欢迎声后听到最近一次促销广告
+===  ==== ====</p>
+</section>
+<section id="id12">
+<h2><a class="toc-backref" href="#id27" role="doc-backlink">测试的过程</a><a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<p>测试四步法
+1. Setup
+2. Exercise
+3. Verify
+4. Teardown</p>
+<p>![](test_steps.png)</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="spring_boot_tips.html" class="btn btn-neutral float-left" title="Spring Boot Tips" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="test_mock.html" class="btn btn-neutral float-right" title="Test Mock" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

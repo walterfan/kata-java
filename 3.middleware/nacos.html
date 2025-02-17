@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nacos &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="MongoDB" href="mongodb.html" />
+    <link rel="prev" title="Cloud" href="cloud_native.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1.basic/index.html">1. Basic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2.library/index.html">2. Framework and Library</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. Middleware</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">DevOps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud_native.html">Cloud</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Nacos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#concepts">concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#region">地域 Region</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#available-zone">可用区 Available Zone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#endpoint">接入点 Endpoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#namespace">命名空间 Namespace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">配置 Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-management">配置管理 Configuration Management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-item">配置项 Configuration Item</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-set">配置集 Configuration Set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id-data-id">配置集 ID - Data ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#group">配置分组 Group</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-snapshot">配置快照 Configuration Snapshot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#service">服务 Service</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#service-name">服务名 Service Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#service-registry">服务注册中心 Service Registry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#service-discovery">服务发现 Service Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metadata">元信息 Metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application">应用 Application</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#service-group">服务分组 Service Group</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#virtual-cluster">虚拟集群 Virtual Cluster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#instance">实例 Instance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#weight">权重 Weight</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#health-check">健康检查 Health Check</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#protect-threshold">健康保护阈值 Protect Threshold</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#entry">entry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example">example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mongodb.html">MongoDB</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../4.architecture/index.html">4. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5.tips/index.html">5. Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">3. Middleware</a></li>
+      <li class="breadcrumb-item active">Nacos</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/3.middleware/nacos.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nacos">
+<h1>Nacos<a class="headerlink" href="#nacos" title="Link to this heading"></a></h1>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Abstract</strong></p></td>
+<td><p>Nacos</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Authors</strong></p></td>
+<td><p>Walter Fan</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Status</strong></p></td>
+<td><p>WIP as draft</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Updated</strong></p></td>
+<td><p>2025-02-17</p></td>
+</tr>
+</tbody>
+</table>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id1">overview</a></p></li>
+<li><p><a class="reference internal" href="#concepts" id="id2">concepts</a></p>
+<ul>
+<li><p><a class="reference internal" href="#region" id="id3">地域 Region</a></p></li>
+<li><p><a class="reference internal" href="#available-zone" id="id4">可用区 Available Zone</a></p></li>
+<li><p><a class="reference internal" href="#endpoint" id="id5">接入点 Endpoint</a></p></li>
+<li><p><a class="reference internal" href="#namespace" id="id6">命名空间 Namespace</a></p></li>
+<li><p><a class="reference internal" href="#configuration" id="id7">配置 Configuration</a></p></li>
+<li><p><a class="reference internal" href="#configuration-management" id="id8">配置管理 Configuration Management</a></p></li>
+<li><p><a class="reference internal" href="#configuration-item" id="id9">配置项 Configuration Item</a></p></li>
+<li><p><a class="reference internal" href="#configuration-set" id="id10">配置集 Configuration Set</a></p></li>
+<li><p><a class="reference internal" href="#id-data-id" id="id11">配置集 ID - Data ID</a></p></li>
+<li><p><a class="reference internal" href="#group" id="id12">配置分组 Group</a></p></li>
+<li><p><a class="reference internal" href="#configuration-snapshot" id="id13">配置快照 Configuration Snapshot</a></p></li>
+<li><p><a class="reference internal" href="#service" id="id14">服务 Service</a></p></li>
+<li><p><a class="reference internal" href="#service-name" id="id15">服务名 Service Name</a></p></li>
+<li><p><a class="reference internal" href="#service-registry" id="id16">服务注册中心 Service Registry</a></p></li>
+<li><p><a class="reference internal" href="#service-discovery" id="id17">服务发现 Service Discovery</a></p></li>
+<li><p><a class="reference internal" href="#metadata" id="id18">元信息 Metadata</a></p></li>
+<li><p><a class="reference internal" href="#application" id="id19">应用 Application</a></p></li>
+<li><p><a class="reference internal" href="#service-group" id="id20">服务分组 Service Group</a></p></li>
+<li><p><a class="reference internal" href="#virtual-cluster" id="id21">虚拟集群 Virtual Cluster</a></p></li>
+<li><p><a class="reference internal" href="#instance" id="id22">实例 Instance</a></p></li>
+<li><p><a class="reference internal" href="#weight" id="id23">权重 Weight</a></p></li>
+<li><p><a class="reference internal" href="#health-check" id="id24">健康检查 Health Check</a></p></li>
+<li><p><a class="reference internal" href="#protect-threshold" id="id25">健康保护阈值 Protect Threshold</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#entry" id="id26">entry</a></p></li>
+<li><p><a class="reference internal" href="#example" id="id27">example</a></p></li>
+</ul>
+</nav>
+<section id="overview">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">overview</a><a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>Nacos is an easy-to-use dynamic service discovery, configuration and service management platform for building cloud native applications.</p>
+</section>
+<section id="concepts">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">concepts</a><a class="headerlink" href="#concepts" title="Link to this heading"></a></h2>
+<section id="region">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">地域 Region</a><a class="headerlink" href="#region" title="Link to this heading"></a></h3>
+<p>物理的数据中心，资源创建成功后不能更换。</p>
+</section>
+<section id="available-zone">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">可用区 Available Zone</a><a class="headerlink" href="#available-zone" title="Link to this heading"></a></h3>
+<p>同一地域内，电力和网络互相独立的物理区域。同一可用区内，实例的网络延迟较低。</p>
+</section>
+<section id="endpoint">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">接入点 Endpoint</a><a class="headerlink" href="#endpoint" title="Link to this heading"></a></h3>
+<p>地域的某个服务的入口域名。</p>
+</section>
+<section id="namespace">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">命名空间 Namespace</a><a class="headerlink" href="#namespace" title="Link to this heading"></a></h3>
+<p>用于进行租户粒度的配置隔离。不同的命名空间下，可以存在相同的 Group 或 Data ID 的配置。Namespace 的常用场景之一是不同环境的配置的区分隔离，例如开发测试环境和生产环境的资源（如配置、服务）隔离等。</p>
+</section>
+<section id="configuration">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">配置 Configuration</a><a class="headerlink" href="#configuration" title="Link to this heading"></a></h3>
+<p>在系统开发过程中，开发者通常会将一些需要变更的参数、变量等从代码中分离出来独立管理，以独立的配置文件的形式存在。目的是让静态的系统工件或者交付物（如 WAR，JAR 包等）更好地和实际的物理运行环境进行适配。配置管理一般包含在系统部署的过程中，由系统管理员或者运维人员完成。配置变更是调整系统运行时的行为的有效手段。</p>
+</section>
+<section id="configuration-management">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">配置管理 Configuration Management</a><a class="headerlink" href="#configuration-management" title="Link to this heading"></a></h3>
+<p>系统配置的编辑、存储、分发、变更管理、历史版本管理、变更审计等所有与配置相关的活动。</p>
+</section>
+<section id="configuration-item">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">配置项 Configuration Item</a><a class="headerlink" href="#configuration-item" title="Link to this heading"></a></h3>
+<p>一个具体的可配置的参数与其值域，通常以 param-key=param-value 的形式存在。例如我们常配置系统的日志输出级别（logLevel=INFO|WARN|ERROR） 就是一个配置项。</p>
+</section>
+<section id="configuration-set">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">配置集 Configuration Set</a><a class="headerlink" href="#configuration-set" title="Link to this heading"></a></h3>
+<p>一组相关或者不相关的配置项的集合称为配置集。在系统中，一个配置文件通常就是一个配置集，包含了系统各个方面的配置。例如，一个配置集可能包含了数据源、线程池、日志级别等配置项。</p>
+</section>
+<section id="id-data-id">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">配置集 ID - Data ID</a><a class="headerlink" href="#id-data-id" title="Link to this heading"></a></h3>
+<p>Nacos 中的某个配置集的 ID。配置集 ID 是组织划分配置的维度之一。Data ID 通常用于组织划分系统的配置集。一个系统或者应用可以包含多个配置集，每个配置集都可以被一个有意义的名称标识。Data ID 通常采用类 Java 包（如 com.taobao.tc.refund.log.level）的命名规则保证全局唯一性。此命名规则非强制。</p>
+</section>
+<section id="group">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">配置分组 Group</a><a class="headerlink" href="#group" title="Link to this heading"></a></h3>
+<p>Nacos 中的一组配置集，是组织配置的维度之一。通过一个有意义的字符串（如 Buy 或 Trade ）对配置集进行分组，从而区分 Data ID 相同的配置集。当您在 Nacos 上创建一个配置时，如果未填写配置分组的名称，则配置分组的名称默认采用 DEFAULT_GROUP 。配置分组的常见场景：不同的应用或组件使用了相同的配置类型，如 database_url 配置和 MQ_topic 配置。</p>
+</section>
+<section id="configuration-snapshot">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">配置快照 Configuration Snapshot</a><a class="headerlink" href="#configuration-snapshot" title="Link to this heading"></a></h3>
+<p>Nacos 的客户端 SDK 会在本地生成配置的快照。当客户端无法连接到 Nacos Server 时，可以使用配置快照显示系统的整体容灾能力。配置快照类似于 Git 中的本地 commit，也类似于缓存，会在适当的时机更新，但是并没有缓存过期（expiration）的概念。</p>
+</section>
+<section id="service">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">服务 Service</a><a class="headerlink" href="#service" title="Link to this heading"></a></h3>
+<p>通过预定义接口网络访问的提供给客户端的软件功能。</p>
+</section>
+<section id="service-name">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">服务名 Service Name</a><a class="headerlink" href="#service-name" title="Link to this heading"></a></h3>
+<p>服务提供的标识，通过该标识可以唯一确定其指代的服务。</p>
+</section>
+<section id="service-registry">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">服务注册中心 Service Registry</a><a class="headerlink" href="#service-registry" title="Link to this heading"></a></h3>
+<p>存储服务实例和服务负载均衡策略的数据库。</p>
+</section>
+<section id="service-discovery">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">服务发现 Service Discovery</a><a class="headerlink" href="#service-discovery" title="Link to this heading"></a></h3>
+<p>在计算机网络上，（通常使用服务名）对服务下的实例的地址和元数据进行探测，并以预先定义的接口提供给客户端进行查询。</p>
+</section>
+<section id="metadata">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">元信息 Metadata</a><a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
+<p>Nacos数据（如配置和服务）描述信息，如服务版本、权重、容灾策略、负载均衡策略、鉴权配置、各种自定义标签 (label)，从作用范围来看，分为服务级别的元信息、集群的元信息及实例的元信息。</p>
+</section>
+<section id="application">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">应用 Application</a><a class="headerlink" href="#application" title="Link to this heading"></a></h3>
+<p>用于标识服务提供方的服务的属性。</p>
+</section>
+<section id="service-group">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">服务分组 Service Group</a><a class="headerlink" href="#service-group" title="Link to this heading"></a></h3>
+<p>不同的服务可以归类到同一分组。</p>
+</section>
+<section id="virtual-cluster">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">虚拟集群 Virtual Cluster</a><a class="headerlink" href="#virtual-cluster" title="Link to this heading"></a></h3>
+<p>同一个服务下的所有服务实例组成一个默认集群, 集群可以被进一步按需求划分，划分的单位可以是虚拟集群。</p>
+</section>
+<section id="instance">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">实例 Instance</a><a class="headerlink" href="#instance" title="Link to this heading"></a></h3>
+<p>提供一个或多个服务的具有可访问网络地址（IP:Port）的进程。</p>
+</section>
+<section id="weight">
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">权重 Weight</a><a class="headerlink" href="#weight" title="Link to this heading"></a></h3>
+<p>实例级别的配置。权重为浮点数。权重越大，分配给该实例的流量越大。</p>
+</section>
+<section id="health-check">
+<h3><a class="toc-backref" href="#id24" role="doc-backlink">健康检查 Health Check</a><a class="headerlink" href="#health-check" title="Link to this heading"></a></h3>
+<p>以指定方式检查服务下挂载的实例 (Instance) 的健康度，从而确认该实例 (Instance) 是否能提供服务。根据检查结果，实例 (Instance) 会被判断为健康或不健康。对服务发起解析请求时，不健康的实例 (Instance) 不会返回给客户端。</p>
+</section>
+<section id="protect-threshold">
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">健康保护阈值 Protect Threshold</a><a class="headerlink" href="#protect-threshold" title="Link to this heading"></a></h3>
+<p>为了防止因过多实例 (Instance) 不健康导致流量全部流向健康实例 (Instance) ，继而造成流量压力把健康实例 (Instance) 压垮并形成雪崩效应，应将健康保护阈值定义为一个 0 到 1 之间的浮点数。当域名健康实例数 (Instance) 占总服务实例数 (Instance) 的比例小于该值时，无论实例 (Instance) 是否健康，都会将这个实例 (Instance) 返回给客户端。这样做虽然损失了一部分流量，但是保证了集群中剩余健康实例 (Instance) 能正常工作。</p>
+</section>
+</section>
+<section id="entry">
+<h2><a class="toc-backref" href="#id26" role="doc-backlink">entry</a><a class="headerlink" href="#entry" title="Link to this heading"></a></h2>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@SpringBootApplication</span>
+<span class="nd">@ComponentScan</span><span class="p">(</span><span class="n">basePackages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;com.alibaba.nacos&quot;</span><span class="p">},</span><span class="w"> </span><span class="n">excludeFilters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nd">@Filter</span><span class="p">(</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FilterType</span><span class="p">.</span><span class="na">CUSTOM</span><span class="p">,</span><span class="w"> </span><span class="n">classes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">NacosTypeExcludeFilter</span><span class="p">.</span><span class="na">class</span><span class="p">}),</span><span class="w"> </span><span class="nd">@Filter</span><span class="p">(</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FilterType</span><span class="p">.</span><span class="na">CUSTOM</span><span class="p">,</span><span class="w"> </span><span class="n">classes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">TypeExcludeFilter</span><span class="p">.</span><span class="na">class</span><span class="p">}),</span><span class="w"> </span><span class="nd">@Filter</span><span class="p">(</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FilterType</span><span class="p">.</span><span class="na">CUSTOM</span><span class="p">,</span><span class="w"> </span><span class="n">classes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">AutoConfigurationExcludeFilter</span><span class="p">.</span><span class="na">class</span><span class="p">})})</span>
+<span class="nd">@ServletComponentScan</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Nacos</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">SpringApplication</span><span class="p">.</span><span class="na">run</span><span class="p">(</span><span class="n">com</span><span class="p">.</span><span class="na">alibaba</span><span class="p">.</span><span class="na">nacos</span><span class="p">.</span><span class="na">Nacos</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="example">
+<h2><a class="toc-backref" href="#id27" role="doc-backlink">example</a><a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>5.1. 服务注册
+curl -X POST ‘<a class="reference external" href="http://127.0.0.1:8848/nacos/v1/ns/instance?serviceName=nacos.naming.serviceName&amp;ip=20.18.7.10&amp;port=8080">http://127.0.0.1:8848/nacos/v1/ns/instance?serviceName=nacos.naming.serviceName&amp;ip=20.18.7.10&amp;port=8080</a>’</p>
+<p>5.2. 服务发现
+curl -X GET ‘<a class="reference external" href="http://127.0.0.1:8848/nacos/v1/ns/instance/list?serviceName=nacos.naming.serviceName">http://127.0.0.1:8848/nacos/v1/ns/instance/list?serviceName=nacos.naming.serviceName</a>’</p>
+<p>5.3. 发布配置
+curl -X POST “<a class="reference external" href="http://127.0.0.1:8848/nacos/v1/cs/configs?dataId=nacos.cfg.dataId&amp;group=test&amp;content=HelloWorld">http://127.0.0.1:8848/nacos/v1/cs/configs?dataId=nacos.cfg.dataId&amp;group=test&amp;content=HelloWorld</a>”</p>
+<p>5.4. 获取配置
+curl -X GET “<a class="reference external" href="http://127.0.0.1:8848/nacos/v1/cs/configs?dataId=nacos.cfg.dataId&amp;group=test">http://127.0.0.1:8848/nacos/v1/cs/configs?dataId=nacos.cfg.dataId&amp;group=test</a>”</p>
+<p>5.5. Nacos控制台页面
+打开任意浏览器，输入地址：<a class="reference external" href="http://127.0.0.1:8848/nacos">http://127.0.0.1:8848/nacos</a>，即可进入Nacos控制台页面。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cloud_native.html" class="btn btn-neutral float-left" title="Cloud" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mongodb.html" class="btn btn-neutral float-right" title="MongoDB" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

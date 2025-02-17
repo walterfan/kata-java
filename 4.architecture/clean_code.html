@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clean Code &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="什么是好代码" href="good_code.html" />
+    <link rel="prev" title="Pattern" href="pattern.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1.basic/index.html">1. Basic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2.library/index.html">2. Framework and Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3.middleware/index.html">3. Middleware</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">4. Architecture</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">敏捷架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graph_model.html">Property Graph Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rpc_rest_graphql.html">RPC, REST, 还是 GraphQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ddd.html">DDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mdd.html">MDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pattern.html">Pattern</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Clean Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#general-rules">General rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#design-rules">Design rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#understandability-tips">Understandability tips</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#names-rules">Names rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#functions-rules">Functions rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comments-rules">Comments rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#source-code-structure">Source code structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#objects-and-data-structures">Objects and data structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tests">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-smells">Code smells</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="good_code.html">什么是好代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="micro_service_design.html">微服务设计方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="micro-profile-config.html">MicroProfile Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="micro-profile-fault-tolerance.html">MicroProfile Fault Tolerance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../5.tips/index.html">5. Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">4. Architecture</a></li>
+      <li class="breadcrumb-item active">Clean Code</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/4.architecture/clean_code.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="clean-code">
+<h1>Clean Code<a class="headerlink" href="#clean-code" title="Link to this heading"></a></h1>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Abstract</strong></p></td>
+<td><p>Clean Code</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Category</strong></p></td>
+<td><p>learning note</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Authors</strong></p></td>
+<td><p>Walter Fan</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Status</strong></p></td>
+<td><p>WIP as draft</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Updated</strong></p></td>
+<td><p>2025-02-17</p></td>
+</tr>
+</tbody>
+</table>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id1">overview</a></p></li>
+<li><p><a class="reference internal" href="#general-rules" id="id2">General rules</a></p></li>
+<li><p><a class="reference internal" href="#design-rules" id="id3">Design rules</a></p></li>
+<li><p><a class="reference internal" href="#understandability-tips" id="id4">Understandability tips</a></p></li>
+<li><p><a class="reference internal" href="#names-rules" id="id5">Names rules</a></p></li>
+<li><p><a class="reference internal" href="#functions-rules" id="id6">Functions rules</a></p></li>
+<li><p><a class="reference internal" href="#comments-rules" id="id7">Comments rules</a></p></li>
+<li><p><a class="reference internal" href="#source-code-structure" id="id8">Source code structure</a></p></li>
+<li><p><a class="reference internal" href="#objects-and-data-structures" id="id9">Objects and data structures</a></p></li>
+<li><p><a class="reference internal" href="#tests" id="id10">Tests</a></p></li>
+<li><p><a class="reference internal" href="#code-smells" id="id11">Code smells</a></p></li>
+</ul>
+</nav>
+<section id="overview">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">overview</a><a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Clean code is obvious for other programmers.</p></li>
+</ul>
+<p>And I’m not talking about super sophisticated algorithms. Poor variable naming, bloated classes and methods, magic numbers -you name it- all of that makes code sloppy and difficult to grasp.</p>
+<ul class="simple">
+<li><p>Clean code doesn’t contain duplication.</p></li>
+</ul>
+<p>Each time you have to make a change in a duplicate code, you have to remember to make the same change to every instance. This increases the cognitive load and slows down the progress.</p>
+<ul class="simple">
+<li><p>Clean code contains a minimal number of classes and other moving parts.</p></li>
+</ul>
+<p>Less code is less stuff to keep in your head.
+Less code is less maintenance.
+Less code is fewer bugs.
+Code is liability, keep it short and simple.</p>
+<ul class="simple">
+<li><p>Clean code passes all tests.</p></li>
+</ul>
+<p>You know your code is dirty when only 95% of your tests passed. You know you’re screwed when your test coverage is 0%.</p>
+<ul class="simple">
+<li><p>Clean code is easier and cheaper to maintain!</p></li>
+</ul>
+<p>Code is clean if it can be understood easily – by everyone on the team.
+Clean code can be read and enhanced by a developer other than its original author.
+With understandability comes readability, changeability, extensibility and maintainability.
+_____________________________________</p>
+</section>
+<section id="general-rules">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">General rules</a><a class="headerlink" href="#general-rules" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Follow standard conventions.</p></li>
+<li><p>Keep it simple stupid. Simpler is always better. Reduce complexity as much as possible.</p></li>
+<li><p>Boy scout rule. Leave the campground cleaner than you found it.</p></li>
+<li><p>Always find root cause. Always look for the root cause of a problem.</p></li>
+</ol>
+</section>
+<section id="design-rules">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Design rules</a><a class="headerlink" href="#design-rules" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Keep configurable data at high levels.</p></li>
+<li><p>Prefer polymorphism to if/else or switch/case.</p></li>
+<li><p>Separate multi-threading code.</p></li>
+<li><p>Prevent over-configurability.</p></li>
+<li><p>Use dependency injection.</p></li>
+<li><p>Follow Law of Demeter. A class should know only its direct dependencies.</p></li>
+</ol>
+</section>
+<section id="understandability-tips">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Understandability tips</a><a class="headerlink" href="#understandability-tips" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Be consistent. If you do something a certain way, do all similar things in the same way.</p></li>
+<li><p>Use explanatory variables.</p></li>
+<li><p>Encapsulate boundary conditions. Boundary conditions are hard to keep track of. Put the processing for them in one place.</p></li>
+<li><p>Prefer dedicated value objects to primitive type.</p></li>
+<li><p>Avoid logical dependency. Don’t write methods which works correctly depending on something else in the same class.</p></li>
+<li><p>Avoid negative conditionals.</p></li>
+</ol>
+</section>
+<section id="names-rules">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Names rules</a><a class="headerlink" href="#names-rules" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Choose descriptive and unambiguous names.</p></li>
+<li><p>Make meaningful distinction.</p></li>
+<li><p>Use pronounceable names.</p></li>
+<li><p>Use searchable names.</p></li>
+<li><p>Replace magic numbers with named constants.</p></li>
+<li><p>Avoid encodings. Don’t append prefixes or type information.</p></li>
+</ol>
+</section>
+<section id="functions-rules">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Functions rules</a><a class="headerlink" href="#functions-rules" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Small.</p></li>
+<li><p>Do one thing.</p></li>
+<li><p>Use descriptive names.</p></li>
+<li><p>Prefer fewer arguments.</p></li>
+<li><p>Have no side effects.</p></li>
+<li><p>Don’t use flag arguments. Split method into several independent methods that can be called from the client without the flag.</p></li>
+</ol>
+</section>
+<section id="comments-rules">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Comments rules</a><a class="headerlink" href="#comments-rules" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Always try to explain yourself in code.</p></li>
+<li><p>Don’t be redundant.</p></li>
+<li><p>Don’t add obvious noise.</p></li>
+<li><p>Don’t use closing brace comments.</p></li>
+<li><p>Don’t comment out code. Just remove.</p></li>
+<li><p>Use as explanation of intent.</p></li>
+<li><p>Use as clarification of code.</p></li>
+<li><p>Use as warning of consequences.</p></li>
+</ol>
+</section>
+<section id="source-code-structure">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Source code structure</a><a class="headerlink" href="#source-code-structure" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Separate concepts vertically.</p></li>
+<li><p>Related code should appear vertically dense.</p></li>
+<li><p>Declare variables close to their usage.</p></li>
+<li><p>Dependent functions should be close.</p></li>
+<li><p>Similar functions should be close.</p></li>
+<li><p>Place functions in the downward direction.</p></li>
+<li><p>Keep lines short.</p></li>
+<li><p>Don’t use horizontal alignment.</p></li>
+<li><p>Use white space to associate related things and disassociate weakly related.</p></li>
+<li><p>Don’t break indentation.</p></li>
+</ol>
+</section>
+<section id="objects-and-data-structures">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Objects and data structures</a><a class="headerlink" href="#objects-and-data-structures" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Hide internal structure.</p></li>
+<li><p>Prefer data structures.</p></li>
+<li><p>Avoid hybrids structures (half object and half data).</p></li>
+<li><p>Should be small.</p></li>
+<li><p>Do one thing.</p></li>
+<li><p>Small number of instance variables.</p></li>
+<li><p>Base class should know nothing about their derivatives.</p></li>
+<li><p>Better to have many functions than to pass some code into a function to select a behavior.</p></li>
+<li><p>Prefer non-static methods to static methods.</p></li>
+</ol>
+</section>
+<section id="tests">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Tests</a><a class="headerlink" href="#tests" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>One assert per test.</p></li>
+<li><p>Readable.</p></li>
+<li><p>Fast.</p></li>
+<li><p>Independent.</p></li>
+<li><p>Repeatable.</p></li>
+</ol>
+</section>
+<section id="code-smells">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Code smells</a><a class="headerlink" href="#code-smells" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Rigidity. The software is difficult to change. A small change causes a cascade of subsequent changes.</p></li>
+<li><p>Fragility. The software breaks in many places due to a single change.</p></li>
+<li><p>Immobility. You cannot reuse parts of the code in other projects because of involved risks and high effort.</p></li>
+<li><p>Needless Complexity.</p></li>
+<li><p>Needless Repetition.</p></li>
+<li><p>Opacity. The code is hard to understand.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pattern.html" class="btn btn-neutral float-left" title="Pattern" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="good_code.html" class="btn btn-neutral float-right" title="什么是好代码" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

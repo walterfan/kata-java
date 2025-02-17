@@ -1,0 +1,197 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RPC, REST, 还是 GraphQL &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DDD" href="ddd.html" />
+    <link rel="prev" title="Property Graph Model" href="graph_model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1.basic/index.html">1. Basic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2.library/index.html">2. Framework and Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3.middleware/index.html">3. Middleware</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">4. Architecture</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">敏捷架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graph_model.html">Property Graph Model</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">RPC, REST, 还是 GraphQL</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rpc">RPC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rest">REST</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">REST 的不足</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ddd.html">DDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mdd.html">MDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pattern.html">Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clean_code.html">Clean Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="good_code.html">什么是好代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="micro_service_design.html">微服务设计方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="micro-profile-config.html">MicroProfile Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="micro-profile-fault-tolerance.html">MicroProfile Fault Tolerance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../5.tips/index.html">5. Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">4. Architecture</a></li>
+      <li class="breadcrumb-item active">RPC, REST, 还是 GraphQL</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/4.architecture/rpc_rest_graphql.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rpc-rest-graphql">
+<h1>RPC, REST, 还是 GraphQL<a class="headerlink" href="#rpc-rest-graphql" title="Link to this heading"></a></h1>
+<p>API 就是应用程序接口，它是提供给服务使用者的。如果是进程内的调用，通过函数调用就好了，如果是跨线程的函数调用，通过进程间通信 IPC 方法，例如管道(pipe)，信号(signal or semaphore)，消息队列(message queue), 共享内存(shared memory), UDS(Unix Domain Socket) 等方法。通常，我比较喜欢 UDS, 分布式系统中更多的是跨主机的通信，这时所提供的 API 的风格一般有三种</p>
+<ol class="arabic simple">
+<li><p>RPC</p></li>
+<li><p>REST</p></li>
+<li><p>GraphQL</p></li>
+</ol>
+<p>最常用的传输层协议是 TCP, 应用层多基于 HTTP 或者是在 TCP 上封装的应用协议</p>
+<section id="rpc">
+<h2>RPC<a class="headerlink" href="#rpc" title="Link to this heading"></a></h2>
+<p>我用到的最早的远程过程调用方法是 Java 的 RMI(Remote Method Invocation), 现在使用的比较多的是 gRPC.
+RPC 最初的理念是将远程调用模拟为本地调用。远程服务就是提供一个方法，只要调用方提供了方法名和所需的参数，那么就可远程调用这个方法了，但是远程方法调用与本地方法调用毕竟不同。</p>
+<p>关于网络通信有 8 个著名的谎言</p>
+<ol class="arabic simple">
+<li><p>The network is reliable 网络是可靠的</p></li>
+<li><p>Latency is zero 延迟几乎为零</p></li>
+<li><p>Bandwidth is infinite 带宽是无限的</p></li>
+<li><p>The network is secure 网络总是安全的</p></li>
+<li><p>Topology doesn’t change 网络拓扑结构是不变的</p></li>
+<li><p>There is one administrator 总会有一个管理员</p></li>
+<li><p>Transport cost is zero 传输成本几乎为零</p></li>
+<li><p>The network is homogeneous 网络都是同质化的</p></li>
+</ol>
+<p>相比本地调用，远程调用失败的可能性大大提高, 即使基于可靠性传输协议 TCP, 依然可能会有网络错误或超时</p>
+</section>
+<section id="rest">
+<h2>REST<a class="headerlink" href="#rest" title="Link to this heading"></a></h2>
+<p>REST 是表述性状态传输 (Representational State Transfer) 的缩写。 REST 是 Roy Fielding 在 2000 年获得博士学位时设计的一种架构风格。 论文。 基本前提是开发人员使用标准的 HTTP 方法 GET、POST、PUT 和 DELETE 来查询和更改 Internet 上由 URI 表示的资源。</p>
+<section id="id1">
+<h3>REST 的不足<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>面向资源的方式不适合复杂的业务逻辑处理</p></li>
+</ul>
+<p>REST 实现 CRUD 很容易，而实现复杂的业务逻辑就力有未逮了</p>
+<ul class="simple">
+<li><p>REST 对于批量处理不友好</p></li>
+<li><p>REST 对于定制化的需求不方便</p></li>
+</ul>
+<hr/>
+本作品采用[知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议](http://creativecommons.org/licenses/by-nc-nd/4.0/)进行许可。</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="graph_model.html" class="btn btn-neutral float-left" title="Property Graph Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ddd.html" class="btn btn-neutral float-right" title="DDD" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spring Boot &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spring Security" href="spring_security.html" />
+    <link rel="prev" title="Spring MVC" href="spring_mvc.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Basic</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Java 语言概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring-boot-starter-test.html">Spring Boot Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_framework.html">Spring Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_mvc.html">Spring MVC</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Spring Boot</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#history">history</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#spring-boot-1-x">Spring Boot 1.x</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spring-boot-2-x">Spring Boot 2.x</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spring-boot-3-x">Spring Boot 3.x</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reference">Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spring_security.html">Spring Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thread_pool_mdd.html">Thread Pool Optimization by MDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jar_package.html">JAR</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../2.library/index.html">2. Framework and Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3.middleware/index.html">3. Middleware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.architecture/index.html">4. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5.tips/index.html">5. Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">1. Basic</a></li>
+      <li class="breadcrumb-item active">Spring Boot</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/1.basic/spring_boot.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="spring-boot">
+<h1>Spring Boot<a class="headerlink" href="#spring-boot" title="Link to this heading"></a></h1>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Abstract</strong></p></td>
+<td><p>Spring Boot</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Authors</strong></p></td>
+<td><p>Walter Fan</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Status</strong></p></td>
+<td><p>WIP as draft</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Updated</strong></p></td>
+<td><p>2025-02-17</p></td>
+</tr>
+</tbody>
+</table>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id1">overview</a></p></li>
+<li><p><a class="reference internal" href="#history" id="id2">history</a></p>
+<ul>
+<li><p><a class="reference internal" href="#spring-boot-1-x" id="id3">Spring Boot 1.x</a></p></li>
+<li><p><a class="reference internal" href="#spring-boot-2-x" id="id4">Spring Boot 2.x</a></p></li>
+<li><p><a class="reference internal" href="#spring-boot-3-x" id="id5">Spring Boot 3.x</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#features" id="id6">Features</a></p></li>
+<li><p><a class="reference internal" href="#reference" id="id7">Reference</a></p></li>
+</ul>
+</nav>
+<section id="overview">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">overview</a><a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can “just run”.</p>
+<p>We take an opinionated view of the Spring platform and third-party libraries so you can get started with minimum fuss. Most Spring Boot applications need minimal Spring configuration.</p>
+<p>If you’re looking for information about a specific version, or instructions about how to upgrade from an earlier release, check out the project release notes section on our wiki.</p>
+</section>
+<section id="history">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">history</a><a class="headerlink" href="#history" title="Link to this heading"></a></h2>
+<p>Spring Boot的主要版本之间有诸多重要变化, 以下是一些重点举例说明:</p>
+<section id="spring-boot-1-x">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Spring Boot 1.x</a><a class="headerlink" href="#spring-boot-1-x" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>起步依赖简化配置: 引入起步依赖, 如spring-boot-starter-web, 自动包含相关依赖, 减少配置。</p></li>
+<li><p>自动配置: 能根据类路径中的依赖自动配置Spring应用上下文。如添加spring-boot-starter-data-jpa, 自动配置JPA相关Bean。</p></li>
+<li><p>内置服务器支持: 默认集成Tomcat, 也可方便切换为Jetty或Undertow, 只需修改配置。</p></li>
+<li><p>Actuator监控端点: 提供如/health、/info等监控端点, 查看应用运行状态和信息。</p></li>
+</ul>
+</section>
+<section id="spring-boot-2-x">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Spring Boot 2.x</a><a class="headerlink" href="#spring-boot-2-x" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>性能优化: 启动时间大幅缩短, 内存占用降低。如采用懒加载机制, 仅在首次访问时初始化Bean。</p></li>
+<li><p>WebFlux集成: 支持响应式编程, 基于Netty等实现非阻塞I/O。如spring-boot-starter-webflux创建响应式Web应用。</p></li>
+<li><p>配置属性绑定增强: 支持更灵活、复杂的配置属性绑定。可将配置属性绑定到嵌套对象或集合, 如myapp.database.host=localhost绑定到&#64;ConfigurationProperties标注的类。</p></li>
+<li><p>OAuth 2.0支持增强: 提供更全面的OAuth 2.0客户端和资源服务器支持, 方便与认证服务器集成。</p></li>
+</ul>
+</section>
+<section id="spring-boot-3-x">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Spring Boot 3.x</a><a class="headerlink" href="#spring-boot-3-x" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>支持Java 17及以上版本: 充分利用新特性, 如虚拟线程等, 提升性能和并发能力。</p></li>
+<li><p>GraalVM原生镜像支持: 可将应用编译为原生可执行文件, 启动更快、内存占用更少, 提高运行效率和资源利用率。</p></li>
+<li><p>配置文件处理优化: 采用更高效的配置文件加载和解析机制, 支持YAML配置文件的多文档块, 按不同环境或场景激活相应配置。</p></li>
+<li><p>依赖升级与优化: 升级众多依赖库版本, 如Spring Framework等, 解决安全漏洞, 引入新功能和性能优化。</p></li>
+</ul>
+</section>
+</section>
+<section id="features">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Features</a><a class="headerlink" href="#features" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Create stand-alone Spring applications</p></li>
+<li><p>Embed Tomcat, Jetty or Undertow directly (no need to deploy WAR files)</p></li>
+<li><p>Provide opinionated ‘starter’ dependencies to simplify your build configuration</p></li>
+<li><p>Automatically configure Spring and 3rd party libraries whenever possible</p></li>
+<li><p>Provide production-ready features such as metrics, health checks, and externalized configuration</p></li>
+<li><p>Absolutely no code generation and no requirement for XML configuration</p></li>
+</ul>
+</section>
+<section id="reference">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Reference</a><a class="headerlink" href="#reference" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.spring.io/spring-boot/index.html">https://docs.spring.io/spring-boot/index.html</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="spring_mvc.html" class="btn btn-neutral float-left" title="Spring MVC" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="spring_security.html" class="btn btn-neutral float-right" title="Spring Security" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

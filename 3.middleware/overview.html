@@ -1,0 +1,230 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevOps &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Cloud" href="cloud_native.html" />
+    <link rel="prev" title="3. Middleware" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1.basic/index.html">1. Basic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2.library/index.html">2. Framework and Library</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. Middleware</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">DevOps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">DevOps 概述</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2"><strong>核心概念</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">DevOps 的关键理念</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">DevOps 的主要工具与技术</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">DevOps 的优势</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ci-flow">CI flow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cloud_native.html">Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nacos.html">Nacos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mongodb.html">MongoDB</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../4.architecture/index.html">4. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5.tips/index.html">5. Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">3. Middleware</a></li>
+      <li class="breadcrumb-item active">DevOps</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/3.middleware/overview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="devops">
+<h1>DevOps<a class="headerlink" href="#devops" title="Link to this heading"></a></h1>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Abstract</strong></p></td>
+<td><p>GStreamer 应用</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Authors</strong></p></td>
+<td><p>Walter Fan</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Status</strong></p></td>
+<td><p>WIP as draft</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Updated</strong></p></td>
+<td><p>2025-02-17</p></td>
+</tr>
+</tbody>
+</table>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#id1" id="id6">DevOps 概述</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id2" id="id7"><strong>核心概念</strong></a></p></li>
+<li><p><a class="reference internal" href="#id3" id="id8">DevOps 的关键理念</a></p></li>
+<li><p><a class="reference internal" href="#id4" id="id9">DevOps 的主要工具与技术</a></p></li>
+<li><p><a class="reference internal" href="#id5" id="id10">DevOps 的优势</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#ci-flow" id="id11">CI flow</a></p></li>
+</ul>
+</nav>
+<section id="id1">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">DevOps 概述</a><a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>DevOps 是“开发（Development）”与“运营（Operations）”的结合，它是一种将软件开发（Dev）与IT运维（Ops）紧密结合的文化和实践方法。
+DevOps 旨在通过更好的沟通与协作，优化软件开发、测试、部署和运维过程，从而提高组织的交付速度、效率和质量。</p>
+<section id="id2">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink"><strong>核心概念</strong></a><a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>DevOps 旨在打破开发团队和运维团队之间的壁垒，强调协作与沟通。它将开发、测试、运维等不同阶段的工作紧密结合起来，
+实现软件交付的快速、高效和高质量。通过自动化流程和工具，减少人工干预，提高工作效率，降低错误率。</p>
+</section>
+<section id="id3">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">DevOps 的关键理念</a><a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>协作与沟通</strong>：打破开发与运维团队的隔阂，形成跨部门协作的文化。</p></li>
+<li><p><strong>持续集成（CI）与持续交付（CD）</strong>：通过自动化工具实现代码的持续集成和部署，使软件发布更加频繁和可靠。</p></li>
+<li><p><strong>基础设施即代码（IaC）</strong>：使用代码管理和配置基础设施，使环境的创建、配置和管理自动化和标准化。</p></li>
+<li><p><strong>自动化测试和部署</strong>：最大限度地减少手动操作，通过自动化工具实现测试、部署和监控，以降低人为错误和提高工作效率。</p></li>
+<li><p><strong>持续监控与反馈</strong>：对生产环境中的应用进行实时监控，收集数据和用户反馈，及时进行调整和优化。</p></li>
+</ol>
+</section>
+<section id="id4">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">DevOps 的主要工具与技术</a><a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>版本控制系统</strong>：Git、SVN等，用于管理代码版本。</p></li>
+<li><p><strong>持续集成工具</strong>：Jenkins、GitLab CI、CircleCI，用于自动构建和测试代码。</p></li>
+<li><p><strong>配置管理工具</strong>：Ansible、Puppet、Chef，用于管理和自动化基础设施配置。</p></li>
+<li><p><strong>容器化技术</strong>：Docker、Kubernetes，用于实现应用的隔离和可移植性。</p></li>
+<li><p><strong>监控工具</strong>：Prometheus、Grafana、Nagios，用于实时监控系统性能和健康状况。</p></li>
+</ul>
+</section>
+<section id="id5">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">DevOps 的优势</a><a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>提高软件发布频率与可靠性。</p></li>
+<li><p>增强团队的协作与效率。</p></li>
+<li><p>降低部署过程中的错误与风险。</p></li>
+<li><p>缩短产品的上市时间。</p></li>
+<li><p>更快地响应客户反馈并进行改进。</p></li>
+</ul>
+<p>通过 DevOps，企业能够实现更加敏捷、自动化和高效的开发流程，推动产品的持续迭代与交付。</p>
+</section>
+</section>
+<section id="ci-flow">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">CI flow</a><a class="headerlink" href="#ci-flow" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>gitlab CI</p></li>
+<li><p>github actions</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="3. Middleware" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cloud_native.html" class="btn btn-neutral float-right" title="Cloud" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

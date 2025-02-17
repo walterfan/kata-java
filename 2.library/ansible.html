@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ansible &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Middleware" href="../3.middleware/index.html" />
+    <link rel="prev" title="Automation" href="automation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1.basic/index.html">1. Basic</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">2. Framework and Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Spring 概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gradle.html">Gradle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_ai.html">Spring AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="automation.html">Automation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ansible</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Ansible 概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quick-start">Quick start</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setup-ssh">Setup SSH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-ansible">Install Ansible</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ansible-terms">Ansible Terms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ad-hoc-commands">Ad-hoc Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ansible-playbook">ansible-playbook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">实例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../3.middleware/index.html">3. Middleware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.architecture/index.html">4. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5.tips/index.html">5. Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">2. Framework and Library</a></li>
+      <li class="breadcrumb-item active">Ansible</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/2.library/ansible.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ansible">
+<h1>Ansible<a class="headerlink" href="#ansible" title="Link to this heading"></a></h1>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Abstract</strong></p></td>
+<td><p>Ansible</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Authors</strong></p></td>
+<td><p>Walter Fan</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Status</strong></p></td>
+<td><p>WIP as draft</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Updated</strong></p></td>
+<td><p>2025-02-17</p></td>
+</tr>
+</tbody>
+</table>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#id1" id="id4">Ansible 概述</a></p></li>
+<li><p><a class="reference internal" href="#quick-start" id="id5">Quick start</a></p>
+<ul>
+<li><p><a class="reference internal" href="#setup-ssh" id="id6">Setup SSH</a></p></li>
+<li><p><a class="reference internal" href="#install-ansible" id="id7">Install Ansible</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#ansible-terms" id="id8">Ansible Terms</a></p></li>
+<li><p><a class="reference internal" href="#ad-hoc-commands" id="id9">Ad-hoc Commands</a></p></li>
+<li><p><a class="reference internal" href="#ansible-playbook" id="id10">ansible-playbook</a></p></li>
+<li><p><a class="reference internal" href="#id2" id="id11">实例</a></p></li>
+</ul>
+</nav>
+<section id="id1">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Ansible 概述</a><a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>Ansible is a powerful open-source automation engine that simplifies deployment, orchestration, and cloud provisioning tasks. It employs a playbook, which is a descriptive file written in YAML, a programming language that is easy for humans to read and understand.</p>
+<p>Ansible is specifically designed to handle multi-tier deployments efficiently. One of its key advantages is that it operates in an agentless manner, establishing connections between nodes using SSH.</p>
+</section>
+<section id="quick-start">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Quick start</a><a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<section id="setup-ssh">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Setup SSH</a><a class="headerlink" href="#setup-ssh" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#Setting Up SSH Command
+$ sudo apt-get install openssh-server
+
+#Generating SSH Key
+$ ssh-keygen
+
+#Copy the SSH Key on the Hosts
+$ ssh-copy-id hostname
+
+#Check the SSH Connection
+$ ssh &lt;nodeName&gt;
+</pre></div>
+</div>
+</section>
+<section id="install-ansible">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Install Ansible</a><a class="headerlink" href="#install-ansible" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#Add Ansible repository
+$ sudo apt-add-repository ppa:ansible/ansible
+
+#Run the update command
+$ sudo apt-get update
+
+#Install Ansible package
+$ sudo apt-get install ansible
+
+#Check Ansible Version
+$ ansible –version
+</pre></div>
+</div>
+</section>
+</section>
+<section id="ansible-terms">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Ansible Terms</a><a class="headerlink" href="#ansible-terms" title="Link to this heading"></a></h2>
+<p>Before we get into the important Ansible commands, first, let’s understand its basic terminology.</p>
+<ul class="simple">
+<li><p>Server: An entity that provides service for our Ansible</p></li>
+<li><p>Machine: A physical machine, a VM, or a container</p></li>
+<li><p>Target machine: An end machine to be configured by Ansible</p></li>
+<li><p>Task: An action</p></li>
+<li><p>Playbook: A location where YAML files are written and executed</p></li>
+</ul>
+</section>
+<section id="ad-hoc-commands">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Ad-hoc Commands</a><a class="headerlink" href="#ad-hoc-commands" title="Link to this heading"></a></h2>
+<p>An ad-hoc command is a command that we would use to do something really quick but would not want to save for later, i.e., we might not use this command in the future.</p>
+<p>General syntax of an ad-hoc command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Command<span class="w"> </span>hostgroup<span class="w"> </span>module/options<span class="w"> </span><span class="o">[</span>arguments<span class="o">]</span>
+</pre></div>
+</div>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Ad-hoc Commands</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Function</p></th>
+<th class="head"><p>Command</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>To check the connectivity of hosts</p></td>
+<td><p>#ansible &lt;group&gt; -m ping</p></td>
+</tr>
+<tr class="row-odd"><td><p>To reboot hosts</p></td>
+<td><p>#ansible &lt;group&gt; -a “/bin/reboot”</p></td>
+</tr>
+<tr class="row-even"><td><p>To check the host system’s info</p></td>
+<td><p>#ansible&lt;group&gt; -m setup | less</p></td>
+</tr>
+<tr class="row-odd"><td><p>To transfer files</p></td>
+<td><p>#ansible &lt;group&gt; -m copy -a “src=home/ansible dest=/tmo/home”</p></td>
+</tr>
+<tr class="row-even"><td><p>To create a new user</p></td>
+<td><p>#ansible&lt;group&gt; -m user -a “name=ansible password= &lt;encrypted password&gt;”</p></td>
+</tr>
+<tr class="row-odd"><td><p>To delete a user</p></td>
+<td><p>#ansible&lt;group&gt; -m user -a “name=ansible state- absent”</p></td>
+</tr>
+<tr class="row-even"><td><p>To check if a package is installed and to update it</p></td>
+<td><p>#ansible&lt;group&gt; -m yum -a “name=httpd state=latest”</p></td>
+</tr>
+<tr class="row-odd"><td><p>To check if a package is installed but not to update it</p></td>
+<td><p>#ansible&lt;group&gt; -m yum -a “name=httpd state=present”</p></td>
+</tr>
+<tr class="row-even"><td><p>To check if a package is of a specific version</p></td>
+<td><p>#ansible&lt;group&gt; -m yum -a “name=httpd-1.8  state=latest”</p></td>
+</tr>
+<tr class="row-odd"><td><p>To check if a package is not installed</p></td>
+<td><p>#ansible &lt;group&gt; -m yum -a “name= httpd state= absent</p></td>
+</tr>
+<tr class="row-even"><td><p>To start a service</p></td>
+<td><p>#ansible&lt;group&gt; -m service -a “name= httpd state=”started”</p></td>
+</tr>
+<tr class="row-odd"><td><p>To stop a service</p></td>
+<td><p>#ansible&lt;group&gt; -m service -a “name= httpd state=”stopped”</p></td>
+</tr>
+<tr class="row-even"><td><p>To restart a service</p></td>
+<td><p>#ansible&lt;group&gt; -m service -a “name= httpd state=”restarted”</p></td>
+</tr>
+</tbody>
+</table>
+<p>参见</p>
+<img alt="../_images/ansible_cheat_sheet.webp" src="../_images/ansible_cheat_sheet.webp" />
+</section>
+<section id="ansible-playbook">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">ansible-playbook</a><a class="headerlink" href="#ansible-playbook" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>usage</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>/path/to/my_inventory_file<span class="w"> </span>-u<span class="w"> </span>my_connection_user<span class="w"> </span><span class="se">\</span>
+-k<span class="w"> </span>-f<span class="w"> </span><span class="m">3</span><span class="w"> </span>-T<span class="w"> </span><span class="m">30</span><span class="w"> </span>-t<span class="w"> </span>my_tag<span class="w"> </span>-M<span class="w"> </span>/path/to/my_modules<span class="w"> </span>-b<span class="w"> </span>-K<span class="w"> </span>my_playbook.yml
+</pre></div>
+</div>
+<p>命令行选项说明:</p>
+<blockquote>
+<div><p>-i - uses my_inventory_file in the path provided for inventory to match the pattern.</p>
+<p>-u - connects over SSH as my_connection_user.</p>
+<p>-k - asks for password which is then provided to SSH authentication.</p>
+<p>-f - allocates 3 forks.</p>
+<p>-T - sets a 30-second timeout.</p>
+<p>-t - runs only tasks marked with the tag my_tag.</p>
+<p>-M - loads local modules from /path/to/my/modules.</p>
+<p>-b - executes with elevated privileges (uses become).</p>
+<p>-K - prompts the user for the become password.</p>
+</div></blockquote>
+</section>
+<section id="id2">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">实例</a><a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="automation.html" class="btn btn-neutral float-left" title="Automation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../3.middleware/index.html" class="btn btn-neutral float-right" title="3. Middleware" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

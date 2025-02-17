@@ -1,0 +1,514 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Java 语言概述 &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spring Boot Testing" href="spring-boot-starter-test.html" />
+    <link rel="prev" title="1. Basic" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. Basic</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Java 语言概述</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#java-8java-21">Java 8到Java 21之间的变化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">语言特性</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">并发增强</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">其他变化</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#java-7">Java 7 新特性</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#switch">Switch 支持基于字串和枚举值判断</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">支持数字之间用下划线分隔</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">支持二进制常数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#catch">catch 语句可以捕捉多个异常</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#try-with-resources">try-with-resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">变长参数支持泛型</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#java8">Java8 新特性</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#lambda">Lambda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#optional">Optional</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#functional-interface">函数接口Functional Interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stream">Stream</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#reference">Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spring-boot-starter-test.html">Spring Boot Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_framework.html">Spring Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_mvc.html">Spring MVC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_boot.html">Spring Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring_security.html">Spring Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thread_pool_mdd.html">Thread Pool Optimization by MDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jar_package.html">JAR</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../2.library/index.html">2. Framework and Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3.middleware/index.html">3. Middleware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.architecture/index.html">4. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5.tips/index.html">5. Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">1. Basic</a></li>
+      <li class="breadcrumb-item active">Java 语言概述</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/1.basic/overview.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <nav class="contents" id="table-of-contents" role="doc-toc">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#java" id="id7">Java 语言概述</a></p>
+<ul>
+<li><p><a class="reference internal" href="#java-8java-21" id="id8">Java 8到Java 21之间的变化</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id1" id="id9">语言特性</a></p></li>
+<li><p><a class="reference internal" href="#id2" id="id10">并发增强</a></p></li>
+<li><p><a class="reference internal" href="#id3" id="id11">其他变化</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#java-7" id="id12">Java 7 新特性</a></p>
+<ul>
+<li><p><a class="reference internal" href="#switch" id="id13">Switch 支持基于字串和枚举值判断</a></p></li>
+<li><p><a class="reference internal" href="#id4" id="id14">支持数字之间用下划线分隔</a></p></li>
+<li><p><a class="reference internal" href="#id5" id="id15">支持二进制常数</a></p></li>
+<li><p><a class="reference internal" href="#catch" id="id16">catch 语句可以捕捉多个异常</a></p></li>
+<li><p><a class="reference internal" href="#try-with-resources" id="id17">try-with-resources</a></p></li>
+<li><p><a class="reference internal" href="#id6" id="id18">变长参数支持泛型</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#java8" id="id19">Java8 新特性</a></p>
+<ul>
+<li><p><a class="reference internal" href="#lambda" id="id20">Lambda</a></p></li>
+<li><p><a class="reference internal" href="#optional" id="id21">Optional</a></p></li>
+<li><p><a class="reference internal" href="#functional-interface" id="id22">函数接口Functional Interface</a></p></li>
+<li><p><a class="reference internal" href="#stream" id="id23">Stream</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#reference" id="id24">Reference</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="java">
+<h1><a class="toc-backref" href="#id7" role="doc-backlink">Java 语言概述</a><a class="headerlink" href="#java" title="Link to this heading"></a></h1>
+<section id="java-8java-21">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Java 8到Java 21之间的变化</a><a class="headerlink" href="#java-8java-21" title="Link to this heading"></a></h2>
+<section id="id1">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">语言特性</a><a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Lambda表达式：Java 8引入，可简洁地表示可传递给方法或存储在变量中的代码块。如Runnable接口的实现，Java 8前需匿名内部类，之后可写成() -&gt; System.out.println(“Hello, Lambda!”);。</p></li>
+<li><p>方法引用：Java 8引入，与Lambda表达式相关，可直接引用已有方法。如System.out::println等同于x -&gt; System.out.println(x)。</p></li>
+<li><p>接口默认方法：Java 8开始，接口可含默认方法实现。如</p></li>
+</ul>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">interface</span> <span class="nc">MyInterface</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">default</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">myMethod</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Default method implementation&quot;</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul>
+<li><p>局部变量类型推断：</p>
+<p>Java 10开始，用var关键字让编译器推断局部变量类型。如 <code class="docutils literal notranslate"><span class="pre">var</span> <span class="pre">num</span> <span class="pre">=</span> <span class="pre">10;</span></code>，编译器会推断num为int型。</p>
+</li>
+<li><p>记录类型：</p>
+<p>Java 14引入，用于创建不可变数据类，自动生成构造函数、访问器等。
+如 <code class="docutils literal notranslate"><span class="pre">record</span> <span class="pre">Point(int</span> <span class="pre">x,</span> <span class="pre">int</span> <span class="pre">y)</span> <span class="pre">{}</span></code>，可直接用new Point(1, 2)创建实例。</p>
+</li>
+<li><p>模式匹配：Java 16开始增强，</p>
+<p>如 <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">(obj</span> <span class="pre">instanceof</span> <span class="pre">String</span> <span class="pre">s)</span> <span class="pre">{</span> <span class="pre">System.out.println(s.length());</span> <span class="pre">}</span></code>，
+可直接使用类型匹配后的变量。</p>
+</li>
+</ul>
+<p>集合框架改进</p>
+<ul class="simple">
+<li><p>Stream API：Java 8引入，可对集合进行函数式操作。如</p></li>
+</ul>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">numbers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+<span class="w">  </span><span class="n">numbers</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">map</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">).</span><span class="na">forEach</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">::</span><span class="n">println</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>将列表元素加倍输出。</p>
+<ul class="simple">
+<li><p>Optional类：Java 8引入，用于表示可能为空的值。如</p></li>
+</ul>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">optionalValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">ofNullable</span><span class="p">(</span><span class="n">getValue</span><span class="p">());</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">optionalValue</span><span class="p">.</span><span class="na">isPresent</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">optionalValue</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>集合工厂方法：Java 9开始，可更方便地创建不可变集合。
+如 <code class="docutils literal notranslate"><span class="pre">List.of(1,</span> <span class="pre">2,</span> <span class="pre">3)</span></code> 创建不可变列表，<code class="docutils literal notranslate"><span class="pre">Set.of(1,</span> <span class="pre">2,</span> <span class="pre">3)</span></code>创建不可变集合。</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">并发增强</a><a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>CompletableFuture：Java 8引入，用于异步编程和处理异步任务的结果。
+如 <code class="docutils literal notranslate"><span class="pre">CompletableFuture.supplyAsync(()</span> <span class="pre">-&gt;</span> <span class="pre">calculateValue()).thenAccept(result</span> <span class="pre">-&gt;</span> <span class="pre">System.out.println(result));</span></code>，异步计算值并在完成时打印。</p></li>
+<li><p>虚拟线程：Java 21引入，以更轻量级方式实现高并发。
+如<code class="docutils literal notranslate"><span class="pre">Thread.startVirtualThread(()</span> <span class="pre">-&gt;</span> <span class="pre">{</span> <span class="pre">System.out.println(&quot;Virtual</span> <span class="pre">thread</span> <span class="pre">is</span> <span class="pre">running&quot;);</span> <span class="pre">});</span></code></p></li>
+</ul>
+</section>
+<section id="id3">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">其他变化</a><a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>HTTP客户端API：Java 11开始，提供了新的HTTP客户端，用于发送HTTP请求和处理响应。如</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  HttpClient client = HttpClient.newHttpClient();
+  HttpRequest request = HttpRequest.newBuilder().uri(URI.create(&quot;https://www.example.com&quot;)).build();
+  client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(HttpResponse::body).thenAccept(System.out::println);。
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>文本块：Java 15引入，用于更方便地处理多行文本。如</p></li>
+</ul>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot; This is a text block.</span>
+<span class="s">  It can span multiple lines. &quot;&quot;&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="java-7">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Java 7 新特性</a><a class="headerlink" href="#java-7" title="Link to this heading"></a></h2>
+<p>JSR303 Java Validation中也有不少输入验证的注解 , Hibernate Validator 是一个典型实现</p>
+<section id="switch">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Switch 支持基于字串和枚举值判断</a><a class="headerlink" href="#switch" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">getGender</span><span class="p">())</span>
+<span class="p">{</span>
+<span class="k">case</span>  <span class="s2">&quot;male&quot;</span><span class="p">:</span> 
+    <span class="o">//...</span>
+    <span class="k">break</span><span class="p">;</span>
+<span class="k">case</span> <span class="s2">&quot;female&quot;</span>
+    <span class="o">//...</span>
+    <span class="k">break</span><span class="p">;</span>
+<span class="n">default</span>
+    <span class="o">//...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">支持数字之间用下划线分隔</a><a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>int key = 123_456_789</p>
+</section>
+<section id="id5">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">支持二进制常数</a><a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>int value = 0b1001;//9</p>
+</section>
+<section id="catch">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">catch 语句可以捕捉多个异常</a><a class="headerlink" href="#catch" title="Link to this heading"></a></h3>
+<p>如果是同一类型的异常, 子类要放在前面</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">try</span> <span class="p">{</span>
+<span class="p">}</span> <span class="n">catch</span><span class="p">(</span><span class="n">NumberFormatException</span> <span class="o">|</span> <span class="n">RuntimeException</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="try-with-resources">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">try-with-resources</a><a class="headerlink" href="#try-with-resources" title="Link to this heading"></a></h3>
+<p>资源句柄泄漏是Java程序中常犯的错误, 在C++中的最常用的做法是构造函数是打开资源句柄, 析构函数里关闭资源句柄
+所以Java的新做法是把resource 放在try 语句的参数中, try 语句结束时会自动释放资源</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">String</span> <span class="n">readFirstLineFromFileWithFinallyBlock</span><span class="p">(</span><span class="n">String</span> <span class="n">path</span><span class="p">)</span>
+                                                     <span class="n">throws</span> <span class="n">IOException</span> <span class="p">{</span>
+    <span class="n">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="n">new</span> <span class="n">BufferedReader</span><span class="p">(</span><span class="n">new</span> <span class="n">FileReader</span><span class="p">(</span><span class="n">path</span><span class="p">));</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">br</span><span class="o">.</span><span class="n">readLine</span><span class="p">();</span>
+    <span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">br</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span> <span class="n">br</span><span class="o">.</span><span class="n">close</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>to</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">String</span> <span class="n">readFirstLineFromFile</span><span class="p">(</span><span class="n">String</span> <span class="n">path</span><span class="p">)</span> <span class="n">throws</span> <span class="n">IOException</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">(</span><span class="n">BufferedReader</span> <span class="n">br</span> <span class="o">=</span>
+                   <span class="n">new</span> <span class="n">BufferedReader</span><span class="p">(</span><span class="n">new</span> <span class="n">FileReader</span><span class="p">(</span><span class="n">path</span><span class="p">)))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">br</span><span class="o">.</span><span class="n">readLine</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">变长参数支持泛型</a><a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@SafeVarargs</span>
+<span class="n">public</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">void</span> <span class="n">printArgs</span><span class="p">(</span><span class="n">T</span><span class="o">...</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">T</span> <span class="n">value</span><span class="p">:</span> <span class="n">args</span><span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">toString</span><span class="p">());</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="java8">
+<h2><a class="toc-backref" href="#id19" role="doc-backlink">Java8 新特性</a><a class="headerlink" href="#java8" title="Link to this heading"></a></h2>
+<section id="lambda">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Lambda</a><a class="headerlink" href="#lambda" title="Link to this heading"></a></h3>
+<p>按 JSR335 定义, Java8 增加了Lambda的支持, 即用表达式的方法来表示函数式接口</p>
+<p>所谓函数式接口是指一个简单的接口只包含一个方法, 类似一个函数, 比如</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">interface</span> <span class="n">Runnable</span> <span class="p">{</span>
+    <span class="n">void</span> <span class="n">run</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>过去的写法</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Runnable</span> <span class="n">task</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Runnable</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">public</span> <span class="n">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;I&#39;m running&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>现在的写法</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Runnable</span> <span class="n">task</span> <span class="o">=</span> <span class="p">()</span> <span class="o">-&gt;</span>  <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;I&#39;m running&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="optional">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Optional</a><a class="headerlink" href="#optional" title="Link to this heading"></a></h3>
+<p>这是一个容器对象, 用来避免频繁判断null以及NPE(Null Pointer Exception), 它可能包含或不包含非空值。 如果存在一个值，isPresent（）将返回true，get（）将返回值。</p>
+<p>它还提供了依赖于包含值是否存在的附加方法，如orElse（）（如果值不存在则返回一个默认值）以及ifPresent（）（如果该值存在，则执行一个代码块）。</p>
+<p>举例如下, 用Optional 方便了许多, 详见</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        <span class="n">String</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;walter&quot;</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">String</span> <span class="n">t</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">trim</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">length</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">Optional</span><span class="o">.</span><span class="n">ofNullable</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span>
+                <span class="nb">map</span><span class="p">(</span><span class="n">String</span><span class="p">::</span><span class="n">trim</span><span class="p">)</span><span class="o">.</span>
+                <span class="nb">filter</span><span class="p">(</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">length</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span>
+                <span class="n">ifPresent</span><span class="p">(</span><span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="p">::</span><span class="n">println</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="functional-interface">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">函数接口Functional Interface</a><a class="headerlink" href="#functional-interface" title="Link to this heading"></a></h3>
+<p>函数接口为lambda表达式和方法引用提供目标类型。 每个函数接口都有一个抽象方法，称为该函数接口的函数方法，lambda表达式的参数和返回类型被匹配或适配到该方法。</p>
+<p>其实任何具有单个抽象方法SAM(Single Abstract Method) 的接口都可称为 functional interface, 可以用注解 &#64;FunctionalInterface  修饰, 当然这并不是必需的, 不过编译器可以凭此识别这个接口是否只包含 SAM</p>
+<p>函数接口可以在多个上下文中提供目标类型，例如赋值上下文，方法调用或者类型转换上下文：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="o">//</span> <span class="n">赋值上下文</span>
+     <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">String</span><span class="p">::</span><span class="n">isEmpty</span><span class="p">;</span>
+
+     <span class="o">//</span> <span class="n">方法调用上下文</span>
+     <span class="n">stream</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">e</span> <span class="o">-&gt;</span> <span class="n">e</span><span class="o">.</span><span class="n">getSize</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span><span class="o">...</span>
+
+     <span class="o">//</span> <span class="n">类型转换上下文</span>
+     <span class="n">stream</span><span class="o">.</span><span class="n">map</span><span class="p">((</span><span class="n">ToIntFunction</span><span class="p">)</span> <span class="n">e</span> <span class="o">-&gt;</span> <span class="n">e</span><span class="o">.</span><span class="n">getSize</span><span class="p">())</span><span class="o">...</span>
+</pre></div>
+</div>
+<p>有几个基本的函数形式，包括Function（从T到R的一元函数），Consumer（从T到void的一元函数），Predicate（从T到布尔的一元函数）以及Supplier（从n到n的函数到R）。</p>
+<p>常用的函数接口详见 https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html</p>
+</section>
+<section id="stream">
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">Stream</a><a class="headerlink" href="#stream" title="Link to this heading"></a></h3>
+<p>Stream 就是一个元素序列, 它支持顺序及并行的聚合操作, 例如计算一些红色widget的宽度之和, 无需使用循环, 分支和累加语句:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>     <span class="nb">int</span> <span class="nb">sum</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">stream</span><span class="p">()</span>
+                      <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">w</span> <span class="o">-&gt;</span> <span class="n">w</span><span class="o">.</span><span class="n">getColor</span><span class="p">()</span> <span class="o">==</span> <span class="n">RED</span><span class="p">)</span>
+                      <span class="o">.</span><span class="n">mapToInt</span><span class="p">(</span><span class="n">w</span> <span class="o">-&gt;</span> <span class="n">w</span><span class="o">.</span><span class="n">getWeight</span><span class="p">())</span>
+                      <span class="o">.</span><span class="n">sum</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>举个stream , lambda, 及 函数接口的例子</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="nd">@Slf4j</span>
+<span class="n">public</span> <span class="k">class</span> <span class="nc">StreamTest</span> <span class="p">{</span>
+
+    <span class="nd">@Data</span>
+    <span class="k">class</span> <span class="nc">User</span> <span class="p">{</span>
+        <span class="n">final</span> <span class="n">String</span> <span class="n">firstName</span><span class="p">;</span>
+        <span class="n">final</span> <span class="n">String</span> <span class="n">lastName</span><span class="p">;</span>
+        <span class="n">final</span> <span class="n">String</span> <span class="n">email</span><span class="p">;</span>
+
+        <span class="n">public</span> <span class="n">User</span><span class="p">(</span><span class="n">String</span> <span class="n">firstNamename</span><span class="p">,</span> <span class="n">String</span> <span class="n">lastName</span><span class="p">,</span> <span class="n">String</span> <span class="n">email</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">this</span><span class="o">.</span><span class="n">firstName</span> <span class="o">=</span> <span class="n">firstNamename</span><span class="p">;</span>
+            <span class="n">this</span><span class="o">.</span><span class="n">lastName</span> <span class="o">=</span> <span class="n">lastName</span><span class="p">;</span>
+            <span class="n">this</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">email</span><span class="p">;</span>
+        <span class="p">}</span>
+
+
+
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="n">public</span> <span class="n">void</span> <span class="n">testStream</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="n">Function</span><span class="o">&lt;</span><span class="n">User</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">fullNameFunction</span> <span class="o">=</span> <span class="n">u</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">String</span> <span class="n">fullName</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">getFirstName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">u</span><span class="o">.</span><span class="n">getLastName</span><span class="p">();</span> <span class="k">return</span> <span class="n">fullName</span><span class="p">;</span> <span class="p">};</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+        <span class="n">users</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">User</span><span class="p">(</span><span class="s2">&quot;walter&quot;</span><span class="p">,</span> <span class="s2">&quot;fan&quot;</span><span class="p">,</span> <span class="s2">&quot;walter.fan@world.com&quot;</span><span class="p">));</span>
+        <span class="n">users</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span> <span class="n">User</span><span class="p">(</span><span class="s2">&quot;walt&quot;</span><span class="p">,</span> <span class="s2">&quot;zhou&quot;</span><span class="p">,</span> <span class="s2">&quot;walter.zhou@world.com&quot;</span><span class="p">));</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="n">users</span><span class="o">.</span><span class="n">stream</span><span class="p">()</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">fullNameFunction</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="o">.</span><span class="n">toList</span><span class="p">());</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;--- name list ---&quot;</span><span class="p">);</span>
+        <span class="n">names</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span><span class="n">log</span><span class="p">::</span><span class="n">info</span><span class="p">);</span>
+        <span class="n">assertEquals</span><span class="p">(</span><span class="s2">&quot;walter fan&quot;</span> <span class="p">,</span> <span class="n">names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="n">asList</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">squaresList</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="n">stream</span><span class="p">()</span><span class="o">.</span><span class="n">map</span><span class="p">(</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span><span class="o">*</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="o">.</span><span class="n">toList</span><span class="p">());</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;--- numbers ---&quot;</span><span class="p">);</span>
+        <span class="n">squaresList</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</pre></div>
+</div>
+<p>输出为</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">---</span> <span class="n">name</span> <span class="nb">list</span> <span class="o">---</span>
+<span class="n">walter</span> <span class="n">fan</span>
+<span class="n">walt</span> <span class="n">zhou</span>
+<span class="o">---</span> <span class="n">numbers</span> <span class="o">---</span>
+<span class="mi">9</span>
+<span class="mi">4</span>
+<span class="mi">49</span>
+<span class="mi">25</span>
+</pre></div>
+</div>
+<p>这里使用了注解 &#64;Slf4j 来自动生成 log 成员 和 &#64;Data 来自动生成 Getter, Setter, ToString
+详见 https://projectlombok.org/features/all</p>
+<p>pom.xml 中请加上</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="n">testng</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">testng</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">6.9.10</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="n">projectlombok</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">lombok</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">1.16.18</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">scope</span><span class="o">&gt;</span><span class="n">provided</span><span class="o">&lt;/</span><span class="n">scope</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="reference">
+<h2><a class="toc-backref" href="#id24" role="doc-backlink">Reference</a><a class="headerlink" href="#reference" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>http://www.oracle.com/technetwork/java/javase/8-whats-new-2157071.html</p></li>
+<li><p>https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html</p></li>
+<li><p>https://www.techempower.com/blog/2013/03/26/everything-about-java-8/</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="1. Basic" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="spring-boot-starter-test.html" class="btn btn-neutral float-right" title="Spring Boot Testing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

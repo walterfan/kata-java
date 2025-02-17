@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gradle &mdash; Java handbook 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e536ea0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spring AI" href="spring_ai.html" />
+    <link rel="prev" title="Spring 概述" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Java handbook
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1.basic/index.html">1. Basic</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">2. Framework and Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Spring 概述</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Gradle</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Gradle 简介</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Gradle 的特点</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Gradle 的主要概念</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Gradle 的工作流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gradle-maven">Gradle 与 Maven 的对比</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">适用场景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">快速入门</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spring_ai.html">Spring AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="automation.html">Automation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansible.html">Ansible</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../3.middleware/index.html">3. Middleware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.architecture/index.html">4. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5.tips/index.html">5. Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6.faq/index.html">6. FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Java handbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">2. Framework and Library</a></li>
+      <li class="breadcrumb-item active">Gradle</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/2.library/gradle.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <nav class="contents" id="table-of-contents" role="doc-toc">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#gradle" id="id7">Gradle</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id1" id="id8">Gradle 简介</a></p></li>
+<li><p><a class="reference internal" href="#id2" id="id9">Gradle 的特点</a></p></li>
+<li><p><a class="reference internal" href="#id3" id="id10">Gradle 的主要概念</a></p></li>
+<li><p><a class="reference internal" href="#id4" id="id11">Gradle 的工作流程</a></p></li>
+<li><p><a class="reference internal" href="#gradle-maven" id="id12">Gradle 与 Maven 的对比</a></p></li>
+<li><p><a class="reference internal" href="#id5" id="id13">适用场景</a></p></li>
+<li><p><a class="reference internal" href="#id6" id="id14">快速入门</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="gradle">
+<h1><a class="toc-backref" href="#id7" role="doc-backlink">Gradle</a><a class="headerlink" href="#gradle" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Gradle 简介</a><a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>Gradle 是一个灵活且功能强大的构建工具，主要用于 Java 项目的构建和管理。它继承了 Apache Ant 和 Apache Maven 的优点，同时引入了更高效和可扩展的特性，使其成为现代 Java 开发中不可或缺的工具。</p>
+</section>
+<section id="id2">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Gradle 的特点</a><a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>基于 Groovy 或 Kotlin 的 DSL（领域特定语言）</p></li>
+</ol>
+<ul class="simple">
+<li><p>Gradle 使用 Groovy（或 Kotlin DSL）定义构建脚本，具有良好的可读性和灵活性。</p></li>
+<li><p>构建脚本简洁且易于维护。</p></li>
+</ul>
+<p>示例：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span> <span class="p">{</span>
+    <span class="nb">id</span> <span class="s1">&#39;java&#39;</span>
+<span class="p">}</span>
+
+<span class="n">repositories</span> <span class="p">{</span>
+    <span class="n">mavenCentral</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="n">dependencies</span> <span class="p">{</span>
+    <span class="n">implementation</span> <span class="s1">&#39;org.springframework.boot:spring-boot-starter:3.1.0&#39;</span>
+    <span class="n">testImplementation</span> <span class="s1">&#39;org.junit.jupiter:junit-jupiter:5.10.0&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>灵活的插件机制</p></li>
+</ol>
+<ul class="simple">
+<li><p>Gradle 提供了大量内置插件，如 java、application、maven-publish。</p></li>
+<li><p>可以编写自定义插件，扩展构建过程。</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>增量构建</p></li>
+</ol>
+<ul class="simple">
+<li><p>Gradle 能智能判断哪些任务需要重新执行，从而减少不必要的构建步骤，大幅提高构建效率。</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p>强大的依赖管理</p></li>
+</ol>
+<ul class="simple">
+<li><p>支持 Maven 和 Ivy 仓库。</p></li>
+<li><p>提供对依赖的版本冲突解析和版本锁定功能。</p></li>
+</ul>
+<ol class="arabic simple" start="5">
+<li><p>支持多项目构建</p></li>
+</ol>
+<ul class="simple">
+<li><p>Gradle 可轻松管理多模块项目，通过 settings.gradle 将子项目纳入管理。</p></li>
+<li><p>支持跨模块的依赖定义和任务共享。</p></li>
+</ul>
+<ol class="arabic simple" start="6">
+<li><p>高性能</p></li>
+</ol>
+<ul class="simple">
+<li><p>Gradle 支持构建缓存和守护进程（Gradle Daemon），能显著加快多次构建速度。</p></li>
+<li><p>支持并行任务执行和远程缓存。</p></li>
+</ul>
+<ol class="arabic simple" start="7">
+<li><p>生态系统广泛</p></li>
+</ol>
+<ul class="simple">
+<li><p>Gradle 是 Android 官方推荐的构建工具，也是 Kotlin 项目默认的构建工具。</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Gradle 的主要概念</a><a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>项目（Project）</p></li>
+</ol>
+<ul class="simple">
+<li><p>每个 Gradle 构建都会处理一个或多个项目，项目可以是代码模块、资源文件夹或其它任务集合。</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>任务（Task）</p></li>
+</ol>
+<ul class="simple">
+<li><p>Gradle 的核心单位。每个 Task 是一个可执行的单元，用于完成特定操作，如编译代码、运行测试、打包等。</p></li>
+<li><p>自定义任务示例：</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">task</span> <span class="n">hello</span> <span class="p">{</span>
+    <span class="n">doLast</span> <span class="p">{</span>
+        <span class="n">println</span> <span class="s1">&#39;Hello, Gradle!&#39;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>依赖（Dependencies）</p></li>
+</ol>
+<ul class="simple">
+<li><p>通过声明依赖（dependencies），Gradle 自动解析并下载需要的库。</p></li>
+<li><p>依赖分为多种配置（implementation、testImplementation 等）。</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p>插件（Plugins）</p></li>
+</ol>
+<ul class="simple">
+<li><p>插件用于扩展 Gradle 的功能。例如：</p></li>
+<li><p>java 插件：支持 Java 编译、测试和打包。</p></li>
+<li><p>application 插件：支持可执行程序的打包和运行。</p></li>
+<li><p>kotlin 插件：支持 Kotlin 项目构建。</p></li>
+</ul>
+</section>
+<section id="id4">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Gradle 的工作流程</a><a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>初始化阶段</p></li>
+</ol>
+<ul class="simple">
+<li><p>Gradle 解析 settings.gradle 文件，确定项目结构。</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>配置阶段</p></li>
+</ol>
+<ul class="simple">
+<li><p>Gradle 解析 build.gradle 文件，生成任务依赖图。</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>执行阶段</p></li>
+</ol>
+<ul class="simple">
+<li><p>Gradle 按任务依赖图顺序执行任务。</p></li>
+</ul>
+</section>
+<section id="gradle-maven">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Gradle 与 Maven 的对比</a><a class="headerlink" href="#gradle-maven" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>特性</p></th>
+<th class="head"><p>Gradle</p></th>
+<th class="head"><p>Maven</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>配置语言</p></td>
+<td><p>Groovy/Kotlin DSL</p></td>
+<td><p>XML</p></td>
+</tr>
+<tr class="row-odd"><td><p>性能</p></td>
+<td><p>支持增量构建、并行构建、高效缓存</p></td>
+<td><p>较慢，不支持增量构建</p></td>
+</tr>
+<tr class="row-even"><td><p>灵活性</p></td>
+<td><p>高度可定制</p></td>
+<td><p>相对固定，基于生命周期管理</p></td>
+</tr>
+<tr class="row-odd"><td><p>易用性</p></td>
+<td><p>DSL 更简洁，适合复杂项目</p></td>
+<td><p>XML 配置清晰，但冗长</p></td>
+</tr>
+<tr class="row-even"><td><p>插件生态</p></td>
+<td><p>丰富且可编写自定义插件</p></td>
+<td><p>丰富但定制化难度较高</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id5">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">适用场景</a><a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>现代化 Java 项目（例如微服务开发）</p></li>
+<li><p>复杂多模块项目（Gradle 对多项目支持非常出色）</p></li>
+<li><p>Android 应用开发（Gradle 是 Android Studio 的默认构建工具）</p></li>
+</ul>
+</section>
+<section id="id6">
+<h2><a class="toc-backref" href="#id14" role="doc-backlink">快速入门</a><a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>安装 Gradle</p></li>
+</ol>
+<ul class="simple">
+<li><p>下载并安装 Gradle：Gradle 官网</p></li>
+<li><p>使用包管理工具（如 SDKMAN 或 Homebrew）快速安装。</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>初始化项目：</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gradle</span> <span class="n">init</span> \
+  <span class="o">--</span><span class="nb">type</span> <span class="n">application</span> \
+  <span class="o">--</span><span class="n">dsl</span> <span class="n">groovy</span> \
+  <span class="o">--</span><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">walterfan</span><span class="o">.</span><span class="n">bjava</span> \
+  <span class="o">--</span><span class="n">test</span><span class="o">-</span><span class="n">framework</span> <span class="n">junit</span> \
+  <span class="o">--</span><span class="n">project</span><span class="o">-</span><span class="n">name</span> <span class="mi">24</span><span class="n">game</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>常用命令：</p></li>
+</ol>
+<ul class="simple">
+<li><p>构建项目：<code class="docutils literal notranslate"><span class="pre">gradle</span> <span class="pre">build</span></code></p></li>
+<li><p>清理构建：<code class="docutils literal notranslate"><span class="pre">gradle</span> <span class="pre">clean</span></code></p></li>
+<li><p>运行任务：<code class="docutils literal notranslate"><span class="pre">gradle</span> <span class="pre">&lt;task_name&gt;</span></code></p></li>
+<li><p>查看依赖树：<code class="docutils literal notranslate"><span class="pre">gradle</span> <span class="pre">dependencies</span></code></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="overview.html" class="btn btn-neutral float-left" title="Spring 概述" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="spring_ai.html" class="btn btn-neutral float-right" title="Spring AI" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 ~ 2035, Walter Fan, Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
