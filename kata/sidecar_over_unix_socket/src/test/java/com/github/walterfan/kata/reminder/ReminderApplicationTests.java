@@ -1,4 +1,4 @@
-package com.github.walterfan.bjava.reminder;
+package com.github.walterfan.kata.reminder;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package com.github.walterfan.bjava.reminder.domain;
+package com.github.walterfan.kata.reminder.domain;
 
 
 import java.util.Date;
